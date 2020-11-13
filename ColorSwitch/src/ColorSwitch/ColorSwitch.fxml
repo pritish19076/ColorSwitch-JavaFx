@@ -18,32 +18,32 @@
                   <Image url="@../assets/loadgame.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leaderboardbutton" fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/leaderboard.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="140.0" layoutY="455.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leftcircle" fitHeight="183.0" fitWidth="189.0" layoutX="140.0" layoutY="455.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Pic3.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="199.0" fitWidth="370.0" layoutX="455.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="Title" fitHeight="199.0" fitWidth="370.0" layoutX="455.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Title.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="143.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leftcross" fitHeight="183.0" fitWidth="179.0" layoutX="143.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Pic1.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="962.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="rightcircle" fitHeight="183.0" fitWidth="189.0" layoutX="962.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Pic3.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="965.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="rightcross" fitHeight="183.0" fitWidth="179.0" layoutX="965.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Pic1.png" />
                </image>

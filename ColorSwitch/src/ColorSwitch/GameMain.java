@@ -17,7 +17,20 @@ import javafx.util.Duration;
 
 
 public class GameMain extends Application {
-    private boolean loadgame = false;
+    private boolean loadgamescreen = false;
+
+
+    private TranslateTransition runTranslateTransition(Node n,double x,double y,double duration)
+    {
+        TranslateTransition load = new TranslateTransition();
+        load.setByY(y);
+        load.setByX(x);
+        load.setNode(n);
+        load.setDuration(Duration.millis(duration));
+        return load;
+
+
+    }
 
     private TranslateTransition loadinAnimation(boolean reverse, double duration) {
         TranslateTransition load = new TranslateTransition();
@@ -55,6 +68,22 @@ public class GameMain extends Application {
     private ImageView loadGameButton;
 
     @FXML
+    private ImageView leaderboardbutton;
+
+    @FXML
+    private ImageView leftcircle;
+    @FXML
+    private ImageView Title;
+    @FXML
+    private ImageView leftcross;
+
+    @FXML
+    private ImageView rightcircle;
+
+    @FXML
+    private ImageView rightcross;
+
+    @FXML
     private ImageView startButton;
 
     @FXML
@@ -66,20 +95,20 @@ public class GameMain extends Application {
     @FXML
     void closeLoadGame(MouseEvent event) {
         System.out.println("close");
-        if (loadgame) {
+        if (loadgamescreen) {
             new SequentialTransition(fade(LoadGameWindowGroup, false), loadinAnimation(true,1)).play();
-            loadgame = false;
+            loadgamescreen = false;
         }
     }
 
     @FXML
     void loadGame(MouseEvent event) {
         System.out.println("Load");
-        if (!loadgame) {
+        if (!loadgamescreen) {
             LoadGameWindowGroup.setOpacity(1);
             System.out.println("If ke andar");
             loadinAnimation(false,1000).play();
-            loadgame = true;
+            loadgamescreen = true;
         }
 
 
@@ -87,6 +116,16 @@ public class GameMain extends Application {
 
     @FXML
     void startGame(MouseEvent event) {
+        System.out.println("start");
+        runTranslateTransition(leftcross,-350,0,1000).play();
+        runTranslateTransition(leftcircle,-350,0,1000).play();
+        runTranslateTransition(rightcross,350,0,1000).play();
+        runTranslateTransition(rightcircle,350,0,1000).play();
+        runTranslateTransition(leaderboardbutton,0,300,1000).play();
+        runTranslateTransition(loadGameButton,0,300,1000).play();
+        runTranslateTransition(Title,0,-300,1000).play();
+        fade(startButton,false).play();
+
 
     }
 
