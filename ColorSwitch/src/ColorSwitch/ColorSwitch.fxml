@@ -1,50 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1301.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ColorSwitch.GameMain">
    <children>
-      <ImageView fitHeight="199.0" fitWidth="370.0" layoutX="455.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/Title.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="143.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/Pic1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="140.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/Pic3.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="962.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/Pic3.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="965.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/Pic1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="602.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/play.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/leaderboard.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="89.0" fitWidth="89.0" layoutX="736.0" layoutY="509.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/loadgame.png" />
-         </image>
-      </ImageView>
+      <Group fx:id="MainMenuGroup">
+         <children>
+            <ImageView fx:id="loadGameButton" fitHeight="89.0" fitWidth="89.0" layoutX="736.0" layoutY="509.0" onMouseClicked="#loadGame" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/loadgame.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/leaderboard.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="140.0" layoutY="455.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/Pic3.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="199.0" fitWidth="370.0" layoutX="455.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/Title.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="143.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/Pic1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="962.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/Pic3.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="965.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/Pic1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="startButton" fitHeight="150.0" fitWidth="200.0" layoutX="589.0" layoutY="272.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/play.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group fx:id="LoadGameWindowGroup" layoutX="326.0" layoutY="-600.0">
+         <children>
+            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: green;">
+               <children>
+                  <Label layoutX="203.0" layoutY="14.0" text="Load Game" textFill="WHITE">
+                     <font>
+                        <Font size="44.0" />
+                     </font>
+                  </Label>
+                  <TableView layoutX="214.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <ImageView fx:id="closeLoadGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closeLoadGame" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/cancel.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
    </children>
 </AnchorPane>
