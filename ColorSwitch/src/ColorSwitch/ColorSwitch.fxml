@@ -8,42 +8,42 @@
    <children>
       <ImageView fitHeight="199.0" fitWidth="370.0" layoutX="455.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/Title.png" />
+            <Image url="@../assets/Title.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="143.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/Pic1.png" />
+            <Image url="@../assets/Pic1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="140.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/Pic3.png" />
+            <Image url="@../assets/Pic3.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="183.0" fitWidth="189.0" layoutX="962.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/Pic3.png" />
+            <Image url="@../assets/Pic3.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="183.0" fitWidth="179.0" layoutX="965.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/Pic1.png" />
+            <Image url="@../assets/Pic1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="602.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/play.png" />
+            <Image url="@../assets/play.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/leaderboard.png" />
+            <Image url="@../assets/leaderboard.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="89.0" fitWidth="89.0" layoutX="736.0" layoutY="509.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../assets/loadgame.png" />
+            <Image url="@../assets/loadgame.png" />
          </image>
       </ImageView>
    </children>
