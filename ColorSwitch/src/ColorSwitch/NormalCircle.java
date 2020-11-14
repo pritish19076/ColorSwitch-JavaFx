@@ -22,7 +22,6 @@ public class NormalCircle {
         Arc tmpArc2 = (new ArcClass(300.0f,200.0f,90.0f,90.0f,innerRadius,outerRadius,2).getArcQuadrant());
         Arc tmpArc3 = (new ArcClass(300.0f,200.0f,180.0f,90.0f,innerRadius,outerRadius,3).getArcQuadrant());
         Arc tmpArc4 = (new ArcClass(300.0f,200.0f,270.0f,90.0f,innerRadius,outerRadius,4).getArcQuadrant());
-
         circleArc.add(tmpArc1);
         circleArc.add(tmpArc2);
         circleArc.add(tmpArc3);
