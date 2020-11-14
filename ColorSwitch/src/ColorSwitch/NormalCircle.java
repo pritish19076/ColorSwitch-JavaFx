@@ -11,7 +11,7 @@ public class NormalCircle {
     private float outerRadius;
     private float [] center;
     private ArrayList<Arc> circleArc;
-    Group arcGroup;
+    private Group arcGroup;
     public NormalCircle() {
         circleArc = new ArrayList<>();
         arcGroup = new Group();
