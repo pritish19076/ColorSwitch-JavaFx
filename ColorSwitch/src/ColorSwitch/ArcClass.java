@@ -3,7 +3,7 @@ package ColorSwitch;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 
-public class ArcClass {
+public class ArcClass{
     private Arc quadrant;
     private javafx.scene.paint.Color arcColor;
     private int colorNum;
