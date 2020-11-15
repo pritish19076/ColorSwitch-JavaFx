@@ -1,8 +1,6 @@
 package ColorSwitch;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,17 +13,17 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 public class GameMain extends Application implements Initializable {
     private boolean loadgamescreen = false;
-
+    private static Stage myStage;
 
     private TranslateTransition runTranslateTransition(Node n, double x, double y, double duration) {
         TranslateTransition load = new TranslateTransition();
@@ -50,6 +48,8 @@ public class GameMain extends Application implements Initializable {
         fadeload.setDuration(Duration.millis(1500));
         fadeload.setToValue(fadeval);
         fadeload.setNode(n);
+        if(fadeval==0)n.setDisable(true);
+        else if(fadeval==1)n.setDisable(false);
         return fadeload;
     }
 
@@ -72,6 +72,7 @@ public class GameMain extends Application implements Initializable {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        myStage=primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("ColorSwitch.fxml"));
         primaryStage.setTitle("I Just Wanna Switch!");
         Scene myScene=new Scene(root, 1280, 720);
@@ -83,6 +84,7 @@ public class GameMain extends Application implements Initializable {
         });
         primaryStage.setScene(myScene);
         primaryStage.setResizable(false);
+
         primaryStage.show();
 
 
@@ -147,14 +149,43 @@ public class GameMain extends Application implements Initializable {
             loadinAnimation(false, 1000).play();
             loadgamescreen = true;
         }
-
-
     }
-
+    private Timeline delay(double time)
+    {
+        return new Timeline(new KeyFrame(Duration.millis(time),e -> { }));
+    }
     @FXML
-    void startGame(MouseEvent event) {
+    void startGame(MouseEvent event){
         System.out.println("start");
+
         introTransition(1);
+
+
+
+
+        Timeline tim2=new Timeline();
+        KeyFrame changeSceneSize=new KeyFrame(Duration.millis(20),e -> {
+            myStage.setWidth(myStage.getWidth()-10);
+            myStage.setHeight(myStage.getHeight()+0.4);
+
+        });
+
+        tim2.getKeyFrames().add(changeSceneSize);
+        tim2.setCycleCount(80);
+
+
+        Timeline swtichscenez=new Timeline(new KeyFrame(Duration.millis(1),e -> {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            Scene gameplayscene=new Scene(root,525,820);
+            myStage.setScene(gameplayscene);
+            
+        }));
+        new SequentialTransition(delay(1600),tim2,delay(10),swtichscenez).play();
 
 
     }
@@ -162,24 +193,14 @@ public class GameMain extends Application implements Initializable {
     public static void main(String[] args) {
         launch(args);
     }
-    private EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            if(event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN ||
-                    event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT) {
-                //your code for moving the ship
-            }
-            else if(event.getCode() == KeyCode.SPACE) {
-                //your code for shooting the missile
-                System.out.println("space");
-            }
-            event.consume();
-        }
-    };
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        introTransition(-1);
-
-
+        Timeline intro=new Timeline(new KeyFrame(Duration.millis(1),e -> {
+            introTransition(-1);
+        }));
+        new SequentialTransition(delay(1000),intro).play();
     }
+
+
 }
