@@ -1,6 +1,7 @@
 package ColorSwitch;
 
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public abstract class GameObjects {
@@ -27,6 +28,6 @@ public abstract class GameObjects {
         this.position[1] = y;
     }
 
-    public abstract void display(Stage gameScene);
+    public abstract void display(AnchorPane gameAnchor);
 
 }

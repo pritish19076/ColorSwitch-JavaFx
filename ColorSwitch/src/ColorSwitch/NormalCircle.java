@@ -4,6 +4,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
@@ -63,10 +64,9 @@ public class NormalCircle extends Obstacles {
     }
 
     @Override
-    public void display(Stage gameStage) {
+    public void display(AnchorPane gamePane) {
         this.Rotation();
-        Scene tmpScene = new Scene(arcGroup,1280,720);
-        gameStage.setScene(tmpScene);
+        gamePane.getChildren().add(arcGroup);
     }
 
     public Group getCircle() {
