@@ -30,4 +30,5 @@ public class Ball extends GameObjects  {
         gamePane.getChildren().add(gameBall);
 
     }
+    public Circle getGameBall() {return gameBall;}
 }

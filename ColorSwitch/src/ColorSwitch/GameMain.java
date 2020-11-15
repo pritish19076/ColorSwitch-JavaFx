@@ -162,20 +162,7 @@ public class GameMain extends Application implements Initializable {
     public static void main(String[] args) {
         launch(args);
     }
-    private EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            if(event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN ||
-                    event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT) {
-                //your code for moving the ship
-            }
-            else if(event.getCode() == KeyCode.SPACE) {
-                //your code for shooting the missile
-                System.out.println("space");
-            }
-            event.consume();
-        }
-    };
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         introTransition(-1);
