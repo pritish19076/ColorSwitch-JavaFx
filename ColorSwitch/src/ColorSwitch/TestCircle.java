@@ -21,7 +21,7 @@ public class TestCircle extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         NormalCircle tmpCircle = new NormalCircle(3000,true,100.0f,100.0f,500,500);
-        Ball tmpBall = new Ball(550,450,10,3,10);
+        Ball tmpBall = new Ball(600,450,10,3,10,1);
         AnchorPane tmpAnchorPane = new AnchorPane();
         stage.setTitle("CIRCLE OBSTACLE");
         tmpCircle.display(tmpAnchorPane);

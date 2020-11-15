@@ -8,7 +8,7 @@ public class Ball extends GameObjects  {
     private float gravityVal;
     private int ballColor;
     private Circle gameBall;
-    public Ball(float x,float y,float radius, int color, float p_gravity) {
+    public Ball(float x,float y,float radius, int color, float p_gravity,float opacity) {
         super(x,y);
 
         GameColor tmpBallColor = new GameColor();
@@ -17,6 +17,7 @@ public class Ball extends GameObjects  {
         gameBall.setCenterY(y);
         gameBall.setRadius(radius);
         gameBall.setFill(tmpBallColor.getColor(color));
+        gameBall.setOpacity(opacity);
 
     }
 

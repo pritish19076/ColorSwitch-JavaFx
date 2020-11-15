@@ -2,6 +2,7 @@ package ColorSwitch;
 
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -33,12 +34,7 @@ public class NormalCircle extends Obstacles {
         ArcClass tmpArc2 = (new ArcClass(x,y,90.0f,90.0f,innerRadius,outerRadius,2));
         ArcClass tmpArc3 = (new ArcClass(x,y,180.0f,90.0f,innerRadius,outerRadius,3));
         ArcClass tmpArc4 = (new ArcClass(x,y,270.0f,90.0f,innerRadius,outerRadius,4));
-        /*
-        Arc tmpArc1 = (new ArcClass(x,y,0.0f,90.0f,innerRadius,outerRadius,1).getArcQuadrant());
-        Arc tmpArc2 = (new ArcClass(x,y,90.0f,90.0f,innerRadius,outerRadius,2).getArcQuadrant());
-        Arc tmpArc3 = (new ArcClass(x,y,180.0f,90.0f,innerRadius,outerRadius,3).getArcQuadrant());
-        Arc tmpArc4 = (new ArcClass(x,y,270.0f,90.0f,innerRadius,outerRadius,4).getArcQuadrant());
-        */
+
         circleArc.add(tmpArc1);
         circleArc.add(tmpArc2);
         circleArc.add(tmpArc3);
@@ -48,6 +44,8 @@ public class NormalCircle extends Obstacles {
         arcGroup.getChildren().add(tmpArc2.getArcQuadrant());
         arcGroup.getChildren().add(tmpArc3.getArcQuadrant());
         arcGroup.getChildren().add(tmpArc4.getArcQuadrant());
+
+        arcGroup.setOpacity(opacity);
     }
 
     @Override
@@ -71,7 +69,7 @@ public class NormalCircle extends Obstacles {
 
     @Override
     public void display(AnchorPane gamePane) {
-//        this.Rotation();
+        this.Rotation();
         gamePane.getChildren().add(arcGroup);
     }
 

@@ -3,6 +3,7 @@ package ColorSwitch;
 public abstract class Obstacles extends GameObjects {
     private float speedOfRotation;
     private boolean direction;
+    protected float opacity = 0;
 
     public Obstacles(int p_speed, boolean dir, int x, int y) {
         super(x,y);
@@ -19,5 +20,6 @@ public abstract class Obstacles extends GameObjects {
     public boolean isDirection() { return direction;}
 
     public abstract void Rotation();
+
 
 }

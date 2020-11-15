@@ -24,7 +24,7 @@ public class ArcClass{
         this.quadrant.setRadiusY(radiusY);
         this.quadrant.setType(ArcType.OPEN);
         this.quadrant.setStrokeWidth(15);
-        this.quadrant.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        this.quadrant.setFill(null);
         this.quadrant.setStroke(arcColor);
     }
 

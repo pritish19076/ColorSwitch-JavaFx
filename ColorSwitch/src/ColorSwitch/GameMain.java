@@ -23,8 +23,9 @@ import java.util.ResourceBundle;
 
 public class GameMain extends Application implements Initializable {
     private boolean loadgamescreen = false;
-    private static Stage myStage;
-
+    public static Stage myStage;
+    public static Scene getCurrentScene;
+    public static Parent p_root;
     private TranslateTransition runTranslateTransition(Node n, double x, double y, double duration) {
         TranslateTransition load = new TranslateTransition();
         load.setByY(y);
@@ -43,15 +44,7 @@ public class GameMain extends Application implements Initializable {
         return load;
     }
 
-    private FadeTransition fade(Node n,double fadeval) {
-        FadeTransition fadeload = new FadeTransition();
-        fadeload.setDuration(Duration.millis(1500));
-        fadeload.setToValue(fadeval);
-        fadeload.setNode(n);
-        if(fadeval==0)n.setDisable(true);
-        else if(fadeval==1)n.setDisable(false);
-        return fadeload;
-    }
+
 
     private void introTransition(double out) {
         runTranslateTransition(leftcross, out * -350, 0, 1500).play();
@@ -62,10 +55,10 @@ public class GameMain extends Application implements Initializable {
         runTranslateTransition(loadGameButton, 0, out * 300, 1500).play();
         runTranslateTransition(Title, 0, out * -300, 1500).play();
         if (out == 1) {
-            fade(startButton, 0).play();
+            CommonAnimation.fade(startButton, 0).play();
             startButton.setDisable(true);
         } else {
-            fade(startButton, 1).play();
+            CommonAnimation.fade(startButton, 1).play();
             startButton.setDisable(false);
         }
     }
@@ -135,7 +128,7 @@ public class GameMain extends Application implements Initializable {
     void closeLoadGame(MouseEvent event) {
         System.out.println("close");
         if (loadgamescreen) {
-            new SequentialTransition(fade(LoadGameWindowGroup, 0), loadinAnimation(true, 1)).play();
+            new SequentialTransition(CommonAnimation.fade(LoadGameWindowGroup, 0), loadinAnimation(true, 1)).play();
             loadgamescreen = false;
         }
     }
@@ -173,19 +166,38 @@ public class GameMain extends Application implements Initializable {
         tim2.getKeyFrames().add(changeSceneSize);
         tim2.setCycleCount(80);
 
-
-        Timeline swtichscenez=new Timeline(new KeyFrame(Duration.millis(1),e -> {
-            Parent root = null;
+        Timeline swtichscenez=new Timeline(new KeyFrame(Duration.millis(1),e-> {
+            //Parent root = null;
+            GamePlayController ctrl = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                        "GamePlay.fxml"));
+
+                p_root = (Parent) loader.load();
+                ctrl = loader.getController();
+//                ctrl.init(table.getSelectionModel().getSelectedItem());
+
+//                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            Scene gameplayscene=new Scene(root,525,820);
+            Scene gameplayscene=new Scene(p_root,525,810);
+            //GamePlayController.setupScense(gameplayscene);
+
             myStage.setScene(gameplayscene);
+            getCurrentScene=gameplayscene;
+            (ctrl).setupScene(getCurrentScene);
 
         }));
-        new SequentialTransition(delay(1600),tim2,delay(10),swtichscenez).play();
+
+
+       /*GamePlayController GamePlayControl=new GamePlayController();
+        Timeline setupGame=new Timeline(new KeyFrame(Duration.millis(1),e -> {
+            GamePlayControl.setupGame();
+
+        }));*/
+        new SequentialTransition(delay(1600),tim2,delay(1),swtichscenez).play();
+
 
 
     }
