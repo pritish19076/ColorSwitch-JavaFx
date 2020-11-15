@@ -183,7 +183,7 @@ public class GameMain extends Application implements Initializable {
             }
             Scene gameplayscene=new Scene(root,525,820);
             myStage.setScene(gameplayscene);
-            
+
         }));
         new SequentialTransition(delay(1600),tim2,delay(10),swtichscenez).play();
 
