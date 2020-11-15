@@ -29,7 +29,12 @@ public class GamePlayController implements Initializable {
 
     private static Scene gamePlayScene;
     private ArrayList<Obstacles> gameObstacles;
+    private double Y_Ball;
+    private double prevY_Ball;
     private boolean gameStarted=false;
+    boolean found = false;
+    int count = 0;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("dsa");
@@ -69,14 +74,27 @@ public class GamePlayController implements Initializable {
     public void runGravity(){
             Timeline gravity=new Timeline();
             gravity.setCycleCount(Animation.INDEFINITE);
+
             KeyFrame grav=new KeyFrame(Duration.millis(20),e -> {
                 currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()+3);
+                if(Y_Ball+60<prevY_Ball){
+                    System.out.println("Yball: "+Y_Ball+ "prevY: "+ prevY_Ball );
+                    prevY_Ball=currentBall.getGameBall().getCenterY();
+                    found = true;
+                    for(Obstacles o: gameObstacles)
+                    {
+                        o.getGroup().setLayoutY(o.getGroup().getLayoutY()+40);
+                    }
+                   // Y_Ball=currentBall.getGameBall().getCenterY()-100;
+
+                }
+                Y_Ball=currentBall.getGameBall().getCenterY();
+                count++;
+                System.out.println("BaharkaYball: "+Y_Ball);
+
             });
             gravity.getKeyFrames().add(grav);
             gravity.play();
-
-
-
 
     }
     public void setupScene(Scene p_scene) {
@@ -88,11 +106,20 @@ public class GamePlayController implements Initializable {
                 if(event.getCode()== KeyCode.W){
                     System.out.println(Score.getText());
                     System.out.println("jhjhhjjh");
-                    currentBall.moveTheBall(null,-100,100);
-
+                    //currentBall.moveTheBall(null,-100,100);
+                    Timeline move=new Timeline();
+                    move.setCycleCount(10);
+                    KeyFrame mov=new KeyFrame(Duration.millis(2),e -> {
+                        currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()-10);
+                    });
+                    move.getKeyFrames().add(mov);
+                    move.play();
                     if(!gameStarted){
-                        runGravity();
+                        Y_Ball=currentBall.getGameBall().getCenterY();
+                        prevY_Ball=currentBall.getGameBall().getCenterY();
                         gameStarted=true;
+                        runGravity();
+
                     }
                 }
             }

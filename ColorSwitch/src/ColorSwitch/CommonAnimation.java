@@ -7,8 +7,10 @@ import javafx.util.Duration;
 
 public class CommonAnimation {
     public static FadeTransition fade(Node n, double fadeval) {
+        //Fade Duration Must be 1500
+        //Setting Fades to 1 for Fast Testing
         FadeTransition fadeload = new FadeTransition();
-        fadeload.setDuration(Duration.millis(1500));
+        fadeload.setDuration(Duration.millis(1));
         fadeload.setToValue(fadeval);
         fadeload.setNode(n);
         if(fadeval==0)n.setDisable(true);

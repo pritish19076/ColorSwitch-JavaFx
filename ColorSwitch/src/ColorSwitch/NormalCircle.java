@@ -49,6 +49,11 @@ public class NormalCircle extends Obstacles {
     }
 
     @Override
+    public Group getGroup() {
+        return arcGroup;
+    }
+
+    @Override
     public void Rotation() {
         RotateTransition rt = new RotateTransition(Duration.millis(getSpeedOfRotation()),arcGroup);
         if(isDirection()) {

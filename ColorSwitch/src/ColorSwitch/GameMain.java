@@ -41,13 +41,15 @@ public class GameMain extends Application implements Initializable {
 
 
     private void introTransition(double out) {
-        runTranslateTransition(leftcross, out * -350, 0, 1500).play();
-        runTranslateTransition(leftcircle, out * -350, 0, 1500).play();
-        runTranslateTransition(rightcross, out * 350, 0, 1500).play();
-        runTranslateTransition(rightcircle, out * 350, 0, 1500).play();
-        runTranslateTransition(leaderboardbutton, 0, out * 300, 1500).play();
-        runTranslateTransition(loadGameButton, 0, out * 300, 1500).play();
-        runTranslateTransition(Title, 0, out * -300, 1500).play();
+        //Duration to be 1500
+        //Setting Duration to 1 for fast Testing
+        runTranslateTransition(leftcross, out * -350, 0, 1).play();
+        runTranslateTransition(leftcircle, out * -350, 0, 1).play();
+        runTranslateTransition(rightcross, out * 350, 0, 1).play();
+        runTranslateTransition(rightcircle, out * 350, 0, 1).play();
+        runTranslateTransition(leaderboardbutton, 0, out * 300, 1).play();
+        runTranslateTransition(loadGameButton, 0, out * 300, 1).play();
+        runTranslateTransition(Title, 0, out * -300, 1).play();
         if (out == 1) {
             CommonAnimation.fade(startButton, 0).play();
             startButton.setDisable(true);
@@ -190,7 +192,8 @@ public class GameMain extends Application implements Initializable {
             GamePlayControl.setupGame();
 
         }));*/
-        new SequentialTransition(delay(1600),tim2,swtichscenez).play();
+        //Delay should be 1600 setting to 1 for faster testing
+        new SequentialTransition(delay(1),tim2,swtichscenez).play();
 
 
 
