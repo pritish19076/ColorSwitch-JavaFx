@@ -1,6 +1,7 @@
 package ColorSwitch;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
@@ -14,4 +15,14 @@ public class CommonAnimation {
         else if(fadeval==1)n.setDisable(false);
         return fadeload;
     }
+    public static TranslateTransition runTranslateTransition(Node n, double x, double y, double duration) {
+        TranslateTransition load = new TranslateTransition();
+        load.setByY(y);
+        load.setByX(x);
+        load.setNode(n);
+        load.setDuration(Duration.millis(duration));
+        return load;
+    }
+
 }
+

@@ -20,20 +20,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static ColorSwitch.CommonAnimation.runTranslateTransition;
+
 
 public class GameMain extends Application implements Initializable {
     private boolean loadgamescreen = false;
     public static Stage myStage;
     public static Scene getCurrentScene;
     public static Parent p_root;
-    private TranslateTransition runTranslateTransition(Node n, double x, double y, double duration) {
-        TranslateTransition load = new TranslateTransition();
-        load.setByY(y);
-        load.setByX(x);
-        load.setNode(n);
-        load.setDuration(Duration.millis(duration));
-        return load;
-    }
 
     private TranslateTransition loadinAnimation(boolean reverse, double duration) {
         TranslateTransition load = new TranslateTransition();
@@ -196,7 +190,7 @@ public class GameMain extends Application implements Initializable {
             GamePlayControl.setupGame();
 
         }));*/
-        new SequentialTransition(delay(1600),tim2,delay(1),swtichscenez).play();
+        new SequentialTransition(delay(1600),tim2,swtichscenez).play();
 
 
 
