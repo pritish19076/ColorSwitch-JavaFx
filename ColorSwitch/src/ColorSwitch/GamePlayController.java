@@ -43,9 +43,18 @@ public class GamePlayController implements Initializable {
         gameObstacles = new ArrayList<>();
         Obstacles obs1 = new NormalCircle(3000,true,100.0f,100.0f,263,440);
         gameObstacles.add(obs1);
+        Obstacles obs2 = new NormalCircle(3000,true,100.0f,100.0f,263,40);
+        gameObstacles.add(obs2);
         obs1.display(gamePlayAnchorPane);
+        obs2.display(gamePlayAnchorPane);
+        Obstacles obs3 = new NormalCircle(3000,true,100.0f,100.0f,263,-360);
+        gameObstacles.add(obs3);
+        obs3.display(gamePlayAnchorPane);
         CommonAnimation.fade(currentBall.getGameBall(),1).play();
         CommonAnimation.fade(((NormalCircle)obs1).getCircle(),1).play();
+        CommonAnimation.fade(((NormalCircle)obs2).getCircle(),1).play();
+        CommonAnimation.fade(((NormalCircle)obs3).getCircle(),1).play();
+
         System.out.println("sadasd");
 
         /*
@@ -77,20 +86,22 @@ public class GamePlayController implements Initializable {
 
             KeyFrame grav=new KeyFrame(Duration.millis(20),e -> {
                 currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()+3);
-                if(Y_Ball+60<prevY_Ball){
-                    System.out.println("Yball: "+Y_Ball+ "prevY: "+ prevY_Ball );
+                if(Y_Ball+20<prevY_Ball){
+                    System.out.println(prevY_Ball-Y_Ball);
+                   // System.out.println("Yball: "+Y_Ball+ "prevY: "+ prevY_Ball );
                     prevY_Ball=currentBall.getGameBall().getCenterY();
                     found = true;
                     for(Obstacles o: gameObstacles)
                     {
-                        o.getGroup().setLayoutY(o.getGroup().getLayoutY()+40);
+
+                        o.getGroup().setLayoutY(o.getGroup().getLayoutY()+60);
                     }
                    // Y_Ball=currentBall.getGameBall().getCenterY()-100;
 
                 }
                 Y_Ball=currentBall.getGameBall().getCenterY();
                 count++;
-                System.out.println("BaharkaYball: "+Y_Ball);
+               // System.out.println("BaharkaYball: "+Y_Ball);
 
             });
             gravity.getKeyFrames().add(grav);
@@ -108,9 +119,9 @@ public class GamePlayController implements Initializable {
                     System.out.println("jhjhhjjh");
                     //currentBall.moveTheBall(null,-100,100);
                     Timeline move=new Timeline();
-                    move.setCycleCount(10);
+                    move.setCycleCount(15);
                     KeyFrame mov=new KeyFrame(Duration.millis(2),e -> {
-                        currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()-10);
+                        currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()-5);
                     });
                     move.getKeyFrames().add(mov);
                     move.play();
