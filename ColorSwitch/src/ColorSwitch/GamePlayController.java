@@ -85,7 +85,7 @@ public class GamePlayController implements Initializable {
             Timeline gravity=new Timeline();
             gravity.setCycleCount(Animation.INDEFINITE);
 
-            KeyFrame grav=new KeyFrame(Duration.millis(20),e -> {
+            KeyFrame grav=new KeyFrame(Duration.millis(15),e -> {
                 //currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()+3);
                 update();
                 System.out.println("speed "+speedY);
