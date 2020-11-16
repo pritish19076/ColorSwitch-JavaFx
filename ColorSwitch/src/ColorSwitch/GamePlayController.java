@@ -132,7 +132,7 @@ public class GamePlayController implements Initializable {
 
     public void update() {
         move(speedY);
-        accelerate( 0.05); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
+        accelerate( 0.04); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
     }
 
     public void setupScene(Scene p_scene) {
@@ -145,16 +145,17 @@ public class GamePlayController implements Initializable {
                     System.out.println(Score.getText());
                     System.out.println("jhjhhjjh");
                     //currentBall.moveTheBall(null,-100,100);
-                    Timeline move=new Timeline();
-                    move.setCycleCount(15);
-                    KeyFrame mov=new KeyFrame(Duration.millis(2),e -> {
+                    //Timeline move=new Timeline();
+
+                    //move.setCycleCount(15);
+                    //KeyFrame mov=new KeyFrame(Duration.millis(2),e -> {
 
                         //accelerate(-0.06);
-                       speedY-=0.05; //Range From 0.05 to 0.08
+                       speedY-=2; //Range From 0.05 to 0.08
                         //currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()-5);
-                    });
-                    move.getKeyFrames().add(mov);
-                    move.play();
+                    //});
+                    //move.getKeyFrames().add(mov);
+                    //move.play();
                     if(!gameStarted){
                         Y_Ball=currentBall.getGameBall().getCenterY();
                         prevY_Ball=currentBall.getGameBall().getCenterY();
