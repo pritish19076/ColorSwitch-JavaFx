@@ -4,11 +4,13 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -30,16 +32,35 @@ public class GamePlayController implements Initializable {
     private Ball currentBall;
     @FXML
     private AnchorPane gamePlayAnchorPane;
+    @FXML
+    private Group PauseMenuGroup;
+
+    @FXML
+    private AnchorPane PauseMenuPane;
+
+    @FXML
+    private Button ResumeGameButton;
+
+    @FXML
+    private Label pauseLabel;
+
+    @FXML
+    private Button SaveGameButton;
+
+    @FXML
+    private Button MainMenuButton;
+
 
     private static Scene gamePlayScene;
     private ArrayList<Obstacles> gameObstacles;
     private double Y_Ball;
     private double prevY_Ball;
     private boolean gameStarted=false;
-    boolean found = false;
-    int count = 0;
-    double speedX=0;
-    double speedY=0;
+    private Timeline gravity;
+    private boolean found = false;
+    private int count = 0;
+    private double speedX=0;
+    private double speedY=0;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("dsa");
@@ -73,7 +94,6 @@ public class GamePlayController implements Initializable {
                 Shape intersect = Shape.intersect(currentBall.getGameBall(),tmpList.get(i).getArcQuadrant());
                 boolean isIntersected = false;
                 if(intersect.getBoundsInLocal().getWidth() != -1) {
-//                    System.out.println(intersect.getBoundsInLocal().getWidth());
                     intersectingArc = tmpList.get(i);
                     isIntersected = true;
                 }
@@ -91,7 +111,7 @@ public class GamePlayController implements Initializable {
     }
 
     public void runGravity(){
-            Timeline gravity=new Timeline();
+            gravity=new Timeline();
             gravity.setCycleCount(Animation.INDEFINITE);
 
             KeyFrame grav=new KeyFrame(Duration.millis(15),e -> {
@@ -99,6 +119,10 @@ public class GamePlayController implements Initializable {
                 boolean test = detectCollision();
                 if(!test) {
                     gravity.pause();
+                    for(int i = 0;i<gameObstacles.size();i++) {
+                        gameObstacles.get(i).stopRotation();
+                    }
+                    return;
                 }
                 if(speedY<-0.1)
                 {
@@ -145,6 +169,36 @@ public class GamePlayController implements Initializable {
                         runGravity();
 
                     }
+                }
+
+                if(event.getCode() == KeyCode.P) {
+                    gravity.pause();
+                    for (Obstacles gameObstacle : gameObstacles) {
+                        gameObstacle.stopRotation();
+                    }
+                    currentBall.getGameBall().setOpacity(0);
+                    for(int i=0;i<gameObstacles.size();i++) {
+                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+                    }
+                    PauseMenuGroup.setDisable(false);
+                    PauseMenuGroup.setVisible(true);
+
+                    ResumeGameButton.setOnAction(new EventHandler<ActionEvent>(){
+
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            PauseMenuGroup.setVisible(false);
+                            PauseMenuGroup.setDisable(true);
+                            for(int i=0;i<gameObstacles.size();i++) {
+                                ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(1);
+                            }
+                            currentBall.getGameBall().setOpacity(1);
+                            for (Obstacles gameObstacle : gameObstacles) {
+                                gameObstacle.Rotation();
+                            }
+                            gravity.play();
+                        }
+                    });
                 }
             }
         });

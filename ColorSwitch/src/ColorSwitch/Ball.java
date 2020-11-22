@@ -7,18 +7,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import static ColorSwitch.CommonAnimation.runTranslateTransition;
+
 public class Ball extends GameObjects  {
+
     private float gravityVal;
     private int ballColor;
     private Circle gameBall;
 
     public Ball(float x,float y,float radius, int color, float p_gravity,float opacity) {
-        super(x,y);
 
+        super(x,y);
         GameColor tmpBallColor = new GameColor();
         gameBall = new Circle();
         gameBall.setCenterX(x);
@@ -30,22 +31,26 @@ public class Ball extends GameObjects  {
 
     }
 
-    @Override
-    public void onCollide(GameObjects collidingBall) {
-
-    }
+    public Circle getGameBall() {return gameBall;}
+    public int getBallColor() {return ballColor;}
 
     @Override
     public void display(AnchorPane gamePane) {
         gamePane.getChildren().add(gameBall);
 
     }
+
+    @Override
+    public void onCollide(GameObjects collidingBall) {
+
+    }
+
+
     public void moveTheBall(ArrayList<GameObjects> onScreenObjects,double yval,double duration)
     {
         runTranslateTransition(gameBall,0,yval,duration).play();
 
     }
-    public Circle getGameBall() {return gameBall;}
 
     public void runGravity() {
         Timeline gravityTimeline = new Timeline();
@@ -57,7 +62,7 @@ public class Ball extends GameObjects  {
         });
     }
 
-    public int getBallColor() {return ballColor;}
+
 
     public void motion() {
 

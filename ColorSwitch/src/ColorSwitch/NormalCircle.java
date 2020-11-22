@@ -10,17 +10,19 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 
 public class NormalCircle extends Obstacles {
+
     private float innerRadius;
     private float outerRadius;
     private float [] center;
     private ArrayList<ArcClass> circleArc;
-
     private Group arcGroup;
+    private RotateTransition rt;
+
     public NormalCircle(int p_speed, boolean dir,float p_InnerRadius, float p_OuterRadius,int x,int y) {
+
         super(p_speed,dir,x,y);
         center = new float[2];
         center[0] = x;
@@ -55,7 +57,7 @@ public class NormalCircle extends Obstacles {
 
     @Override
     public void Rotation() {
-        RotateTransition rt = new RotateTransition(Duration.millis(getSpeedOfRotation()),arcGroup);
+        rt = new RotateTransition(Duration.millis(getSpeedOfRotation()),arcGroup);
         if(isDirection()) {
             rt.setByAngle(360);
         }
@@ -65,6 +67,12 @@ public class NormalCircle extends Obstacles {
         rt.setInterpolator(Interpolator.LINEAR);
         rt.setCycleCount(RotateTransition.INDEFINITE);
         rt.play();
+    }
+
+    @Override
+    public void stopRotation() {
+        rt.setCycleCount(0);
+        rt.pause();
     }
 
     @Override
@@ -85,7 +93,5 @@ public class NormalCircle extends Obstacles {
     public ArrayList<ArcClass> getCircleArc() {
         return circleArc;
     }
-
-
 
 }
