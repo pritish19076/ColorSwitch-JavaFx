@@ -29,6 +29,11 @@ public class GameMain extends Application implements Initializable {
     public static Stage myStage;
     public static Scene getCurrentScene;
     public static Parent p_root;
+    public static void setupScene(Scene p_scene,Stage myStage) {
+        System.out.println("initial");
+        getCurrentScene= p_scene;
+        myStage=myStage;
+    }
 
     private TranslateTransition loadinAnimation(boolean reverse, double duration) {
         TranslateTransition load = new TranslateTransition();
@@ -276,7 +281,7 @@ public class GameMain extends Application implements Initializable {
 
             myStage.setScene(gameplayscene);
             getCurrentScene=gameplayscene;
-            (ctrl).setupScene(getCurrentScene);
+            (ctrl).setupScene(getCurrentScene,myStage);
 
         }));
 
