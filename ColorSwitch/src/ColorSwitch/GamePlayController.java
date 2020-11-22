@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Shape;
@@ -236,6 +237,10 @@ public class GamePlayController implements Initializable {
 
     }
 
+    @FXML
+    void backtomain(MouseEvent event) {
+
+    }
     public void update() {
         move(speedY);
         accelerate( 0.04); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
