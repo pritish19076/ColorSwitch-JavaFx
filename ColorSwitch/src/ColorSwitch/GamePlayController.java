@@ -73,6 +73,8 @@ public class GamePlayController implements Initializable {
     private int count = 0;
     private double speedX=0;
     private double speedY=0;
+    private ColorChanger CC1;
+    private ColorChanger CC2;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("dsa");
@@ -81,10 +83,13 @@ public class GamePlayController implements Initializable {
         gameObstacles = new ArrayList<>();
         Obstacles obs1 = new NormalCircle(3000,true,100.0f,100.0f,263,440);
         gameObstacles.add(obs1);
+        CC1 = new ColorChanger(263,230,20f,20f,1);
+        CC1.display(gamePlayAnchorPane);
         Obstacles obs2 = new NormalCircle(3000,true,100.0f,100.0f,263,20);
         gameObstacles.add(obs2);
         obs1.display(gamePlayAnchorPane);
         obs2.display(gamePlayAnchorPane);
+        CC2 = new ColorChanger(263,-200,20f,20f,1);
         Obstacles obs3 = new NormalCircle(3000,true,100.0f,100.0f,263,-380);
         gameObstacles.add(obs3);
         obs3.display(gamePlayAnchorPane);
@@ -190,6 +195,8 @@ public class GamePlayController implements Initializable {
                     for (Obstacles gameObstacle : gameObstacles) {
                         gameObstacle.stopRotation();
                     }
+                    CC1.getArcGroup().setOpacity(0);
+                    CC2.getArcGroup().setOpacity(0);
                     currentBall.getGameBall().setOpacity(0);
                     for(int i=0;i<gameObstacles.size();i++) {
                         ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
@@ -268,16 +275,18 @@ public class GamePlayController implements Initializable {
                     for (Obstacles gameObstacle : gameObstacles) {
                         gameObstacle.stopRotation();
                     }
-                    currentBall.getGameBall().setOpacity(0);
+                    currentBall.getGameBall().setOpacity(0.3);
                     for(int i=0;i<gameObstacles.size();i++) {
-                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0.3);
                     }
                     PauseMenuGroup.setDisable(false);
                     PauseMenuGroup.setVisible(true);
 
                     for(int i=0;i<images.size();i++) {
-                        (images.get(i)).setOpacity(0);
+                        (images.get(i)).setOpacity(0.3);
                     }
+                    CC1.getArcGroup().setOpacity(0.3);
+                    CC2.getArcGroup().setOpacity(0.3);
                     ResumeGameButton.setOnAction(new EventHandler<ActionEvent>(){
 
                         @Override
