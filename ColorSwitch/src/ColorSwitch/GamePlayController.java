@@ -368,6 +368,11 @@ public class GamePlayController implements Initializable {
                             for (Obstacles gameObstacle : gameObstacles) {
                                 gameObstacle.Rotation();
                             }
+                            CC1.getArcGroup().setOpacity(1);
+                            CC2.getArcGroup().setOpacity(1);
+                            for(int i=0;i<images.size();i++) {
+                                (images.get(i)).setOpacity(1);
+                            }
                             if(gravity!=null)gravity.play();
                         }
                     });
