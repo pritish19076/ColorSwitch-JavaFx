@@ -10,7 +10,7 @@ public class CommonAnimation {
         //Fade Duration Must be 1500
         //Setting Fades to 1 for Fast Testing
         FadeTransition fadeload = new FadeTransition();
-        fadeload.setDuration(Duration.millis(1));
+        fadeload.setDuration(Duration.millis(1500));
         fadeload.setToValue(fadeval);
         fadeload.setNode(n);
         if(fadeval==0)n.setDisable(true);

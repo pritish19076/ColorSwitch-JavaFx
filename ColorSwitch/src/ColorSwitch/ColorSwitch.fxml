@@ -7,19 +7,23 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1301.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ColorSwitch.GameMain">
    <children>
       <Group fx:id="MainMenuGroup">
          <children>
+            <ImageView fx:id="exitButton" fitHeight="89.0" fitWidth="89.0" layoutX="23.0" layoutY="808.0" onMouseClicked="#exitTheGame" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/exit.png" />
+               </image>
+            </ImageView>
             <ImageView fx:id="loadGameButton" fitHeight="89.0" fitWidth="89.0" layoutX="736.0" layoutY="809.0" onMouseClicked="#loadGame" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/loadgame.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="leaderboardbutton" fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="778.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leaderboardbutton" fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="778.0" onMouseClicked="#openLeaderBoard" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/leaderboard.png" />
                </image>
@@ -78,6 +82,57 @@
                </image>
             </ImageView>
 
+         </children>
+      </Group>
+      <Group fx:id="LeaderboardWindowGroup" layoutX="336.0" layoutY="1090.0">
+         <children>
+            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: green;">
+               <children>
+                  <Label layoutX="185.0" layoutY="21.0" text="Leader Board" textFill="WHITE">
+                     <font>
+                        <Font size="44.0" />
+                     </font>
+                  </Label>
+                  <TableView layoutX="214.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="C1" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <ImageView fx:id="closeLeaderBoardGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closeLeaderBoard" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/cancel.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group fx:id="ExitPopUp" layoutX="366.0" layoutY="1350.0">
+         <children>
+            <AnchorPane prefHeight="348.0" prefWidth="513.0" style="-fx-background-color: green;">
+               <children>
+                  <Label layoutX="28.0" layoutY="101.0" prefHeight="47.0" prefWidth="457.0" text="Are You Sure You Want to Quit?" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="125.0" layoutY="190.0" onMouseClicked="#closeGame" text="Yes" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="335.0" layoutY="190.0" onMouseClicked="#closePopup" text="No" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="closePrompt" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePopup" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/cancel.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
          </children>
       </Group>
    </children>

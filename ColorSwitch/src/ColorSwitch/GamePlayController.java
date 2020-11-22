@@ -1,5 +1,6 @@
 package ColorSwitch;
 
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.SequentialTransition;
@@ -12,6 +13,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +22,10 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,6 +49,8 @@ public class GamePlayController implements Initializable {
     private Button ResumeGameButton;
 
     @FXML
+    private Group CollideGroup;
+    @FXML
     private Label pauseLabel;
 
     @FXML
@@ -49,10 +58,12 @@ public class GamePlayController implements Initializable {
 
     @FXML
     private Button MainMenuButton;
-
+    @FXML
+    private Button MainMenuButton1;
 
     private static Scene gamePlayScene;
     private ArrayList<Obstacles> gameObstacles;
+    private ArrayList<ImageView> images;
     private double Y_Ball;
     private double prevY_Ball;
     private boolean gameStarted=false;
@@ -76,6 +87,62 @@ public class GamePlayController implements Initializable {
         Obstacles obs3 = new NormalCircle(3000,true,100.0f,100.0f,263,-380);
         gameObstacles.add(obs3);
         obs3.display(gamePlayAnchorPane);
+        //InputStream stream = new FileInputStream("assets/Pic2.png");
+
+        Image image = new Image("assets/Pic2.png",true);
+
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setX(163);
+        imageView.setY(-720);
+        imageView.setFitWidth(175);
+        imageView.setPreserveRatio(true);
+        images=new ArrayList<>();
+        images.add(imageView);
+        gamePlayAnchorPane.getChildren().add(imageView);
+        Image image2 = new Image("assets/Pic5.png",true);
+
+        ImageView imageView2 = new ImageView();
+        imageView2.setImage(image2);
+        imageView2.setX(163);
+        imageView2.setY(-880);
+        imageView2.setFitWidth(175);
+        imageView2.setPreserveRatio(true);
+        images.add(imageView2);
+        gamePlayAnchorPane.getChildren().add(imageView2);
+        Image image3 = new Image("assets/star.png",true);
+
+        ImageView imageView3 = new ImageView();
+        imageView3.setImage(image3);
+        imageView3.setX(245);
+        imageView3.setY(12);
+        imageView3.setFitWidth(35);
+        imageView3.setPreserveRatio(true);
+        images.add(imageView3);
+        gamePlayAnchorPane.getChildren().add(imageView3);
+
+        Image image4 = new Image("assets/star.png",true);
+
+        ImageView imageView4 = new ImageView();
+        imageView4.setImage(image4);
+        imageView4.setX(245);
+        imageView4.setY(428);
+        imageView4.setFitWidth(35);
+        imageView4.setPreserveRatio(true);
+        images.add(imageView4);
+        gamePlayAnchorPane.getChildren().add(imageView4);
+
+        Image image5 = new Image("assets/star.png",true);
+
+        ImageView imageView5 = new ImageView();
+        imageView5.setImage(image5);
+        imageView5.setX(245);
+        imageView5.setY(-398);
+        imageView5.setFitWidth(35);
+        imageView5.setPreserveRatio(true);
+        images.add(imageView5);
+        gamePlayAnchorPane.getChildren().add(imageView5);
+
         CommonAnimation.fade(currentBall.getGameBall(),1).play();
         CommonAnimation.fade(((NormalCircle)obs1).getCircle(),1).play();
         CommonAnimation.fade(((NormalCircle)obs2).getCircle(),1).play();
@@ -113,23 +180,44 @@ public class GamePlayController implements Initializable {
     public void runGravity(){
             gravity=new Timeline();
             gravity.setCycleCount(Animation.INDEFINITE);
-
             KeyFrame grav=new KeyFrame(Duration.millis(15),e -> {
                 update();
                 boolean test = detectCollision();
                 if(!test) {
-                    gravity.pause();
-                    for(int i = 0;i<gameObstacles.size();i++) {
-                        gameObstacles.get(i).stopRotation();
+                    //gravity.pause();
+                    if(gravity!=null)gravity.pause();
+                    for (Obstacles gameObstacle : gameObstacles) {
+                        gameObstacle.stopRotation();
                     }
+                    currentBall.getGameBall().setOpacity(0);
+                    for(int i=0;i<gameObstacles.size();i++) {
+                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+                    }
+                    for(int i=0;i<images.size();i++) {
+                        (images.get(i)).setOpacity(0);
+                    }
+                    CollideGroup.setDisable(false);
+                    CollideGroup.setVisible(true);
+
+
+                    /*for(int i = 0;i<gameObstacles.size();i++) {
+                        gameObstacles.get(i).stopRotation();
+                    }*/
                     return;
                 }
                 if(speedY<-0.1)
                 {
                     for(Obstacles o: gameObstacles)
                     {
+                        o.getGroup().setLayoutY(o.getGroup().getLayoutY()+1.5);
+                    }
+                    for(ImageView o: images)
+                    {
 
-                        o.getGroup().setLayoutY(o.getGroup().getLayoutY()+1.2);
+
+                        o.setY(o.getY()+1.5);
+
+                       // o.getGroup().setLayoutY(o.getGroup().getLayoutY()+1.2);
                     }
 
                 }
@@ -167,12 +255,11 @@ public class GamePlayController implements Initializable {
                         prevY_Ball=currentBall.getGameBall().getCenterY();
                         gameStarted=true;
                         runGravity();
-
                     }
                 }
 
                 if(event.getCode() == KeyCode.P) {
-                    gravity.pause();
+                    if(gravity!=null)gravity.pause();
                     for (Obstacles gameObstacle : gameObstacles) {
                         gameObstacle.stopRotation();
                     }
@@ -183,6 +270,9 @@ public class GamePlayController implements Initializable {
                     PauseMenuGroup.setDisable(false);
                     PauseMenuGroup.setVisible(true);
 
+                    for(int i=0;i<images.size();i++) {
+                        (images.get(i)).setOpacity(0);
+                    }
                     ResumeGameButton.setOnAction(new EventHandler<ActionEvent>(){
 
                         @Override
@@ -196,7 +286,7 @@ public class GamePlayController implements Initializable {
                             for (Obstacles gameObstacle : gameObstacles) {
                                 gameObstacle.Rotation();
                             }
-                            gravity.play();
+                            if(gravity!=null)gravity.play();
                         }
                     });
                 }

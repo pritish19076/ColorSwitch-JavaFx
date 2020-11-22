@@ -2,6 +2,7 @@ package ColorSwitch;
 
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,9 +32,30 @@ public class GameMain extends Application implements Initializable {
 
     private TranslateTransition loadinAnimation(boolean reverse, double duration) {
         TranslateTransition load = new TranslateTransition();
-        if (!reverse) load.setByY(683);
-        else load.setByY(-683);
+        if (!reverse) {load.setByY(683);CommonAnimation.fade(MainMenuGroup,0.4).play();}
+        else {load.setByY(-683);CommonAnimation.fade(MainMenuGroup,1).play();}
         load.setNode(LoadGameWindowGroup);
+        load.setDuration(Duration.millis(duration));
+        return load;
+    }
+
+    private TranslateTransition leaderinAnimation(boolean reverse, double duration) {
+        TranslateTransition load = new TranslateTransition();
+        if (!reverse) {load.setByY(-983);
+            CommonAnimation.fade(MainMenuGroup,0.4).play();
+
+        }
+        else{ load.setByY(983);
+            CommonAnimation.fade(MainMenuGroup,1).play();}
+        load.setNode(LeaderboardWindowGroup);
+        load.setDuration(Duration.millis(duration));
+        return load;
+    }
+    private TranslateTransition exitinAnimation(boolean reverse, double duration) {
+        TranslateTransition load = new TranslateTransition();
+        if (!reverse) {load.setByY(-1100);CommonAnimation.fade(MainMenuGroup,0.4).play();}
+        else {load.setByY(1100);CommonAnimation.fade(MainMenuGroup,1).play();}
+        load.setNode(ExitPopUp);
         load.setDuration(Duration.millis(duration));
         return load;
     }
@@ -43,13 +65,14 @@ public class GameMain extends Application implements Initializable {
     private void introTransition(double out) {
         //Duration to be 1500
         //Setting Duration to 1 for fast Testing
-        runTranslateTransition(leftcross, out * -350, 0, 1).play();
-        runTranslateTransition(leftcircle, out * -350, 0, 1).play();
-        runTranslateTransition(rightcross, out * 350, 0, 1).play();
-        runTranslateTransition(rightcircle, out * 350, 0, 1).play();
-        runTranslateTransition(leaderboardbutton, 0, out * 300, 1).play();
-        runTranslateTransition(loadGameButton, 0, out * 300, 1).play();
-        runTranslateTransition(Title, 0, out * -300, 1).play();
+        runTranslateTransition(leftcross, out * -350, 0, 1500).play();
+        runTranslateTransition(leftcircle, out * -350, 0, 1500).play();
+        runTranslateTransition(rightcross, out * 350, 0, 1500).play();
+        runTranslateTransition(rightcircle, out * 350, 0, 1500).play();
+        runTranslateTransition(leaderboardbutton, 0, out * 300, 1500).play();
+        runTranslateTransition(loadGameButton, 0, out * 300, 1500).play();
+        runTranslateTransition(Title, 0, out * -300, 1500).play();
+        runTranslateTransition(exitButton, 0, out * 200, 1500).play();
         if (out == 1) {
             CommonAnimation.fade(startButton, 0).play();
             startButton.setDisable(true);
@@ -66,9 +89,18 @@ public class GameMain extends Application implements Initializable {
         primaryStage.setTitle("I Just Wanna Switch!");
         Scene myScene=new Scene(root, 1280, 720);
         myScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+
+
             @Override
             public void handle(KeyEvent event) {
-                if(event.getCode()==KeyCode.SHIFT) System.out.println("as");
+                if(event.getCode()==KeyCode.SHIFT) {
+                    System.out.println("");
+
+
+
+                }
+
+
             }
         });
         primaryStage.setScene(myScene);
@@ -114,7 +146,61 @@ public class GameMain extends Application implements Initializable {
 
     @FXML
     private Group ObstaclesGroup;
+    @FXML
+    private Group LeaderboardWindowGroup;
 
+    @FXML
+    private ImageView closeLeaderBoardGameButton;
+
+
+    @FXML
+    void openLeaderBoard(MouseEvent event) {
+        System.out.println("Load");
+        if (!loadgamescreen) {
+            CommonAnimation.fade(LeaderboardWindowGroup, 1).play();
+            System.out.println("If ke andar");
+            leaderinAnimation(false, 1000).play();
+            loadgamescreen = true;
+        }
+
+
+    }
+
+    @FXML
+    private Group ExitPopUp;
+
+    @FXML
+    private ImageView closePrompt;
+
+    @FXML
+    void closeGame(MouseEvent event) {
+        Platform.exit();
+        System.exit(0);
+
+    }
+
+    @FXML
+    void closePopup(MouseEvent event) {
+        System.out.println("blah");
+        if (loadgamescreen) {
+            new SequentialTransition(CommonAnimation.fade(ExitPopUp, 0), exitinAnimation(true, 1)).play();
+            loadgamescreen = false;
+        }
+
+    }
+
+    @FXML
+    void exitTheGame(MouseEvent event) {
+        if (!loadgamescreen) {
+            CommonAnimation.fade(ExitPopUp, 1).play();
+            System.out.println("If ke andar");
+            exitinAnimation(false, 1000).play();
+            loadgamescreen = true;
+        }
+
+    }
+    @FXML
+    private ImageView exitButton;
 
     @FXML
     void inputBall(KeyEvent event) {
@@ -128,12 +214,20 @@ public class GameMain extends Application implements Initializable {
             loadgamescreen = false;
         }
     }
+    @FXML
+    void closeLeaderBoard(MouseEvent event) {
+        System.out.println("close");
+        if (loadgamescreen) {
+            new SequentialTransition(CommonAnimation.fade(LeaderboardWindowGroup, 0), leaderinAnimation(true, 1)).play();
+            loadgamescreen = false;
+        }
+    }
 
     @FXML
     void loadGame(MouseEvent event) {
         System.out.println("Load");
         if (!loadgamescreen) {
-            LoadGameWindowGroup.setOpacity(1);
+            CommonAnimation.fade(LoadGameWindowGroup, 1).play();
             System.out.println("If ke andar");
             loadinAnimation(false, 1000).play();
             loadgamescreen = true;
@@ -193,7 +287,7 @@ public class GameMain extends Application implements Initializable {
 
         }));*/
         //Delay should be 1600 setting to 1 for faster testing
-        new SequentialTransition(delay(1),tim2,swtichscenez).play();
+        new SequentialTransition(delay(1600),tim2,swtichscenez).play();
 
 
 
