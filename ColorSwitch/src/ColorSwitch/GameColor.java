@@ -17,5 +17,4 @@ public class GameColor {
         else portionColor = javafx.scene.paint.Color.rgb(50,223,239);
         return portionColor;
     }
-
 }

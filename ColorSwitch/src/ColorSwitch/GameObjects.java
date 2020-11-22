@@ -21,6 +21,8 @@ public abstract class GameObjects {
 
 
     public float[] getPosition() {return position;}
+    public float getPositionX() {return position[0];}
+    public float getPositionY() {return position[1];}
 
     public void setPosition(float[] position) {this.position = position;}
     public void setPosition(float x,float y) {

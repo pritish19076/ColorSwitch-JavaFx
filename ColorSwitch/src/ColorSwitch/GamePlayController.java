@@ -7,13 +7,17 @@ import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -58,54 +62,44 @@ public class GamePlayController implements Initializable {
 
         System.out.println("sadasd");
 
-        /*
-        gamePlayAnchorPane.requestFocus();
-        gamePlayAnchorPane.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode()== KeyCode.SHIFT) System.out.println("as");
+    }
+
+    public boolean detectCollision() {
+        for (Obstacles o : gameObstacles) {
+            Group tmpArcGroup = o.getGroup();
+            ArrayList<ArcClass> tmpList = ((NormalCircle)o).getCircleArc();
+            ArcClass intersectingArc = null;
+            for(int i = 0;i<tmpList.size();i++) {
+                Shape intersect = Shape.intersect(currentBall.getGameBall(),tmpList.get(i).getArcQuadrant());
+                boolean isIntersected = false;
+                if(intersect.getBoundsInLocal().getWidth() != -1) {
+//                    System.out.println(intersect.getBoundsInLocal().getWidth());
+                    intersectingArc = tmpList.get(i);
+                    isIntersected = true;
+                }
+                if(isIntersected && intersectingArc.getColor() == currentBall.getBallColor()) {
+                    System.out.println(intersectingArc.getColor());
+                    return true;
+                }
+                else if(isIntersected && intersectingArc.getColor() != currentBall.getBallColor()) {
+                    return false;
+                }
+
             }
-
-        });
-        gamePlayAnchorPane.requestFocus();
-           */
-        /*gamePlayScene=GameMain.getCurrentScene;
-        gamePlayScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode()== KeyCode.SHIFT) System.out.println("as");
-            }
-
-        });
-        */
-
+        }
+        return true;
     }
 
     public void runGravity(){
             Timeline gravity=new Timeline();
             gravity.setCycleCount(Animation.INDEFINITE);
 
-            KeyFrame grav=new KeyFrame(Duration.millis(20),e -> {
-                //currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()+3);
+            KeyFrame grav=new KeyFrame(Duration.millis(15),e -> {
                 update();
-                System.out.println("speed "+speedY);
-                /*if(Y_Ball+20<prevY_Ball){
-                    System.out.println(prevY_Ball-Y_Ball);
-                   // System.out.println("Yball: "+Y_Ball+ "prevY: "+ prevY_Ball );
-                    prevY_Ball=currentBall.getGameBall().getCenterY();
-                    found = true;
-                    for(Obstacles o: gameObstacles)
-                    {
-
-                        o.getGroup().setLayoutY(o.getGroup().getLayoutY()+65);
-                    }
-                   // Y_Ball=currentBall.getGameBall().getCenterY()-100;
-
+                boolean test = detectCollision();
+                if(!test) {
+                    gravity.pause();
                 }
-                Y_Ball=currentBall.getGameBall().getCenterY();
-                //count++;
-               // System.out.println("BaharkaYball: "+Y_Ball);
-                */
                 if(speedY<-0.1)
                 {
                     for(Obstacles o: gameObstacles)
@@ -142,20 +136,8 @@ public class GamePlayController implements Initializable {
             @Override
             public void handle(KeyEvent event) {
                 if(event.getCode()== KeyCode.W){
-                    System.out.println(Score.getText());
-                    System.out.println("jhjhhjjh");
-                    //currentBall.moveTheBall(null,-100,100);
-                    //Timeline move=new Timeline();
+                    speedY-=2; //Range From 0.05 to 0.08
 
-                    //move.setCycleCount(15);
-                    //KeyFrame mov=new KeyFrame(Duration.millis(2),e -> {
-
-                        //accelerate(-0.06);
-                       speedY-=2; //Range From 0.05 to 0.08
-                        //currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()-5);
-                    //});
-                    //move.getKeyFrames().add(mov);
-                    //move.play();
                     if(!gameStarted){
                         Y_Ball=currentBall.getGameBall().getCenterY();
                         prevY_Ball=currentBall.getGameBall().getCenterY();
@@ -165,10 +147,7 @@ public class GamePlayController implements Initializable {
                     }
                 }
             }
-
         });
         System.out.println("final");
     }
-
-
 }
