@@ -17,11 +17,12 @@ public abstract class Obstacles extends GameObjects {
         this.direction = dir;
     }
 
-    public Obstacles(int p_speed, boolean dir, float [] arr) {
+    /*public Obstacles(int p_speed, boolean dir, float [] arr) {
         super(arr);
         this.speedOfRotation = p_speed;
         this.direction = dir;
     }
+    */
 
     public float getSpeedOfRotation() {return this.speedOfRotation;}
     public boolean isDirection() { return direction;}
