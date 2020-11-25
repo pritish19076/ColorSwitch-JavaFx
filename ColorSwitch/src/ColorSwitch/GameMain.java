@@ -308,6 +308,7 @@ public class GameMain extends Application implements Initializable {
             introTransition(-1);
         }));
         new SequentialTransition(delay(1000), intro).play();
+
     }
 
 
