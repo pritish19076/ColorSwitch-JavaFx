@@ -32,4 +32,9 @@ public class ArcClass{
     public javafx.scene.paint.Color                 getArcColor() {return arcColor;}
     public int                                      getColor() {return colorCode;}
     public Arc                                      getArcQuadrant() {return quadrant;}
+
+    //setter
+    public void setArcColor(int colorCode) {
+        this.quadrant.setStroke(Colors.getColor(colorCode));
+    }
 }

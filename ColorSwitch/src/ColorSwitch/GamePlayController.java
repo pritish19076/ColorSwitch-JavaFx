@@ -64,6 +64,7 @@ public class GamePlayController implements Initializable {
     private Button MainMenuButton;
     @FXML
     private Button MainMenuButton1;
+    NormalCircle c1;
 
     private static Scene gamePlayScene;
     private ArrayList<Obstacles> gameObstacles;
@@ -80,6 +81,8 @@ public class GamePlayController implements Initializable {
     private double speedY=0;
     private ColorChanger CC1;
     private ColorChanger CC2;
+    NormalCircle c2;
+//    ConcentricCircles tmpConCircles;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("dsa");
@@ -100,6 +103,14 @@ public class GamePlayController implements Initializable {
         Obstacles obs3 = new NormalCircle(3000,true,100.0f,100.0f,263,-380);
         gameObstacles.add(obs3);
         obs3.display(gamePlayAnchorPane);
+//        c1 = new NormalCircle(3000,true,100f,100f,263,440);
+//        c2 = new NormalCircle(3000,false,120f,120f,263,440);
+//        c1.display(gamePlayAnchorPane);
+//        c1.getCircle().setOpacity(1);
+//        c2.display(gamePlayAnchorPane);
+//        c2.getCircle().setOpacity(1);
+//        tmpConCircles = new ConcentricCircles(3000,true,false,100f,100f,110f,110f,263,440);
+//        tmpConCircles.display(gamePlayAnchorPane);
         //InputStream stream = new FileInputStream("assets/Pic2.png");
 
         Image image = new Image("assets/Pic2.png",true);
@@ -169,24 +180,9 @@ public class GamePlayController implements Initializable {
 
     public boolean detectCollision() {
         for (Obstacles o : gameObstacles) {
-            Group tmpArcGroup = o.getGroup();
-            ArrayList<ArcClass> tmpList = ((NormalCircle)o).getCircleArc();
-            ArcClass intersectingArc = null;
-            for(int i = 0;i<tmpList.size();i++) {
-                Shape intersect = Shape.intersect(currentBall.getGameBall(),tmpList.get(i).getArcQuadrant());
-                boolean isIntersected = false;
-                if(intersect.getBoundsInLocal().getWidth() != -1) {
-                    intersectingArc = tmpList.get(i);
-                    isIntersected = true;
-                }
-                if(isIntersected && intersectingArc.getColor() == currentBall.getBallColor()) {
-                    System.out.println(intersectingArc.getColor());
-                    return true;
-                }
-                else if(isIntersected && intersectingArc.getColor() != currentBall.getBallColor()) {
-                    return false;
-                }
-
+            boolean tmp = o.onCollide((GameObjects)currentBall);
+            if(tmp) {
+                return false;
             }
         }
         return true;

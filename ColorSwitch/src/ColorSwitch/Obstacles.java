@@ -11,7 +11,7 @@ public abstract class Obstacles extends GameObjects {
 
     public abstract Group getGroup();
 
-    public Obstacles(int p_speed, boolean dir, int x, int y) {
+    public Obstacles(int p_speed, boolean dir, float x, float y) {
         super(x,y);
         this.speedOfRotation = p_speed;
         this.direction = dir;

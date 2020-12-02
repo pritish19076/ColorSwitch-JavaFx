@@ -5,9 +5,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import static ColorSwitch.CommonAnimation.runTranslateTransition;
 
@@ -41,8 +40,8 @@ public class Ball extends GameObjects  {
     }
 
     @Override
-    public void onCollide(GameObjects collidingBall) {
-
+    public boolean onCollide(GameObjects collidingBall) {
+        return false;
     }
 
 
@@ -53,13 +52,7 @@ public class Ball extends GameObjects  {
     }
 
     public void runGravity() {
-        Timeline gravityTimeline = new Timeline();
-        gravityTimeline.setCycleCount(Animation.INDEFINITE);
 
-        KeyFrame tmpGravity = new KeyFrame(Duration.millis(20),e->{
-            super.setPosition(super.getPositionX(),super.getPositionY()+3);
-            this.gameBall.setCenterY(super.getPositionY());
-        });
     }
 
 

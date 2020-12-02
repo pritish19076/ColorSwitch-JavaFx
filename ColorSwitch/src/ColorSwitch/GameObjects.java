@@ -1,8 +1,6 @@
 package ColorSwitch;
 
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public abstract class GameObjects {
     private float [] position;
@@ -17,7 +15,7 @@ public abstract class GameObjects {
         this.position = positionArr;
     }
 
-    public abstract void onCollide(GameObjects collidingBall);
+    public abstract boolean onCollide(GameObjects collidingBall);
 
 
     public float[] getPosition() {return position;}

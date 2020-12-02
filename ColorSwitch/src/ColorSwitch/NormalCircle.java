@@ -2,13 +2,9 @@ package ColorSwitch;
 
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
-import javafx.stage.Stage;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import java.util.ArrayList;
 
@@ -21,7 +17,7 @@ public class NormalCircle extends Obstacles {
     private Group arcGroup;
     private RotateTransition rt;
 
-    public NormalCircle(int p_speed, boolean dir,float p_InnerRadius, float p_OuterRadius,int x,int y) {
+    public NormalCircle(int p_speed, boolean dir,float p_InnerRadius, float p_OuterRadius,float x,float y) {
 
         super(p_speed,dir,x,y);
         center = new float[2];
@@ -32,10 +28,10 @@ public class NormalCircle extends Obstacles {
         innerRadius = p_InnerRadius;
         outerRadius = p_OuterRadius;
 
-        ArcClass tmpArc1 = (new ArcClass(x,y,0.0f,90.0f,innerRadius,outerRadius,1));
-        ArcClass tmpArc2 = (new ArcClass(x,y,90.0f,90.0f,innerRadius,outerRadius,2));
-        ArcClass tmpArc3 = (new ArcClass(x,y,180.0f,90.0f,innerRadius,outerRadius,3));
-        ArcClass tmpArc4 = (new ArcClass(x,y,270.0f,90.0f,innerRadius,outerRadius,4));
+        ArcClass tmpArc1 = (new ArcClass(x,y,-45.0f,90.0f,innerRadius,outerRadius,1));//right
+        ArcClass tmpArc2 = (new ArcClass(x,y,45.0f,90.0f,innerRadius,outerRadius,2));//top
+        ArcClass tmpArc3 = (new ArcClass(x,y,135.0f,90.0f,innerRadius,outerRadius,3));//left
+        ArcClass tmpArc4 = (new ArcClass(x,y,225.0f,90.0f,innerRadius,outerRadius,4));//bottom
 
         circleArc.add(tmpArc1);
         circleArc.add(tmpArc2);
@@ -46,9 +42,16 @@ public class NormalCircle extends Obstacles {
         arcGroup.getChildren().add(tmpArc2.getArcQuadrant());
         arcGroup.getChildren().add(tmpArc3.getArcQuadrant());
         arcGroup.getChildren().add(tmpArc4.getArcQuadrant());
-
-        arcGroup.setOpacity(opacity);
     }
+
+    public void setColorSequence(int lower,int left,int upper,int right) {
+        circleArc.get(0).setArcColor(right);
+        circleArc.get(1).setArcColor(upper);
+        circleArc.get(2).setArcColor(left);
+        circleArc.get(3).setArcColor(lower);
+    }
+
+
 
     @Override
     public Group getGroup() {
@@ -76,8 +79,23 @@ public class NormalCircle extends Obstacles {
     }
 
     @Override
-    public void onCollide(GameObjects collidingBall) {
-
+    public boolean onCollide(GameObjects collidingBall) {
+        ArcClass intersectingArc = null;
+        for (ArcClass arcClass : circleArc) {
+            Shape intersect = Shape.intersect(((Ball) collidingBall).getGameBall(), arcClass.getArcQuadrant());
+            boolean isIntersected = false;
+            if (intersect.getBoundsInLocal().getWidth() != -1) {
+                intersectingArc = arcClass;
+                isIntersected = true;
+            }
+            if (isIntersected && intersectingArc.getColor() == ((Ball) collidingBall).getBallColor()) {
+                return false;
+            }
+            else if (isIntersected && intersectingArc.getColor() != ((Ball) collidingBall).getBallColor()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

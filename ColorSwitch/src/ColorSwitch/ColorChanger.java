@@ -62,8 +62,8 @@ public class ColorChanger extends GameObjects {
     public Group getArcGroup() {return arcGroup;}
 
     @Override
-    public void onCollide(GameObjects collidingBall) {
-
+    public boolean onCollide(GameObjects collidingBall) {
+        return false;
     }
 
     @Override

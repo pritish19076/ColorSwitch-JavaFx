@@ -15,39 +15,33 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 public class TestCircle extends Application {
+//    NormalCircle c1;
+    ConcentricCircles tmpConCircles;
+    DoubleStackCircle tmpDoubleStackCircle;
+    TripleConcentricCircles tmpTripleConCircles;
+    TripleStackCircle tmpTripleStackCircles;
     public static void main(String [] Args) {
         launch(Args);
     }
     @Override
     public void start(Stage stage) throws Exception {
-        ColorChanger tmpColorChanger = new ColorChanger(500,500,20f,20f,1);
-        NormalCircle tmpCircle = new NormalCircle(3000,true,100.0f,100.0f,500,500);
-//        Ball tmpBall = new Ball(600,450,10,3,10,1);
+
         AnchorPane tmpAnchorPane = new AnchorPane();
         stage.setTitle("CIRCLE OBSTACLE");
-        tmpCircle.display(tmpAnchorPane);
-//        tmpBall.display(tmpAnchorPane);
-        tmpColorChanger.display(tmpAnchorPane);
+//        c1 = new NormalCircle(3000,true,100f,100f,200,300);
+//        c1.display(tmpAnchorPane);
+//        c1.getCircle().setOpacity(1);
+//        tmpDoubleStackCircle = new DoubleStackCircle(5000,263,400);
+//        tmpTripleConCircles = new TripleConcentricCircles(4000,3000,263,400);
+//        tmpConCircles = new ConcentricCircles(3000,true,false,120f,120f,100f,100f,263,440);
+//        tmpConCircles.display(tmpAnchorPane);
+//        tmpTripleConCircles.display(tmpAnchorPane);
+        tmpTripleStackCircles = new TripleStackCircle(3000,263,400);
+        tmpTripleStackCircles.display(tmpAnchorPane);
+//        tmpDoubleStackCircle.display(tmpAnchorPane);
         Scene tmpScene = new Scene(tmpAnchorPane,1280,1280);
         stage.setScene(tmpScene);
         stage.setResizable(false);
-//        ObservableList<Node> tmp = tmpAnchorPane.getChildren();
-
-//        ArrayList<ArcClass> tmpCircleGrp = tmpCircle.getCircleArc();
-//        Circle tmpGameBall = tmpBall.getGameBall();
-
-//        for(int i=0;i<tmpCircleGrp.size();i++) {
-//            Shape intersect = Shape.intersect(tmpGameBall,tmpCircleGrp.get(i).getArcQuadrant());
-//            boolean isIntersected = false;
-//            if(intersect.getBoundsInLocal().getWidth() != -1) {
-//                System.out.println(intersect.getBoundsInLocal().getWidth());
-//                isIntersected = true;
-//            }
-//
-//            System.out.println(isIntersected);
-//            System.out.println(tmpCircleGrp.get(i).getColor());
-//        }
-
         stage.show();
     }
 }
