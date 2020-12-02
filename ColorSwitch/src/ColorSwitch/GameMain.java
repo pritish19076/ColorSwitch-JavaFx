@@ -304,10 +304,11 @@ public class GameMain extends Application implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Timeline intro=new Timeline(new KeyFrame(Duration.millis(1),e -> {
+        Timeline intro = new Timeline(new KeyFrame(Duration.millis(1), e -> {
             introTransition(-1);
         }));
-        new SequentialTransition(delay(1000),intro).play();
+        new SequentialTransition(delay(1000), intro).play();
+
     }
 
 

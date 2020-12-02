@@ -176,6 +176,7 @@ public class GamePlayController implements Initializable {
 
         System.out.println("sadasd");
 
+
     }
 
     public boolean detectCollision() {
