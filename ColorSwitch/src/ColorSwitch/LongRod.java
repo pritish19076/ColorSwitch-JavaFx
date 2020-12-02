@@ -64,8 +64,8 @@ public class LongRod extends Obstacles {
     }
 
     @Override
-    public void onCollide(GameObjects collidingBall) {
-
+    public boolean onCollide(GameObjects collidingBall) {
+        return false;
     }
 
     @Override
