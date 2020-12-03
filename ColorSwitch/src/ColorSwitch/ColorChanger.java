@@ -3,8 +3,10 @@ package ColorSwitch;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ColorChanger extends GameObjects {
 
@@ -13,6 +15,12 @@ public class ColorChanger extends GameObjects {
     private float [] center;
     private ArrayList<ArcClass> circleArc;
     private Group arcGroup;
+
+    public int getRandomcolor() {
+        return randomcolor;
+    }
+
+    private int randomcolor;
 
     public ColorChanger(float x, float y, float p_innerRadius, float p_outerRadius, float opacity) {
         super(x,y);
@@ -23,7 +31,8 @@ public class ColorChanger extends GameObjects {
         center[1] = y;
         innerRadius = p_innerRadius;
         outerRadius = p_outerRadius;
-
+        Random random=new Random();
+        randomcolor=random.nextInt(4)+1;
         ArcClass tmpArc1 = (new ArcClass(x,y,0.0f,90.0f,innerRadius,outerRadius,1));
         ArcClass tmpArc2 = (new ArcClass(x,y,90.0f,90.0f,innerRadius,outerRadius,2));
         ArcClass tmpArc3 = (new ArcClass(x,y,180.0f,90.0f,innerRadius,outerRadius,3));
@@ -63,11 +72,26 @@ public class ColorChanger extends GameObjects {
 
     @Override
     public boolean onCollide(GameObjects collidingBall) {
+        ArcClass intersectingArc = null;
+        for (ArcClass arcClass : circleArc) {
+            Shape intersect = Shape.intersect(((Ball) collidingBall).getGameBall(), arcClass.getArcQuadrant());
+            if (intersect.getBoundsInLocal().getWidth() != -1) {
+
+                return true;
+            }
+        }
         return false;
+
     }
 
     @Override
     public void display(AnchorPane gameAnchor) {
         gameAnchor.getChildren().add(arcGroup);
+    }
+    private void changeColor(Ball inputball)
+    {
+        inputball.setBallColor(randomcolor);
+
+
     }
 }

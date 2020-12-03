@@ -65,7 +65,10 @@ public class GamePlayController implements Initializable {
     @FXML
     private Button MainMenuButton1;
     NormalCircle c1;
-
+    public void updateScore(int score)
+    {
+        Score.setText(Integer.toString(score));
+    }
     private static Scene gamePlayScene;
     private ArrayList<Obstacles> gameObstacles;
     private ArrayList<ImageView> images;

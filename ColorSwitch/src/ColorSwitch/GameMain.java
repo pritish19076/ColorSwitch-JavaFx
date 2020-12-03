@@ -32,12 +32,19 @@ public class GameMain extends Application implements Initializable {
     public static Stage myStage;
     public static Scene getCurrentScene;
     public static Parent p_root;
-    private Player currentPlayer;
+    private static Player currentPlayer;
+    private static GamePlayController currentSceneController;
+
     public static void setupScene(Scene p_scene,Stage p_Stage) {
         System.out.println("initial");
         getCurrentScene= p_scene;
         myStage=p_Stage;
     }
+    public static void increaseScore(int scoreIncrease){
+        currentPlayer.setCurrentscore(currentPlayer.getCurrentscore()+scoreIncrease);
+        currentSceneController.updateScore(currentPlayer.getCurrentscore());
+    }
+
     @FXML
     private AnchorPane mainAnchorPane;
 
@@ -122,13 +129,13 @@ public class GameMain extends Application implements Initializable {
 
         Timeline swtichscenez=new Timeline(new KeyFrame(Duration.millis(1),e-> {
             //Parent root = null;
-            GamePlayController ctrl = null;
+            //GamePlayController ctrl = null;
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(
                         "GamePlay.fxml"));
 
                 p_root = (Parent) loader.load();
-                ctrl = loader.getController();
+                currentSceneController = loader.getController();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
 
 //                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
@@ -140,7 +147,7 @@ public class GameMain extends Application implements Initializable {
 
             myStage.setScene(gameplayscene);
             getCurrentScene=gameplayscene;
-            (ctrl).setupScene(getCurrentScene,myStage);
+            (currentSceneController).setupScene(getCurrentScene,myStage);
 
         }));
 

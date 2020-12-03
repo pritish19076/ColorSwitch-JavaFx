@@ -13,6 +13,12 @@ import static ColorSwitch.CommonAnimation.runTranslateTransition;
 public class Ball extends GameObjects  {
 
     private float gravityVal;
+
+    public void setBallColor(int ballColor) {
+        this.ballColor = ballColor;
+        gameBall.setFill(GameColor.getColor(ballColor));
+    }
+
     private int ballColor;
     private Circle gameBall;
 
