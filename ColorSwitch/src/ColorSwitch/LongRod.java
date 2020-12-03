@@ -59,7 +59,6 @@ public class LongRod extends Obstacles {
 
     @Override
     public void stopRotation() {
-        rt.setCycleCount(0);
         rt.pause();
     }
 

@@ -9,14 +9,15 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-public class Square extends Obstacles {
+public class Diamond extends Obstacles{
+
     private double side;
     private float [] center;
     private ArrayList<Stick> sticks;
     private Group StickGroup;
     private RotateTransition rt;
 
-    public Square(int p_speed, boolean dir,double side,float x,float y) {
+    public Diamond(int p_speed, boolean dir,double side,float x,float y) {
 
         super(p_speed, dir, (int)x, (int)y);
         this.side = side;
@@ -25,13 +26,12 @@ public class Square extends Obstacles {
         center[1] = y;
         sticks = new ArrayList<>();
         StickGroup = new Group();
-        Stick s1 = new Stick(x - (side / 2), y - (side / 2), x - (side / 2), y + (side / 2), 10, 1);
-        Stick s2 = new Stick(x + (side / 2), y - (side / 2), x + (side / 2), y + (side / 2), 10, 2);
-        Stick s3 = new Stick(x - (side / 2), y - (side / 2), x + (side / 2), y - (side / 2), 10, 3);
+        Stick s1 = new Stick(0.2*side+x - (side / 2), y - (side / 2), x - (side / 2), y + (side / 2), 10, 1);
+        Stick s2 = new Stick(0.2*side+x + (side / 2), y - (side / 2), x + (side / 2), y + (side / 2), 10, 2);
+        Stick s3 = new Stick(0.2*side+x - (side / 2), y - (side / 2), 0.2*side+x + (side / 2), y - (side / 2), 10, 3);
         Stick s4 = new Stick(x - (side / 2), y + (side / 2), x + (side / 2), y + (side / 2), 10, 4);
         sticks.add(s1);sticks.add(s2);sticks.add(s3);sticks.add(s4);
         StickGroup.getChildren().addAll(s1.getLine(),s2.getLine(), s3.getLine(), s4.getLine());
-
     }
 
 
@@ -62,6 +62,7 @@ public class Square extends Obstacles {
 
     @Override
     public boolean onCollide(GameObjects collidingBall) {
+
         Stick intersectingStick = null;
         for (Stick stick : sticks) {
             Shape intersect = Shape.intersect(((Ball) collidingBall).getGameBall(), stick.getLine());
@@ -78,8 +79,6 @@ public class Square extends Obstacles {
             }
         }
         return false;
-
-
     }
 
     @Override
@@ -95,6 +94,7 @@ public class Square extends Obstacles {
     public ArrayList<Stick> getSticks() {
         return sticks;
     }
+
 
 
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,7 +25,7 @@
                   <Image url="@../assets/loadgame.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="leaderboardbutton" fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="778.0" onMouseClicked="#openLeaderBoard" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leaderboardbutton" fitHeight="150.0" fitWidth="200.0" layoutX="435.0" layoutY="778.0" onMouseClicked="#viewLeaderBoard" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/leaderboard.png" />
                </image>
@@ -53,7 +55,7 @@
                   <Image url="@../assets/Pic1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="startButton" fitHeight="150.0" fitWidth="200.0" layoutX="589.0" layoutY="272.0" onMouseClicked="#startGame" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="startButton" fitHeight="150.0" fitWidth="200.0" layoutX="589.0" layoutY="272.0" onMouseClicked="#newGame" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/play.png" />
                </image>
@@ -76,7 +78,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <ImageView fx:id="closeLoadGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closeLoadGame" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="closeLoadGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/cancel.png" />
                </image>
@@ -100,7 +102,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <ImageView fx:id="closeLeaderBoardGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closeLeaderBoard" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="closeLeaderBoardGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/cancel.png" />
                </image>
@@ -121,18 +123,53 @@
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Label layoutX="335.0" layoutY="190.0" onMouseClicked="#closePopup" text="No" textFill="WHITE">
+                  <Label layoutX="335.0" layoutY="190.0" onMouseClicked="#closePanel" text="No" textFill="WHITE">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="closePrompt" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePopup" pickOnBounds="true" preserveRatio="true">
+               </children>
+            </AnchorPane>
+            <ImageView fx:id="closePrompt" fitHeight="70.0" fitWidth="70.0" layoutX="-32.0" layoutY="-29.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/cancel.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group fx:id="EnterPlayerNameGroup" layoutX="336.0" layoutY="1090.0">
+         <children>
+            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: green;">
+               <children>
+                  <Label layoutX="43.0" layoutY="212.0" text="Enter Name" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="NameTextField" layoutX="390.0" layoutY="223.0" />
+                  <Label layoutX="43.0" layoutY="324.0" text="Select Mode" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="120.0" layoutY="48.0" text="Create a New Game" textFill="WHITE">
+                     <font>
+                        <Font size="44.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="ModesChoices" layoutX="389.0" layoutY="335.0" prefWidth="150.0" />
+                  <ImageView fx:id="StartTheGameButton" fitHeight="126.0" fitWidth="133.0" layoutX="247.0" layoutY="393.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/cancel.png" />
+                        <Image url="@../assets/playbutton.png" />
                      </image>
                   </ImageView>
                </children>
             </AnchorPane>
+            <ImageView fx:id="closeLeaderBoardGameButton1" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/cancel.png" />
+               </image>
+            </ImageView>
          </children>
       </Group>
    </children>
