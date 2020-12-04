@@ -5,13 +5,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Shape;
 
-public class Star extends GameObjects{
+public class Star extends GameObjects {
     String imagepath;
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
     ImageView imageView;
-    Star(float x,float y){
-        super(x,y);
-        imagepath="assets/star.png";
-        imageView = new ImageView(new Image(imagepath,true));
+
+    Star(float x, float y) {
+        super(x, y);
+        imagepath = "assets/star.png";
+        imageView = new ImageView(new Image(imagepath, true));
         imageView.setX(x);
         imageView.setY(y);
         imageView.setFitWidth(35);
@@ -20,9 +26,14 @@ public class Star extends GameObjects{
 
     @Override
     public boolean onCollide(GameObjects collidingBall) {
-        if(((Ball)collidingBall).getGameBall().getBoundsInParent().intersects(imageView.getBoundsInParent())){
-            GameMain.increaseScore(1);
-            return true;
+        AnchorPane anch = (AnchorPane) imageView.getParent();
+        if (anch != null) {
+            if (((Ball) collidingBall).getGameBall().getBoundsInParent().intersects(imageView.getBoundsInParent())) {
+                System.out.println("star hit");
+                GameMain.increaseScore(1);
+                anch.getChildren().remove(imageView);
+                return true;
+            }
         }
         return false;
 

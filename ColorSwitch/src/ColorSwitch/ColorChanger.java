@@ -31,8 +31,7 @@ public class ColorChanger extends GameObjects {
         center[1] = y;
         innerRadius = p_innerRadius;
         outerRadius = p_outerRadius;
-        Random random=new Random();
-        randomcolor=random.nextInt(4)+1;
+
         ArcClass tmpArc1 = (new ArcClass(x,y,0.0f,90.0f,innerRadius,outerRadius,1));
         ArcClass tmpArc2 = (new ArcClass(x,y,90.0f,90.0f,innerRadius,outerRadius,2));
         ArcClass tmpArc3 = (new ArcClass(x,y,180.0f,90.0f,innerRadius,outerRadius,3));
@@ -72,12 +71,16 @@ public class ColorChanger extends GameObjects {
 
     @Override
     public boolean onCollide(GameObjects collidingBall) {
-        ArcClass intersectingArc = null;
-        for (ArcClass arcClass : circleArc) {
-            Shape intersect = Shape.intersect(((Ball) collidingBall).getGameBall(), arcClass.getArcQuadrant());
-            if (intersect.getBoundsInLocal().getWidth() != -1) {
-
-                return true;
+        AnchorPane anch = (AnchorPane) arcGroup.getParent();
+        if (anch != null) {
+            //ArcClass intersectingArc = null;
+            for (ArcClass arcClass : circleArc) {
+                Shape intersect = Shape.intersect(((Ball) collidingBall).getGameBall(), arcClass.getArcQuadrant());
+                if (intersect.getBoundsInLocal().getWidth() != -1) {
+                    changeColor((Ball) collidingBall);
+                    anch.getChildren().remove(arcGroup);
+                    return true;
+                }
             }
         }
         return false;
@@ -90,6 +93,14 @@ public class ColorChanger extends GameObjects {
     }
     private void changeColor(Ball inputball)
     {
+        int currentcolor=inputball.getBallColor();
+        Random random=new Random();
+        randomcolor=random.nextInt(4)+1;
+        while (randomcolor==currentcolor)
+        {
+            randomcolor=random.nextInt(4)+1;
+
+        }
         inputball.setBallColor(randomcolor);
 
 

@@ -116,6 +116,7 @@ public class GameMain extends Application implements Initializable {
     void startGame(MouseEvent event) {
 
         if(onPanel){CommonAnimation.fade(EnterPlayerNameGroup, 0,1000).play();onPanel=false;}
+        currentPlayer=new Player("Chep");
         introTransition(1);
         Timeline tim2=new Timeline();
         KeyFrame changeSceneSize=new KeyFrame(Duration.millis(20),e -> {
