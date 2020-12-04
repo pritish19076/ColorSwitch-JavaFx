@@ -1,6 +1,5 @@
 package ColorSwitch;
 
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.SequentialTransition;
