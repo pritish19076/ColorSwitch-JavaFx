@@ -76,6 +76,7 @@ public class GamePlayController implements Initializable {
     private ArrayList<ImageView> images;
     private ArrayList<ColorChanger> colors;
     private ArrayList<GameObjects> gameObjects;
+    private ArrayList<Obstacles> gameObstaclesJoined;
     private double Y_Ball;
     private double prevY_Ball;
     private boolean gameStarted=false;
@@ -84,12 +85,59 @@ public class GamePlayController implements Initializable {
     private int count = 0;
     private double speedX=0;
     private double speedY=0;
+    private ArrayList<ArrayList<Group>> customObstacleList;
     //private ColorChanger CC1;
     //private ColorChanger CC2;
     //NormalCircle c2;
     //ConcentricCircles tmpConCircles;
     //int prevobstaclex=0;
     int prevobstacley=900;
+    
+    private void moveDown(double val) {
+        for(GameObjects o: gameObjects)
+        {
+            if(o instanceof Star)
+            {
+                ((Star)o).getImageView().setLayoutY(((Star)o).getImageView().getLayoutY()+val);
+            }
+            else if(o instanceof ColorChanger){
+                ((ColorChanger)o).getArcGroup().setLayoutY(((ColorChanger)o).getArcGroup().getLayoutY()+val);
+
+            }
+            else if(o instanceof DoubleStackCircle) {
+                ArrayList<Group> tmpList = ((DoubleStackCircle)o).getGroupList();
+                tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
+                tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
+            }
+            else if(o instanceof ConcentricCircles) {
+                ArrayList<Group> tmpList = ((ConcentricCircles)o).getAllGroupList();
+                tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
+                tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
+            }
+            else if(o instanceof TripleConcentricCircles) {
+                ArrayList<Group> tmpList = ((TripleConcentricCircles)o).getAllGroupList();
+                tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
+                tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
+                tmpList.get(2).setLayoutY(tmpList.get(2).getLayoutY()+val);
+            }
+            else if(o instanceof TripleStackCircle) {
+                ArrayList<Group> tmpList = ((TripleStackCircle)o).getAllGroupList();
+                tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
+                tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
+                tmpList.get(2).setLayoutY(tmpList.get(2).getLayoutY()+val);
+            }
+            else if (o instanceof Obstacles)
+            {
+                ((Obstacles)o).getGroup().setLayoutY(((Obstacles)o).getGroup().getLayoutY()+val);
+
+            }
+
+
+        }
+        prevobstacley+=val;
+
+    }
+    
     private void addObstacle(int c){
         int distance=400;
         if(c==1){
@@ -156,39 +204,74 @@ public class GamePlayController implements Initializable {
         }
 
         if(c==6){
-            Obstacles obs1=new DoubleStackCircle(3000,263,prevobstacley - distance);
+            Obstacles obs1=new DoubleStackCircle(3000,263,prevobstacley - (distance*2));
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             gameObjects.add(s);
+
             s.display(gamePlayAnchorPane);
-            gameObjects.add(obs1);gameObstacles.add(obs1);
+            gameObjects.add(obs1);
+            customObstacleList.add(((DoubleStackCircle)obs1).getGroupList());
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
             obs1.display(gamePlayAnchorPane);
-            prevobstacley-=distance;
+            prevobstacley-=(distance*2);
         }
 
-        if(c==7){
-            /*
-            Obstacles obs1=new NormalCircle(3000,true,100.0f,100.0f,263,prevobstacley - distance);
-            gameObjects.add(obs1);gameObstacles.add(obs1);
+        if(c==7) {
+            Obstacles obs1 = new ConcentricCircles(3000,true,false,120.0f,120.0f,100.0f,100.0f,263,prevobstacley - distance);
+            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            gameObjects.add(s);
+            s.display(gamePlayAnchorPane);
+            gameObjects.add(obs1);
+            customObstacleList.add(((ConcentricCircles)obs1).getAllGroupList());
+            ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.display(gamePlayAnchorPane);
+            gameObjects.add(CC1);
+
             obs1.display(gamePlayAnchorPane);
-            prevobstacley-=distance;
-            */
+            prevobstacley-=(distance);
         }
 
+        if(c==8) {
+            Obstacles obs1 = new TripleConcentricCircles(4000,3000,263,prevobstacley-distance);
+            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            gameObjects.add(s);
+            s.display(gamePlayAnchorPane);
+            gameObjects.add(obs1);
+            customObstacleList.add(((TripleConcentricCircles)obs1).getAllGroupList());
+            ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.display(gamePlayAnchorPane);
+            gameObjects.add(CC1);
 
-        if(c==8){
-            /*
-            Obstacles obs1=new NormalCircle(3000,true,100.0f,100.0f,263,prevobstacley - distance);
-            gameObjects.add(obs1);gameObstacles.add(obs1);
             obs1.display(gamePlayAnchorPane);
-            prevobstacley-=distance;
-        */
+            prevobstacley-=(distance);
         }
 
+        if(c==9){
+            Obstacles obs1=new TripleStackCircle(3000,263,prevobstacley - (distance*2));
 
+            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            Star s2 = new Star(obs1.getPositionX()-16,obs1.getPositionY()+215-12);
+            Star s3 = new Star(obs1.getPositionX()-16,obs1.getPositionY()+430-12);
+            gameObjects.add(s);
+            gameObjects.add(s2);
+            gameObjects.add(s3);
+            s.display(gamePlayAnchorPane);
+            s2.display(gamePlayAnchorPane);
+            s3.display(gamePlayAnchorPane);
+
+            gameObjects.add(obs1);
+            customObstacleList.add(((TripleStackCircle)obs1).getAllGroupList());
+
+            ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-185,20f,20f,1);
+            CC1.display(gamePlayAnchorPane);
+            gameObjects.add(CC1);
+
+            obs1.display(gamePlayAnchorPane);
+            prevobstacley-=(distance*2);
+        }
 
     }
     @Override
@@ -199,9 +282,10 @@ public class GamePlayController implements Initializable {
         gameObstacles = new ArrayList<>();
         gameObjects=new ArrayList<>();
         gameObjects.add(currentBall);
+        customObstacleList = new ArrayList<>();
         //currentBall.display(gamePlayAnchorPane);
-        addObstacle(1);
-        addObstacle(1);
+        addObstacle(6);
+        addObstacle(7);
         /*Obstacles obs1 = new NormalCircle(3000,true,100.0f,100.0f,263,440);
         gameObstacles.add(obs1);
         //CC1.display(gamePlayAnchorPane);
@@ -249,8 +333,8 @@ public class GamePlayController implements Initializable {
             tmp = o.onCollide((GameObjects)currentBall);
             if(tmp&&(o instanceof Star|| o instanceof ColorChanger)){
                 if(o instanceof Star)totalstarscollected++;
-                //gameObjects.remove(i);
-                //i--;
+                gameObjects.remove(i);
+                i--;
                 int randomnum=0;
                 Random random=new Random();
                 if(totalstarscollected<=8){
@@ -272,52 +356,19 @@ public class GamePlayController implements Initializable {
             KeyFrame grav=new KeyFrame(Duration.millis(15),e -> {
                 update();
                 boolean test = detectCollision();
-                /*if(test) {
-                    //gravity.pause();
-                    if(gravity!=null)gravity.pause();
-                    for (Obstacles gameObstacle : gameObstacles) {
-                        gameObstacle.stopRotation();
-                    }
-                    //CC1.getArcGroup().setOpacity(0);
-                    //CC2.getArcGroup().setOpacity(0);
-                    //currentBall.getGameBall().setOpacity(0);
-                    for(int i=0;i<gameObstacles.size();i++) {
-                       ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
-                    }
 
-                    CollideGroup.setDisable(false);
-                    CollideGroup.setVisible(true);
-
-
-                    /*for(int i = 0;i<gameObstacles.size();i++) {
-                        gameObstacles.get(i).stopRotation();
-                    }
-                    return;
-                }
-                */
                 if(speedY<-0.1)
                 {
-                    for(GameObjects o: gameObjects)
-                    {
-                        if(o instanceof Star)
-                        {
-                            ((Star)o).getImageView().setLayoutY(((Star)o).getImageView().getLayoutY()+1.5);
-                        }
-                        else if(o instanceof ColorChanger){
-                            ((ColorChanger)o).getArcGroup().setLayoutY(((ColorChanger)o).getArcGroup().getLayoutY()+1.5);
+                    moveDown(2);
+                }
+                if(speedY<-0.9)
+                {
+                    moveDown(1);
+                }
 
-                        }
-                        else if (o instanceof Obstacles)
-                        {
-                            ((Obstacles)o).getGroup().setLayoutY(((Obstacles)o).getGroup().getLayoutY()+1.5);
-
-                        }
-
-                    }
-
-
-
-
+                if(speedY<-1.5)
+                {
+                    moveDown(3);
                 }
             });
             gravity.getKeyFrames().add(grav);

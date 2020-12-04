@@ -101,6 +101,7 @@ public class NormalCircle extends Obstacles {
     @Override
     public void display(AnchorPane gamePane) {
         this.Rotation();
+        arcGroup.setOpacity(1);
         gamePane.getChildren().add(arcGroup);
     }
 
