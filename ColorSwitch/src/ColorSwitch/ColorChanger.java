@@ -13,8 +13,8 @@ public class ColorChanger extends GameObjects {
     private float innerRadius;
     private float outerRadius;
     private float [] center;
-    private ArrayList<ArcClass> circleArc;
-    private Group arcGroup;
+    private transient ArrayList<ArcClass> circleArc;
+    private transient Group arcGroup;
 
     public int getRandomcolor() {
         return randomcolor;

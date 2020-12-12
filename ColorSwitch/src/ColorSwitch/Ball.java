@@ -7,10 +7,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import static ColorSwitch.CommonAnimation.runTranslateTransition;
 
-public class Ball extends GameObjects  {
+public class Ball extends GameObjects {
 
     private float gravityVal;
 
@@ -20,7 +21,7 @@ public class Ball extends GameObjects  {
     }
 
     private int ballColor;
-    private Circle gameBall;
+    private transient Circle gameBall;
 
     public Ball(float x,float y,float radius, int color, float p_gravity,float opacity) {
 

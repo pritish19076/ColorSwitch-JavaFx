@@ -6,9 +6,9 @@ import javafx.scene.shape.ArcType;
 import java.awt.*;
 
 public class ArcClass{
-    private Arc quadrant;
-    private javafx.scene.paint.Color arcColor;
-    private GameColor Colors;
+    private transient Arc quadrant;
+    private transient javafx.scene.paint.Color arcColor;
+    private transient GameColor Colors;
     private int colorCode;
     public ArcClass(float centerX, float centerY, float startAngle, float length, float radiusX, float radiusY, int p_color) {
         Colors = new GameColor();

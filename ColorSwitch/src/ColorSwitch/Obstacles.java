@@ -1,9 +1,11 @@
 package ColorSwitch;
 
 import javafx.scene.Group;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Obstacles extends GameObjects {
+public abstract class Obstacles extends GameObjects implements Serializable {
 
     private float speedOfRotation;
     private boolean direction;

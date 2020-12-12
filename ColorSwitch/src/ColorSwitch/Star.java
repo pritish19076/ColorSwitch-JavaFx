@@ -3,16 +3,20 @@ package ColorSwitch;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Shape;
 
 public class Star extends GameObjects {
-    String imagepath;
-
+    private transient String imagepath;
+    transient ImageView imageView;
     public ImageView getImageView() {
         return imageView;
     }
 
-    ImageView imageView;
+    public void setPositonY(double val){
+        double temp=imageView.getLayoutY()+val;
+        setPosition(getPositionX(), (float)temp);
+        imageView.setLayoutY(temp);
+
+    }
 
     Star(float x, float y) {
         super(x, y);

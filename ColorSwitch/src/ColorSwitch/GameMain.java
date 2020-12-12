@@ -21,13 +21,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import static ColorSwitch.CommonAnimation.runTranslateTransition;
 
 
-public class GameMain extends Application implements Initializable {
+public class GameMain extends Application implements Initializable, Serializable {
     private boolean onPanel = false;
     public static Stage myStage;
     public static Scene getCurrentScene;

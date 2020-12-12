@@ -26,9 +26,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
@@ -64,8 +62,9 @@ public class GamePlayController implements Initializable {
     private Button MainMenuButton;
     @FXML
     private Button MainMenuButton1;
-    NormalCircle c1;
+
     int totalstarscollected=0;
+
     public void updateScore(int score)
     {
         Score.setText(Integer.toString(score));
@@ -85,11 +84,6 @@ public class GamePlayController implements Initializable {
     private double speedX=0;
     private double speedY=0;
     private ArrayList<ArrayList<Group>> customObstacleList;
-    //private ColorChanger CC1;
-    //private ColorChanger CC2;
-    //NormalCircle c2;
-    //ConcentricCircles tmpConCircles;
-    //int prevobstaclex=0;
     int prevobstacley=900;
     
     private void moveDown(double val) {
@@ -98,78 +92,136 @@ public class GamePlayController implements Initializable {
             if(o instanceof Star)
             {
                 ((Star)o).getImageView().setLayoutY(((Star)o).getImageView().getLayoutY()+val);
+                float newX = o.getPositionX();
+                float newY = (float) (((Star)o).imageView.getLayoutY());
+                o.setPosition(newX,newY);
             }
             else if(o instanceof ColorChanger){
                 ((ColorChanger)o).getArcGroup().setLayoutY(((ColorChanger)o).getArcGroup().getLayoutY()+val);
-
+                float newX = o.getPositionX();
+                float newY = (float) (((ColorChanger)o).getArcGroup().getLayoutY());
+                o.setPosition(newX,newY);
             }
             else if(o instanceof DoubleStackCircle) {
                 ArrayList<Group> tmpList = ((DoubleStackCircle)o).getGroupList();
                 tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
                 tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
+                float newX = o.getPositionX();
+                float newY = (float) (tmpList.get(0).getLayoutY());
+                o.setPosition(newX,newY);
             }
             else if(o instanceof ConcentricCircles) {
                 ArrayList<Group> tmpList = ((ConcentricCircles)o).getAllGroupList();
                 tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
                 tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
+                float newX = o.getPositionX();
+                float newY = (float) (tmpList.get(0).getLayoutY());
+                o.setPosition(newX,newY);
             }
             else if(o instanceof TripleConcentricCircles) {
                 ArrayList<Group> tmpList = ((TripleConcentricCircles)o).getAllGroupList();
                 tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
                 tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
                 tmpList.get(2).setLayoutY(tmpList.get(2).getLayoutY()+val);
+                float newX = o.getPositionX();
+                float newY = (float) (tmpList.get(0).getLayoutY());
+                o.setPosition(newX,newY);
             }
             else if(o instanceof TripleStackCircle) {
                 ArrayList<Group> tmpList = ((TripleStackCircle)o).getAllGroupList();
                 tmpList.get(0).setLayoutY(tmpList.get(0).getLayoutY()+val);
                 tmpList.get(1).setLayoutY(tmpList.get(1).getLayoutY()+val);
                 tmpList.get(2).setLayoutY(tmpList.get(2).getLayoutY()+val);
+                float newX = o.getPositionX();
+                float newY = (float) (tmpList.get(0).getLayoutY());
+                o.setPosition(newX,newY);
             }
             else if (o instanceof Obstacles)
             {
                 ((Obstacles)o).getGroup().setLayoutY(((Obstacles)o).getGroup().getLayoutY()+val);
+                float newX = o.getPositionX();
+                float newY = (float) (((Obstacles)o).getGroup().getLayoutY());
+                o.setPosition(newX,newY);
 
             }
-
-
         }
+        System.out.println();
         prevobstacley+=val;
 
+    }
+
+
+
+    public void Serialize(String fileName) throws IOException {
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(fileName));
+            out.writeObject(currentBall);
+            System.out.println();
+            System.out.println(currentBall.getPositionY());
+            for (GameObjects gameObject : gameObjects) {
+                System.out.println(gameObject.getCenterPositionX()+"   "+gameObject.getCenterPositionY()+"   "+gameObject.getObjectType());
+                out.writeObject(gameObject);
+            }
+            System.out.println();
+        }finally {
+            out.close();
+        }
     }
     
     private void addObstacle(int c){
         int distance=400;
         if(c==1){
             Obstacles obs1=new NormalCircle(3000,true,100.0f,100.0f,263,prevobstacley - distance);
+            System.out.println("Normal Circle"+"   "+obs1.getCenterPositionX()+"   "+obs1.getCenterPositionY());
+            System.out.println("Calculation  "+(prevobstacley-distance));
+            obs1.setObjectType("NormalCircle");
+            gameObjects.add(obs1);
+            gameObstacles.add(obs1);
+            obs1.display(gamePlayAnchorPane);
+
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            System.out.println("Star"+"   "+s.getCenterPositionX()+"   "+s.getCenterPositionY());
+            s.setObjectType("Star");
             gameObjects.add(s);
             s.display(gamePlayAnchorPane);
-            ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
-            CC1.display(gamePlayAnchorPane);
-            gameObjects.add(CC1);
-            gameObjects.add(obs1);gameObstacles.add(obs1);
 
-            obs1.display(gamePlayAnchorPane);
+            ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            System.out.println("Color Changer"+"   "+CC1.getCenterPositionX()+"   "+CC1.getCenterPositionY());
+            CC1.setObjectType("ColorChanger");
+            gameObjects.add(CC1);
+            CC1.display(gamePlayAnchorPane);
+
             prevobstacley-=distance;
         }
         if(c==2){
             Obstacles obs1=new Square(3000,true,100,263,prevobstacley-distance);
+            obs1.setObjectType("Square");
+            gameObjects.add(obs1);
+            gameObstacles.add(obs1);
+            obs1.display(gamePlayAnchorPane);
+
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            s.setObjectType("Star");
             gameObjects.add(s);
             s.display(gamePlayAnchorPane);
+
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
-            gameObjects.add(obs1);gameObstacles.add(obs1);
-            obs1.display(gamePlayAnchorPane);
             prevobstacley-=distance;
         }
 
         if(c==3){
             Obstacles obs1=new Cross(3000,true,150,263,prevobstacley-distance);
-            gameObjects.add(obs1);gameObstacles.add(obs1);
+            obs1.setObjectType("Cross");
+            gameObjects.add(obs1);
+            gameObstacles.add(obs1);
+
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
@@ -179,81 +231,113 @@ public class GamePlayController implements Initializable {
 
         if(c==4){
             Obstacles obs1=new Diamond(3000,true,100,263,prevobstacley-distance);
+            obs1.setObjectType("Diamond");
+            gameObjects.add(obs1);
+            gameObstacles.add(obs1);
+            obs1.display(gamePlayAnchorPane);
+
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            s.setObjectType("Star");
             gameObjects.add(s);
             s.display(gamePlayAnchorPane);
-            ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
-            CC1.display(gamePlayAnchorPane);
-            gameObjects.add(CC1);
 
-            gameObjects.add(obs1);gameObstacles.add(obs1);
-            obs1.display(gamePlayAnchorPane);
+            ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.setObjectType("ColorChanger");
+            gameObjects.add(CC1);
+            CC1.display(gamePlayAnchorPane);
+
             prevobstacley-=distance;
         }
 
         if(c==5){
             Obstacles obs1=new LongRod(distance,true,263,prevobstacley-distance);
-            gameObjects.add(obs1);gameObstacles.add(obs1);
+            obs1.setObjectType("LongRod");
+            gameObjects.add(obs1);
+            gameObstacles.add(obs1);
             obs1.display(gamePlayAnchorPane);
+
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
-            CC1.display(gamePlayAnchorPane);
+            CC1.setObjectType("ColorChanger");
             gameObjects.add(CC1);
+            CC1.display(gamePlayAnchorPane);
 
             prevobstacley-=distance;
         }
 
         if(c==6){
             Obstacles obs1=new DoubleStackCircle(3000,263,prevobstacley - (distance*2));
-            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
-            gameObjects.add(s);
-
-            s.display(gamePlayAnchorPane);
-            gameObjects.add(obs1);
+            obs1.setObjectType("DoubleStackCircle");
             customObstacleList.add(((DoubleStackCircle)obs1).getGroupList());
+            gameObjects.add(obs1);
+            obs1.display(gamePlayAnchorPane);
+
+            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            s.setObjectType("Star");
+            gameObjects.add(s);
+            s.display(gamePlayAnchorPane);
+
+
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
-            obs1.display(gamePlayAnchorPane);
             prevobstacley-=(distance*2);
         }
 
         if(c==7) {
-            Obstacles obs1 = new ConcentricCircles(3000,true,false,120.0f,120.0f,100.0f,100.0f,263,prevobstacley - distance);
-            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
-            gameObjects.add(s);
-            s.display(gamePlayAnchorPane);
+            Obstacles obs1 = new ConcentricCircles(3000,263,prevobstacley - distance);
+            obs1.setObjectType("ConcentricCircles");
             gameObjects.add(obs1);
             customObstacleList.add(((ConcentricCircles)obs1).getAllGroupList());
+            obs1.display(gamePlayAnchorPane);
+
+            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            s.setObjectType("Star");
+            gameObjects.add(s);
+            s.display(gamePlayAnchorPane);
+
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
-            obs1.display(gamePlayAnchorPane);
             prevobstacley-=(distance);
         }
 
         if(c==8) {
             Obstacles obs1 = new TripleConcentricCircles(4000,3000,263,prevobstacley-distance);
-            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
-            gameObjects.add(s);
-            s.display(gamePlayAnchorPane);
+            obs1.setObjectType("TripleConcentricCircles");
             gameObjects.add(obs1);
             customObstacleList.add(((TripleConcentricCircles)obs1).getAllGroupList());
+            obs1.display(gamePlayAnchorPane);
+
+            Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            s.setObjectType("Star");
+            gameObjects.add(s);
+            s.display(gamePlayAnchorPane);
+
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
+            CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
-            obs1.display(gamePlayAnchorPane);
             prevobstacley-=(distance);
         }
 
         if(c==9){
             Obstacles obs1=new TripleStackCircle(3000,263,prevobstacley - (distance*2));
+            obs1.setObjectType("TripleStackCircle");
+            gameObjects.add(obs1);
+            customObstacleList.add(((TripleStackCircle)obs1).getAllGroupList());
+            obs1.display(gamePlayAnchorPane);
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
+            s.setObjectType("Star");
             Star s2 = new Star(obs1.getPositionX()-16,obs1.getPositionY()+215-12);
+            s2.setObjectType("Star");
             Star s3 = new Star(obs1.getPositionX()-16,obs1.getPositionY()+430-12);
+            s3.setObjectType("Star");
             gameObjects.add(s);
             gameObjects.add(s2);
             gameObjects.add(s3);
@@ -261,14 +345,11 @@ public class GamePlayController implements Initializable {
             s2.display(gamePlayAnchorPane);
             s3.display(gamePlayAnchorPane);
 
-            gameObjects.add(obs1);
-            customObstacleList.add(((TripleStackCircle)obs1).getAllGroupList());
-
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-185,20f,20f,1);
+            CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
-            obs1.display(gamePlayAnchorPane);
             prevobstacley-=(distance*2);
         }
 
@@ -277,14 +358,15 @@ public class GamePlayController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //System.out.println("dsa");
         currentBall = new Ball(263,707,15,1,3,1);
+        currentBall.setObjectType("Ball");
         currentBall.display(gamePlayAnchorPane);
         gameObstacles = new ArrayList<>();
         gameObjects=new ArrayList<>();
         gameObjects.add(currentBall);
         customObstacleList = new ArrayList<>();
         //currentBall.display(gamePlayAnchorPane);
-        addObstacle(6);
         addObstacle(7);
+        addObstacle(9);
         /*Obstacles obs1 = new NormalCircle(3000,true,100.0f,100.0f,263,440);
         gameObstacles.add(obs1);
         //CC1.display(gamePlayAnchorPane);
@@ -319,10 +401,6 @@ public class GamePlayController implements Initializable {
         //CommonAnimation.fade(((NormalCircle)obs1).getCircle(),1).play();
         //CommonAnimation.fade(((NormalCircle)obs2).getCircle(),1).play();
         //CommonAnimation.fade(((NormalCircle)obs3).getCircle(),1).play();
-
-        System.out.println("sadasd");
-
-
     }
 
     public boolean detectCollision() {
@@ -381,7 +459,9 @@ public class GamePlayController implements Initializable {
 
     public void move(double yDelta) {
         currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()+yDelta);
-
+        float newX = currentBall.getPositionX();
+        float newY = (float) (currentBall.getGameBall().getCenterY()+yDelta);
+        currentBall.setPosition(newX,newY);
     }
 
     @FXML
@@ -448,6 +528,10 @@ public class GamePlayController implements Initializable {
             @Override
             public void handle(KeyEvent event) {
                 if(event.getCode()== KeyCode.W){
+//                    System.out.println();
+//                    System.out.println(gameObjects.get(0).getPositionY());
+//                    System.out.println(gameObjects.get(1).getPositionY());
+//                    System.out.println();
                     speedY-=2; //Range From 0.05 to 0.08
 
                     if(!gameStarted){
@@ -458,21 +542,29 @@ public class GamePlayController implements Initializable {
                     }
                 }
 
+                if(event.getCode() == KeyCode.S) {
+                    try {
+                        Serialize("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames\\out.txt");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 if(event.getCode() == KeyCode.P) {
                     if(gravity!=null)gravity.pause();
                     for (Obstacles gameObstacle : gameObstacles) {
                         gameObstacle.stopRotation();
                     }
                     currentBall.getGameBall().setOpacity(0);
-                    for(int i=0;i<gameObstacles.size();i++) {
-                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
-                    }
-                    PauseMenuGroup.setDisable(false);
-                    PauseMenuGroup.setVisible(true);
-
-                    for(int i=0;i<images.size();i++) {
-                        (images.get(i)).setOpacity(0);
-                    }
+//                    for(int i=0;i<gameObstacles.size();i++) {
+//                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+//                    }
+//                    PauseMenuGroup.setDisable(false);
+//                    PauseMenuGroup.setVisible(true);
+//
+//                    for(int i=0;i<images.size();i++) {
+//                        (images.get(i)).setOpacity(0);
+//                    }
                     /*
                     for(int i=0;i<colors.size();i++) {
                         (colors.get(i)).getArcGroup().setOpacity(0.3);

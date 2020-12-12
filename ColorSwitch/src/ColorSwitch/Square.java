@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public class Square extends Obstacles {
     private double side;
     private float [] center;
-    private ArrayList<Stick> sticks;
-    private Group StickGroup;
-    private RotateTransition rt;
+    private transient ArrayList<Stick> sticks;
+    private transient Group StickGroup;
+    private transient RotateTransition rt;
 
     public Square(int p_speed, boolean dir,double side,float x,float y) {
 

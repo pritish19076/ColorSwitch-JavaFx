@@ -6,16 +6,17 @@ import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
-import java.util.ArrayList;
 
-public class NormalCircle extends Obstacles {
+import java.io.Serializable;
+import java.util.ArrayList;
+public class NormalCircle extends Obstacles  {
 
     private float innerRadius;
     private float outerRadius;
     private float [] center;
-    private ArrayList<ArcClass> circleArc;
-    private Group arcGroup;
-    private RotateTransition rt;
+    private transient ArrayList<ArcClass> circleArc;
+    private transient Group arcGroup;
+    private transient RotateTransition rt;
 
     public NormalCircle(int p_speed, boolean dir,float p_InnerRadius, float p_OuterRadius,float x,float y) {
 
@@ -42,6 +43,12 @@ public class NormalCircle extends Obstacles {
         arcGroup.getChildren().add(tmpArc2.getArcQuadrant());
         arcGroup.getChildren().add(tmpArc3.getArcQuadrant());
         arcGroup.getChildren().add(tmpArc4.getArcQuadrant());
+    }
+
+    public void setPositonY(double val){
+        double temp=arcGroup.getLayoutY()+val;
+        setPosition(getPositionX(), (float)temp);
+        arcGroup.setLayoutY(temp);
     }
 
     public void setColorSequence(int lower,int left,int upper,int right) {
@@ -104,6 +111,8 @@ public class NormalCircle extends Obstacles {
         arcGroup.setOpacity(1);
         gamePane.getChildren().add(arcGroup);
     }
+
+
 
     public Group getCircle() {
         return arcGroup;

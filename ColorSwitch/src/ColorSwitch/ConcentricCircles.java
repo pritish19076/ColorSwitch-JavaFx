@@ -1,26 +1,23 @@
 package ColorSwitch;
 
-import javafx.animation.RotateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Arc;
 import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ConcentricCircles extends Obstacles {
-    private NormalCircle innerCircle;
-    private NormalCircle outerCircle;
+    private transient NormalCircle innerCircle;
+    private transient NormalCircle outerCircle;
     private float[] center;
-    private ArrayList<ArcClass> combinedArc;
-    private Group combinedGroup;
-    private ArrayList<Group> allGroupList;
+    private transient ArrayList<ArcClass> combinedArc;
+    private transient Group combinedGroup;
+    private transient ArrayList<Group> allGroupList;
 
-    public ConcentricCircles(int p_speed, boolean dirInner,boolean dirOuter, float p_InnerRadiusOuterCircle, float p_OuterRadiusOuterCircle, float p_InnerRadiusInnerCircle, float p_OuterRadiusInnerCircle, int x, int y) {
+    public ConcentricCircles(int p_speed, float x, float y) {
         super(p_speed,true,x,y);
-        innerCircle = new NormalCircle(5000,dirInner,p_InnerRadiusInnerCircle,p_OuterRadiusInnerCircle,x,y);
-        outerCircle = new NormalCircle(4000,dirOuter,p_InnerRadiusOuterCircle,p_OuterRadiusOuterCircle,x,y);
+        innerCircle = new NormalCircle(5000,true,100.0f,100.0f,x,y);
+        outerCircle = new NormalCircle(4000,false,120.0f,120.0f,x,y);
         center = new float[2];
         center[0] = x;
         center[1] = y;

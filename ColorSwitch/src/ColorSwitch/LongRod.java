@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class LongRod extends Obstacles {
 
     private float [] center;
-    private ArrayList<Stick> sticks;
-    private Group StickGroup;
-    private SequentialTransition rt;
+    private transient ArrayList<Stick> sticks;
+    private transient Group StickGroup;
+    private transient SequentialTransition rt;
 
     public LongRod(int p_speed, boolean dir,float x,float y) {
 

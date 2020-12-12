@@ -3,9 +3,9 @@ package ColorSwitch;
 import javafx.scene.shape.Line;
 
 public class Stick {
-    private Line line;
-    private javafx.scene.paint.Color lineColor;
-    private GameColor Colors;
+    private transient Line line;
+    private transient javafx.scene.paint.Color lineColor;
+    private transient GameColor Colors;
     private int colorCode;
 
     public Stick(double startX, double startY,double endX, double endY,float width, int p_color) {

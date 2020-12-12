@@ -7,12 +7,12 @@ import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 
 public class DoubleStackCircle extends Obstacles {
-    private NormalCircle lowerCircle;
-    private NormalCircle upperCircle;
+    private transient NormalCircle lowerCircle;
+    private transient NormalCircle upperCircle;
     private float [] centers;
-    private ArrayList<ArcClass> combinedArc;
-    private Group allArcGroup;
-    private ArrayList<Group> allGroupList;
+    private transient ArrayList<ArcClass> combinedArc;
+    private transient Group allArcGroup;
+    private transient ArrayList<Group> allGroupList;
     public DoubleStackCircle(int p_speed,float x,float y) {
         super(p_speed,true,x,y);
         lowerCircle = new NormalCircle(p_speed,true,100f,100f,x,y);

@@ -7,15 +7,15 @@ import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 
 public class TripleConcentricCircles extends Obstacles {
-    private NormalCircle innerCircle;
-    private NormalCircle middleCircle;
-    private NormalCircle outerCircle;
-    private ArrayList<ArcClass> combinedArc;
+    private transient NormalCircle innerCircle;
+    private transient NormalCircle middleCircle;
+    private transient NormalCircle outerCircle;
+    private transient ArrayList<ArcClass> combinedArc;
     private float [] center;
-    private Group combineGroup;
-    private ArrayList<Group> allGroupList;
+    private transient Group combineGroup;
+    private transient ArrayList<Group> allGroupList;
 
-    public TripleConcentricCircles(int speed1, int speed2, int x, int y) {
+    public TripleConcentricCircles(int speed1, int speed2, float x, float y) {
         super(speed1,true,x,y);
         innerCircle = new NormalCircle(speed1,true,100f,100f,x,y);
         middleCircle = new NormalCircle(speed1,true,120f,120f,x,y);
