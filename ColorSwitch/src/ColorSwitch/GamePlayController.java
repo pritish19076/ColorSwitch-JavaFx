@@ -157,13 +157,9 @@ public class GamePlayController implements Initializable {
         try {
             out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(currentBall);
-            System.out.println();
-            System.out.println(currentBall.getPositionY());
             for (GameObjects gameObject : gameObjects) {
-                System.out.println(gameObject.getCenterPositionX()+"   "+gameObject.getCenterPositionY()+"   "+gameObject.getObjectType());
                 out.writeObject(gameObject);
             }
-            System.out.println();
         }finally {
             out.close();
         }
