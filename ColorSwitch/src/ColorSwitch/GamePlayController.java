@@ -161,6 +161,7 @@ public class GamePlayController implements Initializable {
                 out.writeObject(gameObject);
             }
         }finally {
+            assert out != null;
             out.close();
         }
     }
