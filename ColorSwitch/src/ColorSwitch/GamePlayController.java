@@ -281,7 +281,6 @@ public class GamePlayController implements Initializable {
             gameObjects.add(s);
             s.display(gamePlayAnchorPane);
 
-
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
             CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
@@ -409,7 +408,7 @@ public class GamePlayController implements Initializable {
             public void handle(MouseEvent mouseEvent) {
                 if (gravity != null) gravity.play();
                 if(currentPlayer.getCurrentscore()>=-100){
-                    currentPlayer.setCurrentscore(currentPlayer.getCurrentscore()-3);
+                    currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()-3);
                     Score.setText(Integer.toString(currentPlayer.getCurrentscore()));
                     gamePlayAnchorPane.getChildren().remove(panel);
                     for (int i=0;i<gameObjects.size();i++) {
