@@ -138,6 +138,7 @@ public class GameMain extends Application implements Initializable, Serializable
 
                 p_root = (Parent) loader.load();
                 currentSceneController = loader.getController();
+                currentSceneController.letsgetitstarted();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
 
 //                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
@@ -149,7 +150,7 @@ public class GameMain extends Application implements Initializable, Serializable
 
             myStage.setScene(gameplayscene);
             getCurrentScene=gameplayscene;
-            (currentSceneController).setupScene(getCurrentScene,myStage);
+            (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
 
         }));
 
@@ -238,11 +239,35 @@ public class GameMain extends Application implements Initializable, Serializable
         }
 
     }
+    private void loadFile(String file) throws IOException, ClassNotFoundException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
+            p_root = (Parent) loader.load();
+            currentSceneController = loader.getController();
+            currentSceneController.fromload=true;
+
+
+//                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        Scene gameplayscene=new Scene(p_root,525,810);
+        //GamePlayController.setupScense(gameplayscene);
+
+        myStage.setScene(gameplayscene);
+        getCurrentScene=gameplayscene;
+        currentPlayer=new Player("Keshav");
+        (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
+        currentSceneController.loadtheGame(file);
+
+
+
+    }
 
 
 
     @FXML
-    void closePanel(MouseEvent event) {
+    void closePanel(MouseEvent event) throws IOException, ClassNotFoundException {
         System.out.println("close");
         Node Panel=((Node)event.getTarget()).getParent();
         double distance=0;
@@ -253,6 +278,7 @@ public class GameMain extends Application implements Initializable, Serializable
             new SequentialTransition(CommonAnimation.fade(Panel, 0), CommonAnimation.loadPanel(true, 1,distance,MainMenuGroup,Panel)).play();
             onPanel = false;
         }
+        loadFile("out.txt");
     }
 
     @FXML
@@ -264,6 +290,7 @@ public class GameMain extends Application implements Initializable, Serializable
             CommonAnimation.loadPanel(false, 1000,683,MainMenuGroup,LoadGameWindowGroup).play();
             onPanel = true;
         }
+
     }
 
     @FXML

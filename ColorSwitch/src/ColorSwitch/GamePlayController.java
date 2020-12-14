@@ -39,6 +39,8 @@ public class GamePlayController implements Initializable {
     @FXML
     private Label Score;
     private Ball currentBall;
+    private Player currentPlayer;
+    public boolean fromload=false;
     @FXML
     private AnchorPane gamePlayAnchorPane;
     @FXML
@@ -49,7 +51,8 @@ public class GamePlayController implements Initializable {
 
     @FXML
     private Button ResumeGameButton;
-    private Stage myStage;
+    private AnchorPane panel;
+    private Obstacles collidedObstacle;
     @FXML
     private Group CollideGroup;
     @FXML
@@ -64,7 +67,12 @@ public class GamePlayController implements Initializable {
     private Button MainMenuButton1;
 
     int totalstarscollected=0;
-
+    private static Stage myStage;
+    private EventHandler<MouseEvent> resumeGame;
+    private EventHandler<MouseEvent> saveGame;
+    private EventHandler<MouseEvent> restartGame;
+    private EventHandler<MouseEvent> reviveGame;
+    private EventHandler<MouseEvent> backtoMainMenu;
     public void updateScore(int score)
     {
         Score.setText(Integer.toString(score));
@@ -351,19 +359,166 @@ public class GamePlayController implements Initializable {
         }
 
     }
+    public void letsgetitstarted() {
+        //gamePlayAnchorPane.getChildren().clear();
+        //gamePlayAnchorPane.getChildren().add(Score);
+        currentBall = new Ball(263, 707, 15, 4, 3, 1);
+        currentBall.setObjectType("Ball");
+        currentBall.getGameBall().setCenterY(707);
+        currentBall.getGameBall().setCenterX(263);
+        currentBall.display(gamePlayAnchorPane);
+        gameObstacles = new ArrayList<>();
+        gameObjects = new ArrayList<>();
+        gameObjects.add(currentBall);
+        addObstacle(1);
+        addObstacle(1);
+        /*
+        for (GameObjects o : gameObjects) {
+            if (o instanceof Ball) CommonAnimation.fade(((Ball) o).getGameBall(), 1).play();
+            if (o instanceof NormalCircle) CommonAnimation.fade(((NormalCircle) o).getCircle(), 1).play();
+            if (o instanceof Star) CommonAnimation.fade(((Star) o).getImageView(), 1).play();
+        }
+        */
+        speedY = 0;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //System.out.println("dsa");
-        currentBall = new Ball(263,707,15,1,3,1);
-        currentBall.setObjectType("Ball");
-        currentBall.display(gamePlayAnchorPane);
-        gameObstacles = new ArrayList<>();
-        gameObjects=new ArrayList<>();
-        gameObjects.add(currentBall);
-        customObstacleList = new ArrayList<>();
+        //if(!fromload)letsgetitstarted();
+        customObstacleList=new ArrayList<>();
+        resumeGame = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                gamePlayAnchorPane.getChildren().remove(panel);
+                if (gravity != null) gravity.play();
+            }
+        };
+        saveGame=new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    Serialize("out.txt");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        reviveGame = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (gravity != null) gravity.play();
+                if(currentPlayer.getCurrentscore()>=-100){
+                    currentPlayer.setCurrentscore(currentPlayer.getCurrentscore()-3);
+                    Score.setText(Integer.toString(currentPlayer.getCurrentscore()));
+                    gamePlayAnchorPane.getChildren().remove(panel);
+                    for (int i=0;i<gameObjects.size();i++) {
+                        GameObjects o=gameObjects.get(i);
+                        if(o instanceof Obstacles&&((Obstacles)o)==collidedObstacle)
+                        {
+                            if(gameObjects.get(i+1) instanceof Star){
+                                gamePlayAnchorPane.getChildren().remove(((Star) gameObjects.get(i+1)).getImageView());
+                                gameObjects.remove(i+1);
+                            }
+                            gamePlayAnchorPane.getChildren().remove(((Obstacles)gameObjects.get(i)).getGroup());
+                            gameObjects.remove(i);
+                        }
+                    }
+
+                }
+                else{
+                    //Exception and Handling
+                }
+
+            }
+        };
+        restartGame = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                GamePlayController temp = null;
+                Parent p_root = null;
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
+                    p_root = (Parent) loader.load();
+                    temp = loader.getController();
+                    temp.letsgetitstarted();
+//                ctrl.init(table.getSelectionModel().getSelectedItem());
+
+//                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                Scene gameplayscene = new Scene(p_root, 525, 810);
+                //GamePlayController.setupScense(gameplayscene);
+
+                myStage.setScene(gameplayscene);
+                //getCurrentScene=gameplayscene;
+                //gameStarted=false;
+                gravity.play();
+                temp.gamePlayAnchorPane = (AnchorPane) p_root;
+                temp.setupScene(gameplayscene, myStage,currentPlayer);
+            }
+        };
+        backtoMainMenu = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                /*for(int i=0;i<gameObstacles.size();i++) {
+                    ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+                }
+                for(int i=0;i<images.size();i++) {
+                    (images.get(i)).setOpacity(0);
+                }*/
+                /*
+                for(int i=0;i<colors.size();i++) {
+                    (colors.get(i)).getArcGroup().setOpacity(0);
+                }
+                */
+                //PauseMenuGroup.setOpacity(0);
+                //CollideGroup.setOpacity(0);
+                //Opacity Lists
+                gamePlayAnchorPane.getChildren().remove(panel);
+                gamePlayAnchorPane.getChildren().remove(Score);
+                Timeline tim2 = new Timeline();
+                KeyFrame changeSceneSize = new KeyFrame(Duration.millis(20), e -> {
+                    if (myStage.getWidth() < 1280) myStage.setWidth(myStage.getWidth() + 10);
+                    if (myStage.getHeight() > 760) myStage.setHeight(myStage.getHeight() - 2);
+                });
+                tim2.getKeyFrames().add(changeSceneSize);
+                tim2.setCycleCount(100);
+
+                Timeline swtichscenez = new Timeline(new KeyFrame(Duration.millis(1), e -> {
+                    Parent root = null;
+                    GameMain ctrl = null;
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("ColorSwitch.fxml"));
+                        root = (Parent) loader.load();
+                        ctrl = loader.getController();
+                        Scene mainmenuscene = new Scene(root, 1280, 720);
+                        myStage.setScene(mainmenuscene);
+                        System.out.println(myStage.getHeight());
+                        System.out.println(myStage.getWidth());
+//
+//                         ctrl.init(table.getSelectionModel().getSelectedItem());
+
+//                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    // Scene gameplayscene=new Scene(p_root,525,810);
+                    //GamePlayController.setupScense(gameplayscene);
+
+                    // myStage.setScene(gameplayscene);
+                    // getCurrentScene=gameplayscene;
+                    //((GameMain)ctrl).setupScene(gamePlayScene,myStage);
+
+
+                }));
+                new SequentialTransition(CommonAnimation.delay(1), tim2, swtichscenez).play();
+                System.out.println("Back to Main Menu");
+            }
+        };
         //currentBall.display(gamePlayAnchorPane);
-        addObstacle(7);
-        addObstacle(9);
+
         /*Obstacles obs1 = new NormalCircle(3000,true,100.0f,100.0f,263,440);
         gameObstacles.add(obs1);
         //CC1.display(gamePlayAnchorPane);
@@ -385,190 +540,208 @@ public class GamePlayController implements Initializable {
         gameObjects.add(currentBall);*/
 
 
-        for(GameObjects o:gameObjects){
-           // o.display(gamePlayAnchorPane);
-            if(o instanceof Ball) CommonAnimation.fade(((Ball)o).getGameBall(),1).play();
-            if(o instanceof NormalCircle)CommonAnimation.fade(((NormalCircle)o).getCircle(),1).play();
-            if(o instanceof Star)CommonAnimation.fade(((Star)o).getImageView(),1).play();
-
-            //CommonAnimation.fade(((NormalCircle)obs2).getCircle(),1).play();
-            //CommonAnimation.fade(((NormalCircle)obs3).getCircle(),1).play();
-        }
         //CommonAnimation.fade(currentBall.getGameBall(),1).play();
         //CommonAnimation.fade(((NormalCircle)obs1).getCircle(),1).play();
         //CommonAnimation.fade(((NormalCircle)obs2).getCircle(),1).play();
         //CommonAnimation.fade(((NormalCircle)obs3).getCircle(),1).play();
+
+        System.out.println("sadasd");
+
+
     }
 
     public boolean detectCollision() {
-        boolean tmp=false;
-        for (int i=0;i<gameObjects.size();i++) {
-            GameObjects o=gameObjects.get(i);
-            tmp = o.onCollide((GameObjects)currentBall);
-            if(tmp&&(o instanceof Star|| o instanceof ColorChanger)){
-                if(o instanceof Star)totalstarscollected++;
+        boolean tmp = false;
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObjects o = gameObjects.get(i);
+            tmp = o.onCollide((GameObjects) currentBall);
+            if (tmp && (o instanceof Star || o instanceof ColorChanger)) {
+                if (o instanceof Star) totalstarscollected++;
+                if(totalstarscollected%3==0){
+                    for(int j=0;j<gameObjects.size();j++){
+                        GameObjects g=gameObjects.get(j);
+                        if(g instanceof Obstacles)
+                        {
+                            gamePlayAnchorPane.getChildren().remove(g);
+                            gameObjects.remove(j);
+                            break;
+                        }
+                    }
+                    i--;
+                }
                 gameObjects.remove(i);
                 i--;
-                int randomnum=0;
-                Random random=new Random();
-                if(totalstarscollected<=8){
-                    randomnum=random.nextInt(totalstarscollected)+1;
+                int randomnum = 0;
+                Random random = new Random();
+                if(totalstarscollected==0){
+                    randomnum=1;
                 }
-                else randomnum=random.nextInt(8)+1;
+                else if (totalstarscollected <= 8) {
+                    randomnum = random.nextInt(totalstarscollected) + 1;
+                } else randomnum = random.nextInt(8) + 1;
                 addObstacle(randomnum);
                 return false;
             }
-            if(tmp)return tmp;
+            if (tmp & o instanceof Obstacles) {
 
+                collidedObstacle = ((Obstacles) o);
+                return tmp;
+            }
         }
         return tmp;
     }
 
-    public void runGravity(){
-            gravity=new Timeline();
+    public void runGravity() {
+        if (gravity == null) {
+            gravity = new Timeline();
             gravity.setCycleCount(Animation.INDEFINITE);
-            KeyFrame grav=new KeyFrame(Duration.millis(15),e -> {
+            KeyFrame grav = new KeyFrame(Duration.millis(15), e -> {
                 update();
                 boolean test = detectCollision();
+                test=false;//OnCollide Disabled
+                if (test) {
+                    //gravity.pause();
+                    if (gravity != null) gravity.pause();
 
-                if(speedY<-0.1)
-                {
-                    moveDown(2);
-                }
-                if(speedY<-0.9)
-                {
-                    moveDown(1);
+                    /*for (GameObjects gameObj : gameObjects) {
+                        if(gameObj instanceof Obstacles)((Obstacles)(gameObj)).stopRotation();
+                    }*/
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("ReviveMenu.fxml"));
+                    try {
+                        panel = (AnchorPane) loader.load();
+                        panel.getChildren().get(0).setOnMouseClicked(reviveGame);
+                        panel.getChildren().get(1).setOnMouseClicked(restartGame);
+                        panel.getChildren().get(2).setOnMouseClicked(backtoMainMenu);
+                        gamePlayAnchorPane.getChildren().add(panel);
+                    } catch (IOException err) {
+                        err.printStackTrace();
+                    }
+                    //if(gravity!=null)gravity.pause();
+
+                    //CC1.getArcGroup().setOpacity(0);
+                    //CC2.getArcGroup().setOpacity(0);
+                    //currentBall.getGameBall().setOpacity(0);
+                    /*for(int i=0;i<gameObstacles.size();i++) {
+                       ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+                    }*/
+
+                    //CollideGroup.setDisable(false);
+                    //CollideGroup.setVisible(true);
+
+
+                    /*for(int i = 0;i<gameObstacles.size();i++) {
+                        gameObstacles.get(i).stopRotation();
+                    }*/
+
+                    return;
                 }
 
-                if(speedY<-1.5)
-                {
-                    moveDown(3);
+                //System.out.println(speedY);
+                if (speedY < -0.1) {
+                   moveDown(1.8);
+
+
                 }
+                if (speedY < -1) {
+                    moveDown(1.5);
+
+
+                }
+
             });
             gravity.getKeyFrames().add(grav);
+            System.out.println("Hellooo");
             gravity.play();
-
+        } else gravity.play();
     }
-    public void accelerate(double accelerationY) {
 
+    public void accelerate(double accelerationY) {
         speedY += accelerationY;
     }
 
     public void move(double yDelta) {
-        currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY()+yDelta);
-        float newX = currentBall.getPositionX();
-        float newY = (float) (currentBall.getGameBall().getCenterY()+yDelta);
-        currentBall.setPosition(newX,newY);
+        //System.out.println(currentBall.getGameBall().getCenterY()+yDelta);
+        //System.out.println("moving by "+yDelta);
+        currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY() + yDelta);
+        // System.out.println("Changed pos" + currentBall.getGameBall().getCenterY());
     }
+
 
     @FXML
     void backtomain(MouseEvent event) {
 
-        for(int i=0;i<gameObstacles.size();i++) {
-            ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
-        }
-        for(int i=0;i<images.size();i++) {
-            (images.get(i)).setOpacity(0);
-        }
-
-        for(int i=0;i<colors.size();i++) {
-            (colors.get(i)).getArcGroup().setOpacity(0);
-        }
-        PauseMenuGroup.setOpacity(0);
-        CollideGroup.setOpacity(0);
-        Timeline tim2=new Timeline();
-        KeyFrame changeSceneSize=new KeyFrame(Duration.millis(20),e -> {
-            myStage.setWidth(myStage.getWidth()+10);
-            myStage.setHeight(myStage.getHeight()-0.4);
-
-        });
-        tim2.getKeyFrames().add(changeSceneSize);
-        tim2.setCycleCount(80);
-        Timeline swtichscenez=new Timeline(new KeyFrame(Duration.millis(1),e-> {
-            Parent root = null;
-            GamePlayController ctrl = null;
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                        "ColorSwitch.fxml"));
-
-               root = (Parent) loader.load();
-                ctrl = loader.getController();
-//                ctrl.init(table.getSelectionModel().getSelectedItem());
-
-//                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-           // Scene gameplayscene=new Scene(p_root,525,810);
-            //GamePlayController.setupScense(gameplayscene);
-
-           // myStage.setScene(gameplayscene);
-           // getCurrentScene=gameplayscene;
-           //((GameMain)ctrl).setupScene(gamePlayScene,myStage);
-
-
-        }));
-        System.out.println("Back to Main Menu");
-
 
     }
+
     public void update() {
         move(speedY);
-        accelerate( 0.04); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
+        //System.out.println("assdasd");
+        accelerate(0.04); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
     }
+    public void loadtheGame(String filename) throws IOException, ClassNotFoundException {
+        ReGenerateObstacles regenObs = new ReGenerateObstacles();
+        gameObjects = regenObs.regenerateGameObjects(filename);
+        for(GameObjects g:gameObjects){
 
-    public void setupScene(Scene p_scene,Stage myStage) {
+            if(g instanceof Ball)currentBall=(Ball)g;
+            g.display(gamePlayAnchorPane);}
+        gameObstacles=new ArrayList<>();
+
+    }
+    public void setupScene(Scene p_scene, Stage myStage, Player p_player) {
         System.out.println("initial");
         gamePlayScene = p_scene;
-        this.myStage=myStage;
-        gamePlayScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+        this.myStage = myStage;
+        currentPlayer = p_player;
+        gamePlayScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(event.getCode()== KeyCode.W){
-//                    System.out.println();
-//                    System.out.println(gameObjects.get(0).getPositionY());
-//                    System.out.println(gameObjects.get(1).getPositionY());
-//                    System.out.println();
-                    speedY-=2; //Range From 0.05 to 0.08
+                // System.out.println("ghghgh");
+                if (event.getCode() == KeyCode.W) {
+                    speedY -= 2; //Range From 0.05 to 0.08
 
-                    if(!gameStarted){
-                        Y_Ball=currentBall.getGameBall().getCenterY();
-                        prevY_Ball=currentBall.getGameBall().getCenterY();
-                        gameStarted=true;
+                    if (!gameStarted) {
+                        System.out.println("Yo");
+                        Y_Ball = currentBall.getGameBall().getCenterY();
+                        prevY_Ball = currentBall.getGameBall().getCenterY();
+                        gameStarted = true;
                         runGravity();
                     }
                 }
 
-                if(event.getCode() == KeyCode.S) {
+                if (event.getCode() == KeyCode.P) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("PauseMenu.fxml"));
                     try {
-                        Serialize("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames\\out.txt");
+                        panel = (AnchorPane) loader.load();
+                        panel.getChildren().get(0).setOnMouseClicked(resumeGame);
+                        panel.getChildren().get(1).setOnMouseClicked(saveGame);
+                        panel.getChildren().get(2).setOnMouseClicked(restartGame);
+                        panel.getChildren().get(3).setOnMouseClicked(backtoMainMenu);
+                        gamePlayAnchorPane.getChildren().add(panel);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
+                    if (gravity != null) gravity.pause();
 
-                if(event.getCode() == KeyCode.P) {
-                    if(gravity!=null)gravity.pause();
-                    for (Obstacles gameObstacle : gameObstacles) {
-                        gameObstacle.stopRotation();
-                    }
-                    currentBall.getGameBall().setOpacity(0);
-//                    for(int i=0;i<gameObstacles.size();i++) {
-//                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
-//                    }
-//                    PauseMenuGroup.setDisable(false);
-//                    PauseMenuGroup.setVisible(true);
-//
-//                    for(int i=0;i<images.size();i++) {
-//                        (images.get(i)).setOpacity(0);
-//                    }
+
+                    //currentBall.getGameBall().setOpacity(0);
+                    /*for(int i=0;i<gameObstacles.size();i++) {
+                        ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+                    }*/
+
+                    //PauseMenuGroup.setDisable(false);
+                    //PauseMenuGroup.setVisible(true);
+
+                    //for(int i=0;i<images.size();i++) {
+                    //  (images.get(i)).setOpacity(0);
+                    //}
                     /*
                     for(int i=0;i<colors.size();i++) {
                         (colors.get(i)).getArcGroup().setOpacity(0.3);
                     }*/
                     //CC1.getArcGroup().setOpacity(0);
                     //CC2.getArcGroup().setOpacity(0);
-                    ResumeGameButton.setOnAction(new EventHandler<ActionEvent>(){
+                    /*ResumeGameButton.setOnAction(new EventHandler<ActionEvent>(){
 
                         @Override
                         public void handle(ActionEvent actionEvent) {
@@ -588,7 +761,7 @@ public class GamePlayController implements Initializable {
                             }
                             if(gravity!=null)gravity.play();
                         }
-                    });
+                    });*/
                 }
             }
         });
