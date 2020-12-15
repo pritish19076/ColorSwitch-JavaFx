@@ -438,7 +438,7 @@ public class GamePlayController implements Initializable {
                     currentPlayer.setMultiGameScore(currentPlayer.getCurrentscore());
                     SerializePlayer(playerFile);
                     Serialize(fileName);
-                    Serialize("out.txt");
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -683,6 +683,7 @@ public class GamePlayController implements Initializable {
     }
     public void loadtheGame(String filename) throws IOException, ClassNotFoundException {
         ReGenerateObstacles regenObs = new ReGenerateObstacles();
+        System.out.println(filename);
         gameObjects = regenObs.regenerateGameObjects(filename);
         for(GameObjects g:gameObjects){
             if(g instanceof Ball)currentBall=(Ball)g;

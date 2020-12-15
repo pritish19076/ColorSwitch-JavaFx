@@ -14,7 +14,7 @@ public class ReGenerateObstacles {
         ObjectInputStream in = null;
         myList = new ArrayList<>();
         try {
-            in = new ObjectInputStream(new FileInputStream("out.txt"));
+            in = new ObjectInputStream(new FileInputStream(fileName));
             deserializedObj = (GameObjects)in.readObject();
             gameBall = new Ball(deserializedObj.getPositionX(),deserializedObj.getPositionY(),15,1,3,1);
             gameBall.getGameBall().setCenterY(deserializedObj.getPositionY());
@@ -35,6 +35,7 @@ public class ReGenerateObstacles {
 
     public ArrayList<GameObjects> regenerateGameObjects(String fileName) throws IOException, ClassNotFoundException {
         deserialize(fileName);
+        System.out.println(fileName);
         ArrayList<GameObjects> finalList = new ArrayList<>();
         for(int i=0;i<myList.size();i++) {
             GameObjects obj = myList.get(i);

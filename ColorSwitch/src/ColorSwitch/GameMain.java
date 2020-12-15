@@ -155,15 +155,15 @@ public class GameMain extends Application implements Initializable, Serializable
     void loadSavedGameFinal(MouseEvent event) throws IOException, ClassNotFoundException {
         String tmp = gameSelectionChoice.getValue();
         String pureStr = getPureString(tmp);
-        System.out.println(pureStr);
+
         String playerName = getPlayerNameFromString(pureStr);
         int gameNum = getPlayerGameNumberFromString(pureStr);
         playerName = playerName.concat(".txt");
 
         String finalFileStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames";
-        finalFileStr.concat("\\");
-        finalFileStr.concat(tmp);
-
+        finalFileStr = finalFileStr.concat("\\");
+        finalFileStr = finalFileStr.concat(tmp);
+        System.out.println(finalFileStr);
         String finalPlayerStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers\\";
         finalPlayerStr = finalPlayerStr.concat(playerName);
 
