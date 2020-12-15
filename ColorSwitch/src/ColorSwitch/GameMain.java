@@ -42,7 +42,7 @@ public class GameMain extends Application implements Initializable, Serializable
         myStage=p_Stage;
     }
     public static void increaseScore(int scoreIncrease){
-        currentPlayer.setCurrentscore(currentPlayer.getCurrentscore()+scoreIncrease);
+        currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()+scoreIncrease);
         currentSceneController.updateScore(currentPlayer.getCurrentscore());
     }
 
@@ -117,7 +117,8 @@ public class GameMain extends Application implements Initializable, Serializable
     void startGame(MouseEvent event) {
 
         if(onPanel){CommonAnimation.fade(EnterPlayerNameGroup, 0,1000).play();onPanel=false;}
-        currentPlayer=new Player("Chep");
+        currentPlayer=new Player(NameTextField.getText());
+        currentPlayer.setGamesPlayed(1);
         introTransition(1);
         Timeline tim2=new Timeline();
         KeyFrame changeSceneSize=new KeyFrame(Duration.millis(20),e -> {
@@ -211,7 +212,6 @@ public class GameMain extends Application implements Initializable, Serializable
         System.out.println("Load");
         if (!onPanel) {
             CommonAnimation.fade(LeaderboardWindowGroup, 1).play();
-            System.out.println("If ke andar");
             CommonAnimation.loadPanel(false, 1000,-983,MainMenuGroup,LeaderboardWindowGroup).play();
             onPanel = true;
         }
@@ -233,7 +233,6 @@ public class GameMain extends Application implements Initializable, Serializable
     void exitTheGame(MouseEvent event) {
         if (!onPanel) {
             CommonAnimation.fade(ExitPopUp, 1).play();
-            System.out.println("If ke andar");
             CommonAnimation.loadPanel(false, 1000,-1100,MainMenuGroup,ExitPopUp).play();
             onPanel = true;
         }
@@ -246,22 +245,33 @@ public class GameMain extends Application implements Initializable, Serializable
             currentSceneController = loader.getController();
             currentSceneController.fromload=true;
 
-
-//                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
         Scene gameplayscene=new Scene(p_root,525,810);
-        //GamePlayController.setupScense(gameplayscene);
 
         myStage.setScene(gameplayscene);
         getCurrentScene=gameplayscene;
         currentPlayer=new Player("Keshav");
         (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
         currentSceneController.loadtheGame(file);
-
-
-
+    }
+    private void loadFile(String file,String playerFile) throws IOException, ClassNotFoundException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
+            p_root = (Parent) loader.load();
+            currentSceneController = loader.getController();
+            currentSceneController.fromload=true;
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        Scene gameplayscene=new Scene(p_root,525,810);
+        ReGeneratePlayer regenPlayer = new ReGeneratePlayer();
+        myStage.setScene(gameplayscene);
+        getCurrentScene=gameplayscene;
+        currentPlayer=regenPlayer.getPlayer(playerFile);
+        (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
+        currentSceneController.loadtheGame(file);
     }
 
 
@@ -286,7 +296,6 @@ public class GameMain extends Application implements Initializable, Serializable
         System.out.println("Load");
         if (!onPanel) {
             CommonAnimation.fade(LoadGameWindowGroup, 1).play();
-            System.out.println("If ke andar");
             CommonAnimation.loadPanel(false, 1000,683,MainMenuGroup,LoadGameWindowGroup).play();
             onPanel = true;
         }
@@ -298,7 +307,6 @@ public class GameMain extends Application implements Initializable, Serializable
         System.out.println("start");
         if (!onPanel) {
             CommonAnimation.fade(EnterPlayerNameGroup, 1).play();
-            System.out.println("If ke andar");
             CommonAnimation.loadPanel(false, 1000,-983,MainMenuGroup,EnterPlayerNameGroup).play();
             onPanel = true;
         }
@@ -315,8 +323,8 @@ public class GameMain extends Application implements Initializable, Serializable
             introTransition(-1);
         }));
 
-        ModesChoices.setItems(FXCollections.observableArrayList("Normal Color Swtich","Flappy Switch","Bee Mode"));
-        ModesChoices.setValue("Normal Color Swtich");
+        ModesChoices.setItems(FXCollections.observableArrayList("Normal Color Switch","Flappy Switch","Bee Mode"));
+        ModesChoices.setValue("Normal Color Switch");
         new SequentialTransition(CommonAnimation.delay(1000), intro).play();
 
 

@@ -73,10 +73,6 @@ public class GamePlayController implements Initializable {
     private EventHandler<MouseEvent> restartGame;
     private EventHandler<MouseEvent> reviveGame;
     private EventHandler<MouseEvent> backtoMainMenu;
-    public void updateScore(int score)
-    {
-        Score.setText(Integer.toString(score));
-    }
     private static Scene gamePlayScene;
     private ArrayList<Obstacles> gameObstacles;
     private ArrayList<ImageView> images;
@@ -93,6 +89,11 @@ public class GamePlayController implements Initializable {
     private double speedY=0;
     private ArrayList<ArrayList<Group>> customObstacleList;
     int prevobstacley=900;
+
+    public void updateScore(int score)
+    {
+        Score.setText(Integer.toString(score));
+    }
     
     private void moveDown(double val) {
         for(GameObjects o: gameObjects)
@@ -153,46 +154,25 @@ public class GamePlayController implements Initializable {
 
             }
         }
-        System.out.println();
         prevobstacley+=val;
 
     }
 
-
-
-    public void Serialize(String fileName) throws IOException {
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(new FileOutputStream(fileName));
-            out.writeObject(currentBall);
-            for (GameObjects gameObject : gameObjects) {
-                out.writeObject(gameObject);
-            }
-        }finally {
-            assert out != null;
-            out.close();
-        }
-    }
-    
     private void addObstacle(int c){
         int distance=400;
         if(c==1){
             Obstacles obs1=new NormalCircle(3000,true,100.0f,100.0f,263,prevobstacley - distance);
-            System.out.println("Normal Circle"+"   "+obs1.getCenterPositionX()+"   "+obs1.getCenterPositionY());
-            System.out.println("Calculation  "+(prevobstacley-distance));
             obs1.setObjectType("NormalCircle");
             gameObjects.add(obs1);
             gameObstacles.add(obs1);
             obs1.display(gamePlayAnchorPane);
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
-            System.out.println("Star"+"   "+s.getCenterPositionX()+"   "+s.getCenterPositionY());
             s.setObjectType("Star");
             gameObjects.add(s);
             s.display(gamePlayAnchorPane);
 
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
-            System.out.println("Color Changer"+"   "+CC1.getCenterPositionX()+"   "+CC1.getCenterPositionY());
             CC1.setObjectType("ColorChanger");
             gameObjects.add(CC1);
             CC1.display(gamePlayAnchorPane);
@@ -358,9 +338,72 @@ public class GamePlayController implements Initializable {
         }
 
     }
+
+    public void Serialize(String fileName) throws IOException {
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(fileName));
+            out.writeObject(currentBall);
+            for (GameObjects gameObject : gameObjects) {
+                out.writeObject(gameObject);
+            }
+        }finally {
+            assert out != null;
+            out.close();
+        }
+    }
+
+    public void SerializePlayer(String fileName) throws IOException {
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(fileName));
+            try {
+                out.writeObject(currentPlayer);
+            }
+            catch (NullPointerException e) {
+                System.out.println("PLAYER NOT INITIALIZED");
+            }
+        }finally {
+            assert out != null;
+            out.close();
+        }
+    }
+
+    public String getFileName(String rootDirectory) {
+        String currentPlayerName = null;
+        int gamesPlayed = 0;
+        try {
+             currentPlayerName = currentPlayer.getName();
+             gamesPlayed = currentPlayer.getGamesPlayed();
+        }catch (NullPointerException e) {
+            System.out.println("PLAYER NOT INITIALIZED");
+            return null;
+        }
+        String fileName = currentPlayerName;
+        fileName = fileName.concat("_");
+        fileName = fileName.concat(Integer.toString(gamesPlayed));
+        String finalFile = rootDirectory;
+        finalFile = finalFile.concat("\\");
+        finalFile = finalFile.concat(fileName);
+        finalFile = finalFile.concat(".txt");
+        return finalFile;
+    }
+
+    public String getPlayerFileName(String rootDirectory) {
+        String playerName = null;
+        try{
+            playerName = currentPlayer.getName();
+        }
+        catch (NullPointerException e) {
+            System.out.println("Player not initialized");
+        }
+        rootDirectory = rootDirectory.concat("\\");
+        rootDirectory = rootDirectory.concat(playerName);
+        rootDirectory = rootDirectory.concat(".txt");
+        return rootDirectory;
+    }
+
     public void letsgetitstarted() {
-        //gamePlayAnchorPane.getChildren().clear();
-        //gamePlayAnchorPane.getChildren().add(Score);
         currentBall = new Ball(263, 707, 15, 4, 3, 1);
         currentBall.setObjectType("Ball");
         currentBall.getGameBall().setCenterY(707);
@@ -383,8 +426,6 @@ public class GamePlayController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //System.out.println("dsa");
-        //if(!fromload)letsgetitstarted();
         customObstacleList=new ArrayList<>();
         resumeGame = new EventHandler<MouseEvent>() {
             @Override
@@ -397,6 +438,10 @@ public class GamePlayController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
+                    String playerFile = getPlayerFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers");
+                    String fileName = getFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames");
+                    SerializePlayer(playerFile);
+                    Serialize(fileName);
                     Serialize("out.txt");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -494,8 +539,7 @@ public class GamePlayController implements Initializable {
                         ctrl = loader.getController();
                         Scene mainmenuscene = new Scene(root, 1280, 720);
                         myStage.setScene(mainmenuscene);
-                        System.out.println(myStage.getHeight());
-                        System.out.println(myStage.getWidth());
+
 //
 //                         ctrl.init(table.getSelectionModel().getSelectedItem());
 
@@ -513,7 +557,7 @@ public class GamePlayController implements Initializable {
 
                 }));
                 new SequentialTransition(CommonAnimation.delay(1), tim2, swtichscenez).play();
-                System.out.println("Back to Main Menu");
+
             }
         };
         //currentBall.display(gamePlayAnchorPane);
@@ -544,7 +588,6 @@ public class GamePlayController implements Initializable {
         //CommonAnimation.fade(((NormalCircle)obs2).getCircle(),1).play();
         //CommonAnimation.fade(((NormalCircle)obs3).getCircle(),1).play();
 
-        System.out.println("sadasd");
 
 
     }
@@ -635,7 +678,6 @@ public class GamePlayController implements Initializable {
                     return;
                 }
 
-                //System.out.println(speedY);
                 if (speedY < -0.1) {
                    moveDown(1.8);
 
@@ -649,7 +691,6 @@ public class GamePlayController implements Initializable {
 
             });
             gravity.getKeyFrames().add(grav);
-            System.out.println("Hellooo");
             gravity.play();
         } else gravity.play();
     }
@@ -659,10 +700,7 @@ public class GamePlayController implements Initializable {
     }
 
     public void move(double yDelta) {
-        //System.out.println(currentBall.getGameBall().getCenterY()+yDelta);
-        //System.out.println("moving by "+yDelta);
         currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY() + yDelta);
-        // System.out.println("Changed pos" + currentBall.getGameBall().getCenterY());
     }
 
 
@@ -674,33 +712,30 @@ public class GamePlayController implements Initializable {
 
     public void update() {
         move(speedY);
-        //System.out.println("assdasd");
         accelerate(0.04); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
     }
     public void loadtheGame(String filename) throws IOException, ClassNotFoundException {
         ReGenerateObstacles regenObs = new ReGenerateObstacles();
         gameObjects = regenObs.regenerateGameObjects(filename);
         for(GameObjects g:gameObjects){
-
             if(g instanceof Ball)currentBall=(Ball)g;
-            g.display(gamePlayAnchorPane);}
+                g.display(gamePlayAnchorPane);
+        }
         gameObstacles=new ArrayList<>();
+        prevobstacley = (int) gameObjects.get((gameObjects.size()-1)).getPositionY();
 
     }
     public void setupScene(Scene p_scene, Stage myStage, Player p_player) {
-        System.out.println("initial");
         gamePlayScene = p_scene;
         this.myStage = myStage;
         currentPlayer = p_player;
         gamePlayScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                // System.out.println("ghghgh");
                 if (event.getCode() == KeyCode.W) {
                     speedY -= 2; //Range From 0.05 to 0.08
 
                     if (!gameStarted) {
-                        System.out.println("Yo");
                         Y_Ball = currentBall.getGameBall().getCenterY();
                         prevY_Ball = currentBall.getGameBall().getCenterY();
                         gameStarted = true;
@@ -764,6 +799,5 @@ public class GamePlayController implements Initializable {
                 }
             }
         });
-        System.out.println("final");
     }
 }
