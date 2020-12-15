@@ -602,9 +602,28 @@ public class GamePlayController implements Initializable {
                 if(totalstarscollected%3==0){
                     for(int j=0;j<gameObjects.size();j++){
                         GameObjects g=gameObjects.get(j);
-                        if(g instanceof Obstacles)
+                        if(g instanceof DoubleStackCircle) {
+                            ArrayList<Group> list=((DoubleStackCircle)g).getGroupList();
+                            for(Group grp: list) gamePlayAnchorPane.getChildren().remove(grp);
+                        }
+                        else if(g instanceof ConcentricCircles) {
+
+                            ArrayList<Group> list=((ConcentricCircles)g).getAllGroupList();
+                            for(Group grp: list) gamePlayAnchorPane.getChildren().remove(grp);
+                        }
+                        else if(g instanceof TripleConcentricCircles) {
+
+                            ArrayList<Group> list=((TripleConcentricCircles)g).getAllGroupList();
+                            for(Group grp: list) gamePlayAnchorPane.getChildren().remove(grp);
+                        }
+                        else if(g instanceof TripleStackCircle) {
+                            ArrayList<Group> list=((TripleStackCircle)g).getAllGroupList();
+                            for(Group grp: list) gamePlayAnchorPane.getChildren().remove(grp);
+                        }
+                        else if(g instanceof Obstacles)
                         {
-                            gamePlayAnchorPane.getChildren().remove(g);
+
+                            gamePlayAnchorPane.getChildren().remove(((Obstacles) g).getGroup());
                             gameObjects.remove(j);
                             break;
                         }
