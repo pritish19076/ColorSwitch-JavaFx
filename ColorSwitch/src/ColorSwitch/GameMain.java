@@ -320,24 +320,6 @@ public class GameMain extends Application implements Initializable, Serializable
         }
     }
 
-//    private void loadFile(String file) throws IOException, ClassNotFoundException {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
-//            p_root = (Parent) loader.load();
-//            currentSceneController = loader.getController();
-//            currentSceneController.fromload=true;
-//
-//        } catch (IOException ioException) {
-//            ioException.printStackTrace();
-//        }
-//        Scene gameplayscene=new Scene(p_root,525,810);
-//
-//        myStage.setScene(gameplayscene);
-//        getCurrentScene=gameplayscene;
-//        currentPlayer=new Player("Keshav");
-//        (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
-//        currentSceneController.loadtheGame(file);
-//    }
     private void loadFile(String file,String playerFile,int gameNumber) throws IOException, ClassNotFoundException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));

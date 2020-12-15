@@ -18,8 +18,6 @@ public class Player implements Serializable {
         this.gamesPlayed = 0;
         multiGameScore = new ArrayList<>();
     }
-
-
     public void setCurrentScore(int currentscore) {
         this.currentScore = currentscore;
         highScore=Math.max(highScore,currentscore);

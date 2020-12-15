@@ -416,13 +416,6 @@ public class GamePlayController implements Initializable {
         gameObjects.add(currentBall);
         addObstacle(1);
         addObstacle(1);
-        /*
-        for (GameObjects o : gameObjects) {
-            if (o instanceof Ball) CommonAnimation.fade(((Ball) o).getGameBall(), 1).play();
-            if (o instanceof NormalCircle) CommonAnimation.fade(((NormalCircle) o).getCircle(), 1).play();
-            if (o instanceof Star) CommonAnimation.fade(((Star) o).getImageView(), 1).play();
-        }
-        */
         speedY = 0;
     }
 
