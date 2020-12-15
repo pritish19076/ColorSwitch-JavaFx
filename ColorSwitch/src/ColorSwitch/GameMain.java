@@ -13,16 +13,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static ColorSwitch.CommonAnimation.runTranslateTransition;
@@ -35,6 +38,8 @@ public class GameMain extends Application implements Initializable, Serializable
     public static Parent p_root;
     private static Player currentPlayer;
     private static GamePlayController currentSceneController;
+    private LoadGames loadableFiles = new LoadGames();
+
 
     public static void setupScene(Scene p_scene,Stage p_Stage) {
         System.out.println("initial");
@@ -112,13 +117,95 @@ public class GameMain extends Application implements Initializable, Serializable
     @FXML
     private ImageView closeLeaderBoardGameButton1;
 
+    @FXML
+    private ChoiceBox<String> gameSelectionChoice;
+
+    @FXML
+    private ImageView loadButton;
+
+    @FXML
+    private ImageView loadGameLabel;
+
+    @FXML
+    private Label leaderBoardTable;
+
+
+    private ArrayList<String> savedPlayerList;
+    private ArrayList<String> savedGameList;
+
+    public String getPureString(String s) {
+        int count = 0;
+        for(int i=0;i<s.length();i++) {
+            if(s.charAt(i) == '.')
+                break;
+            count++;
+        }
+        String tmp = s.substring(0,count);
+        return tmp;
+    }
+
+    public String getPlayerNameFromString(String s) {
+        return s.split("_")[0];
+    }
+    public int getPlayerGameNumberFromString(String s) {
+        return Integer.parseInt(s.split("_")[1]);
+    }
+
+    @FXML
+    void loadSavedGameFinal(MouseEvent event) throws IOException, ClassNotFoundException {
+        String tmp = gameSelectionChoice.getValue();
+        String pureStr = getPureString(tmp);
+        System.out.println(pureStr);
+        String playerName = getPlayerNameFromString(pureStr);
+        int gameNum = getPlayerGameNumberFromString(pureStr);
+        playerName = playerName.concat(".txt");
+
+        String finalFileStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames";
+        finalFileStr.concat("\\");
+        finalFileStr.concat(tmp);
+
+        String finalPlayerStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers\\";
+        finalPlayerStr = finalPlayerStr.concat(playerName);
+
+        loadFile(finalFileStr,finalPlayerStr,gameNum);
+    }
 
     @FXML
     void startGame(MouseEvent event) {
 
         if(onPanel){CommonAnimation.fade(EnterPlayerNameGroup, 0,1000).play();onPanel=false;}
-        currentPlayer=new Player(NameTextField.getText());
-        currentPlayer.setGamesPlayed(1);
+
+        String tmpPlayer = NameTextField.getText();
+        tmpPlayer = tmpPlayer.concat(".txt");
+        ArrayList<String> loadablePlayerList = loadableFiles.getLoadablePlayersList();
+        boolean isPlayerFound = false;
+
+        ReGeneratePlayer tmpRegen = new ReGeneratePlayer();
+        String finalFileStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers";
+        finalFileStr = finalFileStr.concat("\\");
+        finalFileStr = finalFileStr.concat(tmpPlayer);
+
+        for(int i=0;i<loadablePlayerList.size();i++) {
+            if(loadablePlayerList.get(i).equals(tmpPlayer)){
+                try {
+                    currentPlayer = tmpRegen.getPlayer(finalFileStr);
+                    currentPlayer.setGamesPlayed(currentPlayer.getGamesPlayed()+1);
+                    currentPlayer.setCurrentScore(0);
+                    isPlayerFound = true;
+                    System.out.println("Player found");
+                } catch (IOException e) {
+                    System.out.println("Input Output Exception");
+                } catch (ClassNotFoundException e) {
+                    System.out.println("Class not found exception");
+                }
+            }
+        }
+
+        if(!isPlayerFound) {
+            currentPlayer=new Player(NameTextField.getText());
+            currentPlayer.setGamesPlayed(1);
+        }
+
         introTransition(1);
         Timeline tim2=new Timeline();
         KeyFrame changeSceneSize=new KeyFrame(Duration.millis(20),e -> {
@@ -201,8 +288,6 @@ public class GameMain extends Application implements Initializable, Serializable
         primaryStage.setResizable(false);
 
         primaryStage.show();
-
-
     }
 
 
@@ -215,8 +300,6 @@ public class GameMain extends Application implements Initializable, Serializable
             CommonAnimation.loadPanel(false, 1000,-983,MainMenuGroup,LeaderboardWindowGroup).play();
             onPanel = true;
         }
-
-
     }
 
 
@@ -224,7 +307,6 @@ public class GameMain extends Application implements Initializable, Serializable
     void closeGame(MouseEvent event) {
         Platform.exit();
         System.exit(0);
-
     }
 
 
@@ -236,27 +318,27 @@ public class GameMain extends Application implements Initializable, Serializable
             CommonAnimation.loadPanel(false, 1000,-1100,MainMenuGroup,ExitPopUp).play();
             onPanel = true;
         }
-
     }
-    private void loadFile(String file) throws IOException, ClassNotFoundException {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
-            p_root = (Parent) loader.load();
-            currentSceneController = loader.getController();
-            currentSceneController.fromload=true;
 
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-        Scene gameplayscene=new Scene(p_root,525,810);
-
-        myStage.setScene(gameplayscene);
-        getCurrentScene=gameplayscene;
-        currentPlayer=new Player("Keshav");
-        (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
-        currentSceneController.loadtheGame(file);
-    }
-    private void loadFile(String file,String playerFile) throws IOException, ClassNotFoundException {
+//    private void loadFile(String file) throws IOException, ClassNotFoundException {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
+//            p_root = (Parent) loader.load();
+//            currentSceneController = loader.getController();
+//            currentSceneController.fromload=true;
+//
+//        } catch (IOException ioException) {
+//            ioException.printStackTrace();
+//        }
+//        Scene gameplayscene=new Scene(p_root,525,810);
+//
+//        myStage.setScene(gameplayscene);
+//        getCurrentScene=gameplayscene;
+//        currentPlayer=new Player("Keshav");
+//        (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
+//        currentSceneController.loadtheGame(file);
+//    }
+    private void loadFile(String file,String playerFile,int gameNumber) throws IOException, ClassNotFoundException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
             p_root = (Parent) loader.load();
@@ -270,6 +352,7 @@ public class GameMain extends Application implements Initializable, Serializable
         myStage.setScene(gameplayscene);
         getCurrentScene=gameplayscene;
         currentPlayer=regenPlayer.getPlayer(playerFile);
+        currentPlayer.setCurrentScore(currentPlayer.getGameScore(gameNumber-1));
         (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
         currentSceneController.loadtheGame(file);
     }
@@ -278,7 +361,6 @@ public class GameMain extends Application implements Initializable, Serializable
 
     @FXML
     void closePanel(MouseEvent event) throws IOException, ClassNotFoundException {
-        System.out.println("close");
         Node Panel=((Node)event.getTarget()).getParent();
         double distance=0;
         if(Panel==LoadGameWindowGroup)distance=683;
@@ -288,7 +370,6 @@ public class GameMain extends Application implements Initializable, Serializable
             new SequentialTransition(CommonAnimation.fade(Panel, 0), CommonAnimation.loadPanel(true, 1,distance,MainMenuGroup,Panel)).play();
             onPanel = false;
         }
-        loadFile("out.txt");
     }
 
     @FXML
@@ -299,7 +380,6 @@ public class GameMain extends Application implements Initializable, Serializable
             CommonAnimation.loadPanel(false, 1000,683,MainMenuGroup,LoadGameWindowGroup).play();
             onPanel = true;
         }
-
     }
 
     @FXML
@@ -322,13 +402,12 @@ public class GameMain extends Application implements Initializable, Serializable
         Timeline intro = new Timeline(new KeyFrame(Duration.millis(1), e -> {
             introTransition(-1);
         }));
-
+        savedGameList = loadableFiles.getLoadableGamesList();
+        savedPlayerList = loadableFiles.getLoadablePlayersList();
         ModesChoices.setItems(FXCollections.observableArrayList("Normal Color Switch","Flappy Switch","Bee Mode"));
         ModesChoices.setValue("Normal Color Switch");
+//        gameSelectionChoice = new ChoiceBox<>();
+        gameSelectionChoice.setItems(FXCollections.observableList(savedGameList));
         new SequentialTransition(CommonAnimation.delay(1000), intro).play();
-
-
     }
-
-
 }

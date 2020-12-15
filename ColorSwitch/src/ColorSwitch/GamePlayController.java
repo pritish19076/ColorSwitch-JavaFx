@@ -393,12 +393,14 @@ public class GamePlayController implements Initializable {
         String playerName = null;
         try{
             playerName = currentPlayer.getName();
+
         }
         catch (NullPointerException e) {
             System.out.println("Player not initialized");
         }
         rootDirectory = rootDirectory.concat("\\");
         rootDirectory = rootDirectory.concat(playerName);
+
         rootDirectory = rootDirectory.concat(".txt");
         return rootDirectory;
     }
@@ -440,6 +442,7 @@ public class GamePlayController implements Initializable {
                 try {
                     String playerFile = getPlayerFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers");
                     String fileName = getFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames");
+                    currentPlayer.setMultiGameScore(currentPlayer.getCurrentscore());
                     SerializePlayer(playerFile);
                     Serialize(fileName);
                     Serialize("out.txt");
@@ -560,36 +563,6 @@ public class GamePlayController implements Initializable {
 
             }
         };
-        //currentBall.display(gamePlayAnchorPane);
-
-        /*Obstacles obs1 = new NormalCircle(3000,true,100.0f,100.0f,263,440);
-        gameObstacles.add(obs1);
-        //CC1.display(gamePlayAnchorPane);
-        Obstacles obs2 = new NormalCircle(3000,true,100.0f,100.0f,263,20);
-        gameObstacles.add(obs2);
-        //obs1.display(gamePlayAnchorPane);
-        //obs2.display(gamePlayAnchorPane);
-        //CC2 = new ColorChanger(263,-200,20f,20f,1);
-        //CC2.display(gamePlayAnchorPane);
-        Obstacles obs3 = new NormalCircle(3000,true,100.0f,100.0f,263,-380);
-        gameObstacles.add(obs3);
-        //obs3.display(gamePlayAnchorPane);
-        GameObjects star1=new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
-        GameObjects star2=new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
-        GameObjects star3=new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
-        gameObjects.add(star1);gameObjects.add(star2);gameObjects.add(star3);
-        gameObjects.add(obs1);gameObjects.add(obs2);gameObjects.add(obs3);
-        //gameObjects.add(CC1);gameObjects.add(CC2);
-        gameObjects.add(currentBall);*/
-
-
-        //CommonAnimation.fade(currentBall.getGameBall(),1).play();
-        //CommonAnimation.fade(((NormalCircle)obs1).getCircle(),1).play();
-        //CommonAnimation.fade(((NormalCircle)obs2).getCircle(),1).play();
-        //CommonAnimation.fade(((NormalCircle)obs3).getCircle(),1).play();
-
-
-
     }
 
     public boolean detectCollision() {
@@ -602,9 +575,10 @@ public class GamePlayController implements Initializable {
                 if(totalstarscollected%3==0){
                     for(int j=0;j<gameObjects.size();j++){
                         GameObjects g=gameObjects.get(j);
+                        //
                         if(g instanceof Obstacles)
                         {
-                            gamePlayAnchorPane.getChildren().remove(g);
+                            gamePlayAnchorPane.getChildren().remove(((Obstacles) g).getGroup());
                             gameObjects.remove(j);
                             break;
                         }
