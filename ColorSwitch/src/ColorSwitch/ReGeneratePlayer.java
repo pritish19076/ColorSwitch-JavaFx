@@ -10,7 +10,9 @@ public class ReGeneratePlayer {
     public Player getPlayer(String fileName) throws IOException, ClassNotFoundException {
         ObjectInputStream in = null;
         try {
+
             in = new ObjectInputStream(new FileInputStream(fileName));
+//            System.out.println(in.readObject());
             generatedPlayer = (Player)in.readObject();
         }finally {
             in.close();

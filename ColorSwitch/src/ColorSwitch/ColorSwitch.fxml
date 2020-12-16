@@ -53,6 +53,11 @@
                   <Image url="@../assets/Pic1.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="changeTheme" fitHeight="89.0" fitWidth="117.0" layoutX="584.0" layoutY="809.0" onMouseClicked="#changeThemeMenu" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/theme.png" />
+               </image>
+            </ImageView>
             <ImageView fx:id="startButton" fitHeight="150.0" fitWidth="200.0" layoutX="589.0" layoutY="272.0" onMouseClicked="#newGame" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/play.png" />
@@ -77,7 +82,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <ImageView fx:id="closeLoadGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="closeLoadGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true" smooth="false">
                <image>
                   <Image url="@../assets/cancel.png" />
                </image>
@@ -87,14 +92,14 @@
       </Group>
       <Group fx:id="LeaderboardWindowGroup" layoutX="336.0" layoutY="1090.0">
          <children>
-            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: green;">
+            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: #333333;">
                <children>
                   <Label layoutX="185.0" layoutY="21.0" text="Leader Board" textFill="WHITE">
                      <font>
                         <Font size="44.0" />
                      </font>
                   </Label>
-                  <Label fx:id="leaderBoardTable" layoutX="66.0" layoutY="124.0" prefHeight="202.0" prefWidth="514.0" textFill="WHITE" />
+                  <Label fx:id="leaderBoardTable" layoutX="66.0" layoutY="124.0" prefHeight="395.0" prefWidth="514.0" textFill="WHITE" />
                </children>
             </AnchorPane>
             <ImageView fx:id="closeLeaderBoardGameButton" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
@@ -106,7 +111,7 @@
       </Group>
       <Group fx:id="ExitPopUp" layoutX="366.0" layoutY="1350.0">
          <children>
-            <AnchorPane prefHeight="348.0" prefWidth="513.0" style="-fx-background-color: green;">
+            <AnchorPane prefHeight="348.0" prefWidth="513.0" style="-fx-background-color: #333333;">
                <children>
                   <Label layoutX="28.0" layoutY="101.0" prefHeight="47.0" prefWidth="457.0" text="Are You Sure You Want to Quit?" textFill="WHITE">
                      <font>
@@ -134,7 +139,7 @@
       </Group>
       <Group fx:id="EnterPlayerNameGroup" layoutX="336.0" layoutY="1090.0">
          <children>
-            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: green;">
+            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: #333333;">
                <children>
                   <Label layoutX="43.0" layoutY="212.0" text="Enter Name" textFill="WHITE">
                      <font>
@@ -153,9 +158,9 @@
                      </font>
                   </Label>
                   <ChoiceBox fx:id="ModesChoices" layoutX="389.0" layoutY="335.0" prefWidth="150.0" />
-                  <ImageView fx:id="StartTheGameButton" fitHeight="126.0" fitWidth="133.0" layoutX="247.0" layoutY="393.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="StartTheGameButton" fitHeight="126.0" fitWidth="133.0" layoutX="247.0" layoutY="444.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/playbutton.png" />
+                        <Image url="@../assets/playbuttonFinal.png" />
                      </image>
                   </ImageView>
                </children>

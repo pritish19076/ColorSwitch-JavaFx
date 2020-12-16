@@ -12,8 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -32,7 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-
+//C:\Users\Keshav Gambhir\Desktop\ColorSwitch-JavaFx\ColorSwitch\src\LeaderBoard
 
 public class GamePlayController implements Initializable {
 
@@ -161,7 +160,7 @@ public class GamePlayController implements Initializable {
     private void addObstacle(int c){
         int distance=400;
         if(c==1){
-            Obstacles obs1=new NormalCircle(3000,true,100.0f,100.0f,263,prevobstacley - distance);
+            Obstacles obs1=new NormalCircle(5000,true,100.0f,100.0f,263,prevobstacley - distance);
             obs1.setObjectType("NormalCircle");
             gameObjects.add(obs1);
             gameObstacles.add(obs1);
@@ -405,6 +404,27 @@ public class GamePlayController implements Initializable {
         return rootDirectory;
     }
 
+    public String getPlayerFileNameWithRestartValue(String rootDirectory) {
+        String playerName = null;
+        try{
+            playerName = currentPlayer.getName();
+
+        }
+        catch (NullPointerException e) {
+            System.out.println("Player not initialized");
+        }
+        playerName = playerName.concat("_");
+        playerName = playerName.concat(Integer.toString(currentPlayer.getGamesPlayed()));
+        playerName = playerName.concat("_");
+        playerName = playerName.concat(Integer.toString(currentPlayer.getRestartCount()));
+
+        rootDirectory = rootDirectory.concat("\\");
+        rootDirectory = rootDirectory.concat(playerName);
+        rootDirectory = rootDirectory.concat(".txt");
+
+        return rootDirectory;
+    }
+
     public void letsgetitstarted() {
         currentBall = new Ball(263, 707, 15, 4, 3, 1);
         currentBall.setObjectType("Ball");
@@ -417,6 +437,31 @@ public class GamePlayController implements Initializable {
         addObstacle(1);
         addObstacle(1);
         speedY = 0;
+    }
+
+    public void revivePlayer() throws InsufficientStarsException {
+        if (gravity != null) gravity.play();
+        if(currentPlayer.getCurrentscore() < 3) {
+            throw new InsufficientStarsException("Stars are not enough");
+        }
+        if(currentPlayer.getCurrentscore()>=-100){
+            currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()-3);
+            Score.setText(Integer.toString(currentPlayer.getCurrentscore()));
+            gamePlayAnchorPane.getChildren().remove(panel);
+            for (int i=0;i<gameObjects.size();i++) {
+                GameObjects o=gameObjects.get(i);
+                if(o instanceof Obstacles&&((Obstacles)o)==collidedObstacle)
+                {
+                    if(gameObjects.get(i+1) instanceof Star){
+                        gamePlayAnchorPane.getChildren().remove(((Star) gameObjects.get(i+1)).getImageView());
+                        gameObjects.remove(i+1);
+                    }
+                    gamePlayAnchorPane.getChildren().remove(((Obstacles)gameObjects.get(i)).getGroup());
+                    gameObjects.remove(i);
+                }
+            }
+
+        }
     }
 
     @Override
@@ -435,9 +480,13 @@ public class GamePlayController implements Initializable {
                 try {
                     String playerFile = getPlayerFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers");
                     String fileName = getFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames");
+                    String leaderBoardFile = getPlayerFileNameWithRestartValue("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard");
+                    System.out.println(leaderBoardFile);
+                    SerializePlayer(leaderBoardFile);
                     currentPlayer.setMultiGameScore(currentPlayer.getCurrentscore());
                     SerializePlayer(playerFile);
                     Serialize(fileName);
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -447,34 +496,27 @@ public class GamePlayController implements Initializable {
         reviveGame = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (gravity != null) gravity.play();
-                if(currentPlayer.getCurrentscore()>=-100){
-                    currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()-3);
-                    Score.setText(Integer.toString(currentPlayer.getCurrentscore()));
-                    gamePlayAnchorPane.getChildren().remove(panel);
-                    for (int i=0;i<gameObjects.size();i++) {
-                        GameObjects o=gameObjects.get(i);
-                        if(o instanceof Obstacles&&((Obstacles)o)==collidedObstacle)
-                        {
-                            if(gameObjects.get(i+1) instanceof Star){
-                                gamePlayAnchorPane.getChildren().remove(((Star) gameObjects.get(i+1)).getImageView());
-                                gameObjects.remove(i+1);
-                            }
-                            gamePlayAnchorPane.getChildren().remove(((Obstacles)gameObjects.get(i)).getGroup());
-                            gameObjects.remove(i);
-                        }
-                    }
-
+                try {
+                    revivePlayer();
+                } catch (InsufficientStarsException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("You don't have sufficient stars to revive into the game!!!");
+                    ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                    alert.getDialogPane().getButtonTypes().add(type);
+                    alert.showAndWait();
+                    System.out.println(e.getMessage());
                 }
-                else{
-                    //Exception and Handling
-                }
-
             }
         };
         restartGame = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                String fileName = getPlayerFileNameWithRestartValue("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard");
+                try {
+                    SerializePlayer(fileName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 GamePlayController temp = null;
                 Parent p_root = null;
                 try {
@@ -489,33 +531,24 @@ public class GamePlayController implements Initializable {
                     ioException.printStackTrace();
                 }
                 Scene gameplayscene = new Scene(p_root, 525, 810);
-                //GamePlayController.setupScense(gameplayscene);
 
                 myStage.setScene(gameplayscene);
-                //getCurrentScene=gameplayscene;
-                //gameStarted=false;
                 gravity.play();
                 temp.gamePlayAnchorPane = (AnchorPane) p_root;
+                currentPlayer.setRestartCount(currentPlayer.getRestartCount()+1);
+//                currentPlayer.se
                 temp.setupScene(gameplayscene, myStage,currentPlayer);
             }
         };
         backtoMainMenu = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                /*for(int i=0;i<gameObstacles.size();i++) {
-                    ((NormalCircle)gameObstacles.get(i)).getCircle().setOpacity(0);
+                String fileName = getPlayerFileNameWithRestartValue("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard");
+                try {
+                    SerializePlayer(fileName);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                for(int i=0;i<images.size();i++) {
-                    (images.get(i)).setOpacity(0);
-                }*/
-                /*
-                for(int i=0;i<colors.size();i++) {
-                    (colors.get(i)).getArcGroup().setOpacity(0);
-                }
-                */
-                //PauseMenuGroup.setOpacity(0);
-                //CollideGroup.setOpacity(0);
-                //Opacity Lists
                 gamePlayAnchorPane.getChildren().remove(panel);
                 gamePlayAnchorPane.getChildren().remove(Score);
                 Timeline tim2 = new Timeline();
@@ -607,7 +640,7 @@ public class GamePlayController implements Initializable {
             KeyFrame grav = new KeyFrame(Duration.millis(15), e -> {
                 update();
                 boolean test = detectCollision();
-                test=false;//OnCollide Disabled
+//                test=false;//OnCollide Disabled
                 if (test) {
                     //gravity.pause();
                     if (gravity != null) gravity.pause();
@@ -682,6 +715,7 @@ public class GamePlayController implements Initializable {
         accelerate(0.04); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
     }
     public void loadtheGame(String filename) throws IOException, ClassNotFoundException {
+        Score.setText(Integer.toString(currentPlayer.getCurrentscore()));
         ReGenerateObstacles regenObs = new ReGenerateObstacles();
         System.out.println(filename);
         gameObjects = regenObs.regenerateGameObjects(filename);

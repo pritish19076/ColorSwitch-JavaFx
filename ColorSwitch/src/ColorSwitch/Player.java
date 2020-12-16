@@ -8,6 +8,7 @@ public class Player implements Serializable {
     private int currentScore;
     private int highScore;
     private int gamesPlayed;
+    private int restartCount;
     private ArrayList<Integer> multiGameScore;
 
     Player(String name)
@@ -16,6 +17,7 @@ public class Player implements Serializable {
         this.currentScore=0;
         this.highScore=0;
         this.gamesPlayed = 0;
+        this.restartCount = 0;
         multiGameScore = new ArrayList<>();
     }
     public void setCurrentScore(int currentscore) {
@@ -31,10 +33,12 @@ public class Player implements Serializable {
     public void setMultiGameScore(int score,int pos) {
         this.multiGameScore.set(pos,score);
     }
+    public void setRestartCount(int p_restartCount) {this.restartCount = p_restartCount;}
     public String getName() {return this.name;}
     public int getGamesPlayed() {return this.gamesPlayed;}
     public int getCurrentscore() {
         return currentScore;
     }
     public int getGameScore(int index) { return this.multiGameScore.get(index);}
+    public int getRestartCount() {return this.restartCount;}
 }

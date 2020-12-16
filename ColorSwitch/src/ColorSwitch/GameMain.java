@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
@@ -129,9 +130,19 @@ public class GameMain extends Application implements Initializable, Serializable
     @FXML
     private Label leaderBoardTable;
 
+    @FXML
+    private ImageView changeTheme;
+
 
     private ArrayList<String> savedPlayerList;
     private ArrayList<String> savedGameList;
+    private LeaderBoard finalStandings;
+
+
+    @FXML
+    void changeThemeMenu(MouseEvent event) {
+
+    }
 
     public String getPureString(String s) {
         int count = 0;
@@ -186,6 +197,7 @@ public class GameMain extends Application implements Initializable, Serializable
         finalFileStr = finalFileStr.concat(tmpPlayer);
 
         for(int i=0;i<loadablePlayerList.size();i++) {
+            System.out.println("inside printing");
             if(loadablePlayerList.get(i).equals(tmpPlayer)){
                 try {
                     currentPlayer = tmpRegen.getPlayer(finalFileStr);
@@ -269,6 +281,7 @@ public class GameMain extends Application implements Initializable, Serializable
         runTranslateTransition(loadGameButton, 0, out * 300, 1500).play();
         runTranslateTransition(Title, 0, out * -300, 1500).play();
         runTranslateTransition(exitButton, 0, out * 200, 1500).play();
+        runTranslateTransition(changeTheme,0,out* 200,1500).play();
         if (out == 1) {
             CommonAnimation.fade(startButton, 0).play();
             startButton.setDisable(true);
@@ -293,13 +306,16 @@ public class GameMain extends Application implements Initializable, Serializable
 
 
     @FXML
-    void viewLeaderBoard(MouseEvent event) {
+    void viewLeaderBoard(MouseEvent event) throws IOException, ClassNotFoundException {
         System.out.println("Load");
         if (!onPanel) {
             CommonAnimation.fade(LeaderboardWindowGroup, 1).play();
             CommonAnimation.loadPanel(false, 1000,-983,MainMenuGroup,LeaderboardWindowGroup).play();
             onPanel = true;
         }
+
+        leaderBoardTable.setText(finalStandings.getPlayersScore());
+        leaderBoardTable.setFont(Font.font(30));
     }
 
 
@@ -384,6 +400,7 @@ public class GameMain extends Application implements Initializable, Serializable
         Timeline intro = new Timeline(new KeyFrame(Duration.millis(1), e -> {
             introTransition(-1);
         }));
+        finalStandings = new LeaderBoard();
         savedGameList = loadableFiles.getLoadableGamesList();
         savedPlayerList = loadableFiles.getLoadablePlayersList();
         ModesChoices.setItems(FXCollections.observableArrayList("Normal Color Switch","Flappy Switch","Bee Mode"));
