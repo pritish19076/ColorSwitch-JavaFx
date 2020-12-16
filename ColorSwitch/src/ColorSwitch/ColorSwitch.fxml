@@ -53,9 +53,9 @@
                   <Image url="@../assets/Pic1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="changeTheme" fitHeight="89.0" fitWidth="117.0" layoutX="584.0" layoutY="809.0" onMouseClicked="#changeThemeMenu" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="changeTheme" fitHeight="89.0" fitWidth="111.0" layoutX="598.0" layoutY="809.0" onMouseClicked="#changeThemeMenu" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/theme.png" />
+                  <Image url="@../assets/ChangeThemeIcon.png" />
                </image>
             </ImageView>
             <ImageView fx:id="startButton" fitHeight="150.0" fitWidth="200.0" layoutX="589.0" layoutY="272.0" onMouseClicked="#newGame" opacity="0.0" pickOnBounds="true" preserveRatio="true">
@@ -113,24 +113,34 @@
          <children>
             <AnchorPane prefHeight="348.0" prefWidth="513.0" style="-fx-background-color: #333333;">
                <children>
+                  <ImageView fitHeight="47.0" fitWidth="48.0" layoutX="82.0" layoutY="190.0" onMouseClicked="#closeGame" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/YesIcon.png" />
+                     </image>
+                  </ImageView>
                   <Label layoutX="28.0" layoutY="101.0" prefHeight="47.0" prefWidth="457.0" text="Are You Sure You Want to Quit?" textFill="WHITE">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Label layoutX="125.0" layoutY="190.0" onMouseClicked="#closeGame" text="Yes" textFill="WHITE">
+                  <Label layoutX="140.0" layoutY="191.0" onMouseClicked="#closeGame" text="Yes" textFill="WHITE">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Label layoutX="335.0" layoutY="190.0" onMouseClicked="#closePanel" text="No" textFill="WHITE">
+                  <Label layoutX="360.0" layoutY="187.0" onMouseClicked="#closePanel" text="No" textFill="WHITE">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="54.0" fitWidth="60.0" layoutX="295.0" layoutY="188.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/CrossIcon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <ImageView fx:id="closePrompt" fitHeight="70.0" fitWidth="70.0" layoutX="-32.0" layoutY="-29.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="closePrompt" fitHeight="70.0" fitWidth="70.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/cancel.png" />
                </image>
@@ -141,13 +151,13 @@
          <children>
             <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: #333333;">
                <children>
-                  <Label layoutX="43.0" layoutY="212.0" text="Enter Name" textFill="WHITE">
+                  <Label layoutX="56.0" layoutY="212.0" prefHeight="70.0" prefWidth="189.0" text="Enter Name" textFill="#cccccc">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="NameTextField" layoutX="390.0" layoutY="223.0" />
-                  <Label layoutX="43.0" layoutY="324.0" text="Select Mode" textFill="WHITE">
+                  <TextField fx:id="NameTextField" layoutX="320.0" layoutY="223.0" prefHeight="47.0" prefWidth="233.0" />
+                  <Label layoutX="56.0" layoutY="304.0" prefHeight="65.0" prefWidth="176.0" text="Select Mode" textFill="#cccccc">
                      <font>
                         <Font size="32.0" />
                      </font>
@@ -157,7 +167,7 @@
                         <Font size="44.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="ModesChoices" layoutX="389.0" layoutY="335.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="ModesChoices" layoutX="322.0" layoutY="313.0" prefHeight="47.0" prefWidth="233.0" />
                   <ImageView fx:id="StartTheGameButton" fitHeight="126.0" fitWidth="133.0" layoutX="247.0" layoutY="444.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../assets/playbuttonFinal.png" />

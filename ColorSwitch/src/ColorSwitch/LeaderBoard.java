@@ -24,7 +24,12 @@ public class LeaderBoard {
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(new FileInputStream(fileName));
-            generatedPlayer = (Player) in.readObject();
+            try {
+                generatedPlayer = (Player) in.readObject();
+            }catch (ClassCastException e) {
+                System.out.println("Invalid Class Cast Exception");
+            }
+
         }finally {
             in.close();
         }

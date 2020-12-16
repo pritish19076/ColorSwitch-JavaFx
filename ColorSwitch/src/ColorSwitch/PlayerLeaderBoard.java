@@ -33,14 +33,4 @@ public class PlayerLeaderBoard implements Comparable<PlayerLeaderBoard> {
         return 0;
     }
 
-//    @Override
-//    public int compare(PlayerLeaderBoard o1, PlayerLeaderBoard o2) {
-//        if(o1.maxScore > o2.maxScore) {
-//            return 1;
-//        }
-//        if(o1.maxScore < o2.maxScore) {
-//            return -1;
-//        }
-//        return 0;
-//    }
 }

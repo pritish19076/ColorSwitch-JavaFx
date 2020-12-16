@@ -13,7 +13,12 @@ public class ReGeneratePlayer {
 
             in = new ObjectInputStream(new FileInputStream(fileName));
 //            System.out.println(in.readObject());
-            generatedPlayer = (Player)in.readObject();
+            try {
+                generatedPlayer = (Player)in.readObject();
+            }catch (ClassCastException e) {
+                System.out.println("Invalid Cast Exception");
+            }
+
         }finally {
             in.close();
         }

@@ -6,32 +6,37 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="810.0" prefWidth="525.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="810.0" prefWidth="525.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="162.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="169.0" layoutY="343.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="158.0">
          <image>
             <Image url="@../assets/Resume.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="163.0" layoutY="377.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="169.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="158.0">
          <image>
             <Image url="@../assets/SaveGame.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="162.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="169.0" layoutY="537.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="158.0">
          <image>
             <Image url="@../assets/RestartGame.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="163.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="132.0" layoutY="629.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="158.0">
          <image>
             <Image url="@../assets/BacktoMain.png" />
          </image>
       </ImageView>
-      <Label layoutX="144.0" layoutY="185.0" text="Pause Menu" textFill="WHITE">
+      <Label layoutX="194.0" layoutY="63.0" text="PAUSE" textFill="WHITE" AnchorPane.leftAnchor="194.0">
          <font>
-            <Font name="Serif Regular" size="48.0" />
+            <Font name="Gill Sans MT" size="48.0" />
          </font>
       </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="183.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="183.0">
+         <image>
+            <Image url="@../assets/pauseImage.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

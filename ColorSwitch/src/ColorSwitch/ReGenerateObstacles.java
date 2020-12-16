@@ -25,6 +25,8 @@ public class ReGenerateObstacles {
                     myList.add(tmp);
                 }catch (EOFException e) {
                     break;
+                }catch (ClassCastException e) {
+                    System.out.println("Invalid Class Cast Exception");
                 }
             }
         }

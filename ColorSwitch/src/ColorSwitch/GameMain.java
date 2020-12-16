@@ -42,16 +42,6 @@ public class GameMain extends Application implements Initializable, Serializable
     private LoadGames loadableFiles = new LoadGames();
 
 
-    public static void setupScene(Scene p_scene,Stage p_Stage) {
-        System.out.println("initial");
-        getCurrentScene= p_scene;
-        myStage=p_Stage;
-    }
-    public static void increaseScore(int scoreIncrease){
-        currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()+scoreIncrease);
-        currentSceneController.updateScore(currentPlayer.getCurrentscore());
-    }
-
     @FXML
     private AnchorPane mainAnchorPane;
 
@@ -139,6 +129,17 @@ public class GameMain extends Application implements Initializable, Serializable
     private LeaderBoard finalStandings;
 
 
+    public static void setupScene(Scene p_scene,Stage p_Stage) {
+        System.out.println("initial");
+        getCurrentScene= p_scene;
+        myStage=p_Stage;
+    }
+    public static void increaseScore(int scoreIncrease){
+        currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()+scoreIncrease);
+        currentSceneController.updateScore(currentPlayer.getCurrentscore());
+    }
+
+
     @FXML
     void changeThemeMenu(MouseEvent event) {
 
@@ -163,8 +164,11 @@ public class GameMain extends Application implements Initializable, Serializable
     }
 
     @FXML
-    void loadSavedGameFinal(MouseEvent event) throws IOException, ClassNotFoundException {
+    void loadSavedGameFinal(MouseEvent event) throws IOException, ClassNotFoundException,NoSaveFoundException {
         String tmp = gameSelectionChoice.getValue();
+        if(tmp == null) {
+            throw new NoSaveFoundException("The Game Not Selected");
+        }
         String pureStr = getPureString(tmp);
 
         String playerName = getPlayerNameFromString(pureStr);
@@ -277,11 +281,11 @@ public class GameMain extends Application implements Initializable, Serializable
         runTranslateTransition(leftcircle, out * -350, 0, 1500).play();
         runTranslateTransition(rightcross, out * 350, 0, 1500).play();
         runTranslateTransition(rightcircle, out * 350, 0, 1500).play();
-        runTranslateTransition(leaderboardbutton, 0, out * 300, 1500).play();
-        runTranslateTransition(loadGameButton, 0, out * 300, 1500).play();
+        runTranslateTransition(leaderboardbutton, 0, out * 250, 1500).play();
+        runTranslateTransition(loadGameButton, 0, out * 250, 1500).play();
         runTranslateTransition(Title, 0, out * -300, 1500).play();
         runTranslateTransition(exitButton, 0, out * 200, 1500).play();
-        runTranslateTransition(changeTheme,0,out* 200,1500).play();
+        runTranslateTransition(changeTheme,0,out* 250,1500).play();
         if (out == 1) {
             CommonAnimation.fade(startButton, 0).play();
             startButton.setDisable(true);
