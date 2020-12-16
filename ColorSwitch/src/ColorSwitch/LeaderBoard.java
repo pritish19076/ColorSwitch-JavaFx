@@ -57,9 +57,4 @@ public class LeaderBoard {
         System.out.println(finalStr);
         return finalStr;
     }
-
-    public static void main(String [] args) throws IOException, ClassNotFoundException {
-        LeaderBoard tmp = new LeaderBoard();
-        tmp.getPlayersScore();
-    }
 }
