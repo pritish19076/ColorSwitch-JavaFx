@@ -35,6 +35,7 @@ import java.util.Scanner;
 
 public class GamePlayController implements Initializable {
 
+    public boolean shake = false;
     @FXML
     private Label Score;
     private Ball currentBall;
@@ -159,12 +160,14 @@ public class GamePlayController implements Initializable {
 
     private void addObstacle(int c){
         int distance=400;
+        ObstacleFactory f=new ObstacleFactory();
+        Obstacles obs1=null;
+        if(c==6||c==9)obs1=f.createObstacle(c,263,prevobstacley-(2*distance));
+        else obs1=f.createObstacle(c,263,prevobstacley-distance);
+        obs1.display(gamePlayAnchorPane);
+        gameObjects.add(obs1);
+        gameObstacles.add(obs1);
         if(c==1){
-            Obstacles obs1=new NormalCircle(5000,true,100.0f,100.0f,263,prevobstacley - distance);
-            obs1.setObjectType("NormalCircle");
-            gameObjects.add(obs1);
-            gameObstacles.add(obs1);
-            obs1.display(gamePlayAnchorPane);
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             s.setObjectType("Star");
@@ -179,11 +182,9 @@ public class GamePlayController implements Initializable {
             prevobstacley-=distance;
         }
         if(c==2){
-            Obstacles obs1=new Square(3000,true,100,263,prevobstacley-distance);
-            obs1.setObjectType("Square");
-            gameObjects.add(obs1);
-            gameObstacles.add(obs1);
-            obs1.display(gamePlayAnchorPane);
+
+
+
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             s.setObjectType("Star");
@@ -199,26 +200,22 @@ public class GamePlayController implements Initializable {
         }
 
         if(c==3){
-            Obstacles obs1=new Cross(3000,true,150,263,prevobstacley-distance);
-            obs1.setObjectType("Cross");
-            gameObjects.add(obs1);
-            gameObstacles.add(obs1);
+
+
 
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
             CC1.setObjectType("ColorChanger");
             CC1.display(gamePlayAnchorPane);
             gameObjects.add(CC1);
 
-            obs1.display(gamePlayAnchorPane);
+
             prevobstacley-=distance;
         }
 
         if(c==4){
-            Obstacles obs1=new Diamond(3000,true,100,263,prevobstacley-distance);
-            obs1.setObjectType("Diamond");
-            gameObjects.add(obs1);
-            gameObstacles.add(obs1);
-            obs1.display(gamePlayAnchorPane);
+
+
+
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             s.setObjectType("Star");
@@ -234,11 +231,9 @@ public class GamePlayController implements Initializable {
         }
 
         if(c==5){
-            Obstacles obs1=new LongRod(distance,true,263,prevobstacley-distance);
-            obs1.setObjectType("LongRod");
-            gameObjects.add(obs1);
-            gameObstacles.add(obs1);
-            obs1.display(gamePlayAnchorPane);
+
+
+
 
             ColorChanger CC1 = new ColorChanger(obs1.getPositionX(),obs1.getPositionY()-180,20f,20f,1);
             CC1.setObjectType("ColorChanger");
@@ -249,11 +244,10 @@ public class GamePlayController implements Initializable {
         }
 
         if(c==6){
-            Obstacles obs1=new DoubleStackCircle(3000,263,prevobstacley - (distance*2));
-            obs1.setObjectType("DoubleStackCircle");
+
             customObstacleList.add(((DoubleStackCircle)obs1).getGroupList());
             gameObjects.add(obs1);
-            obs1.display(gamePlayAnchorPane);
+
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             s.setObjectType("Star");
@@ -269,11 +263,10 @@ public class GamePlayController implements Initializable {
         }
 
         if(c==7) {
-            Obstacles obs1 = new ConcentricCircles(3000,263,prevobstacley - distance);
-            obs1.setObjectType("ConcentricCircles");
+
             gameObjects.add(obs1);
             customObstacleList.add(((ConcentricCircles)obs1).getAllGroupList());
-            obs1.display(gamePlayAnchorPane);
+
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             s.setObjectType("Star");
@@ -289,11 +282,9 @@ public class GamePlayController implements Initializable {
         }
 
         if(c==8) {
-            Obstacles obs1 = new TripleConcentricCircles(4000,3000,263,prevobstacley-distance);
-            obs1.setObjectType("TripleConcentricCircles");
-            gameObjects.add(obs1);
+
             customObstacleList.add(((TripleConcentricCircles)obs1).getAllGroupList());
-            obs1.display(gamePlayAnchorPane);
+
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             s.setObjectType("Star");
@@ -309,11 +300,10 @@ public class GamePlayController implements Initializable {
         }
 
         if(c==9){
-            Obstacles obs1=new TripleStackCircle(3000,263,prevobstacley - (distance*2));
-            obs1.setObjectType("TripleStackCircle");
-            gameObjects.add(obs1);
+
+
             customObstacleList.add(((TripleStackCircle)obs1).getAllGroupList());
-            obs1.display(gamePlayAnchorPane);
+
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
             s.setObjectType("Star");
@@ -444,7 +434,7 @@ public class GamePlayController implements Initializable {
         if(currentPlayer.getCurrentscore() < 3) {
             throw new InsufficientStarsException("Stars are not enough");
         }
-        if(currentPlayer.getCurrentscore()>=-100){
+        if(currentPlayer.getCurrentscore()>=3){
             currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()-3);
             Score.setText(Integer.toString(currentPlayer.getCurrentscore()));
             gamePlayAnchorPane.getChildren().remove(panel);
@@ -523,6 +513,7 @@ public class GamePlayController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
                     p_root = (Parent) loader.load();
                     temp = loader.getController();
+                    GameMain.currentSceneController=temp;
                     temp.letsgetitstarted();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
 
@@ -551,6 +542,13 @@ public class GamePlayController implements Initializable {
                 }
                 gamePlayAnchorPane.getChildren().remove(panel);
                 gamePlayAnchorPane.getChildren().remove(Score);
+                FXMLLoader loader1 = new FXMLLoader(getClass().getResource("BlackPane.fxml"));
+                try {
+                    panel = (AnchorPane) loader1.load();
+                    gamePlayAnchorPane.getChildren().add(panel);
+                } catch (IOException error) {
+                    error.printStackTrace();
+                }
                 Timeline tim2 = new Timeline();
                 KeyFrame changeSceneSize = new KeyFrame(Duration.millis(20), e -> {
                     if (myStage.getWidth() < 1280) myStage.setWidth(myStage.getWidth() + 10);
@@ -648,8 +646,14 @@ public class GamePlayController implements Initializable {
             gravity.setCycleCount(Animation.INDEFINITE);
             KeyFrame grav = new KeyFrame(Duration.millis(15), e -> {
                 update();
+                if (currentPlayer.getCurrentscore() >= 5 && !shake) {
+                    shake = true;
+                    for (GameObjects b : gameObjects) {
+                        if (b instanceof Obstacles) ((Obstacles) b).shake();
+                    }
+                }
                 boolean test = detectCollision();
-                test=false;//OnCollide Disabled
+               test=false;//OnCollide Disabled
                 if (test) {
                     //gravity.pause();
                     Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Die.mp3").toURI().toString());
@@ -744,6 +748,7 @@ public class GamePlayController implements Initializable {
         move(speedY);
         accelerate(0.04); // gravity accelerates the object downwards each tick Range - 0.03 to 0.04
     }
+
     public void loadtheGame(String filename) throws IOException, ClassNotFoundException {
         Score.setText(Integer.toString(currentPlayer.getCurrentscore()));
         ReGenerateObstacles regenObs = new ReGenerateObstacles();

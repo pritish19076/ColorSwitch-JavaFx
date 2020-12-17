@@ -42,8 +42,8 @@ public class GameMain extends Application implements Initializable, Serializable
     public static Scene getCurrentScene;
     public static Parent p_root;
     private static Player currentPlayer;
-    private static GamePlayController currentSceneController;
-    private static FlappySwitch currentSceneController2;
+    public static GamePlayController currentSceneController;
+    public static FlappySwitch currentSceneController2;
     private LoadGames loadableFiles = new LoadGames();
     private static int mode=1;
 
@@ -210,10 +210,6 @@ public class GameMain extends Application implements Initializable, Serializable
             CommonAnimation.loadPanel(false, 1000,-983,MainMenuGroup,ThemeGroup).play();
             onPanel = true;
         }
-
-
-
-
     }
 
     public String getPureString(String s) {
@@ -403,7 +399,6 @@ public class GameMain extends Application implements Initializable, Serializable
         Scene myScene=new Scene(root, 1280, 720);
         primaryStage.setScene(myScene);
         primaryStage.setResizable(false);
-
         primaryStage.show();
     }
 

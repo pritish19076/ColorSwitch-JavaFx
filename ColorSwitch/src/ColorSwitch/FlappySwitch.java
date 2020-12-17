@@ -289,6 +289,7 @@ public class FlappySwitch implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("FlappySwitch.fxml"));
                     p_root = (Parent) loader.load();
                     temp = loader.getController();
+                    GameMain.currentSceneController2=temp;
                     //temp.letsgetitstarted();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
 
@@ -324,8 +325,16 @@ public class FlappySwitch implements Initializable {
                 //PauseMenuGroup.setOpacity(0);
                 //CollideGroup.setOpacity(0);
                 //Opacity Lists
+
                 gamePlayAnchorPane.getChildren().remove(panel);
                 gamePlayAnchorPane.getChildren().remove(Score);
+                FXMLLoader loader1 = new FXMLLoader(getClass().getResource("BlackPane.fxml"));
+                try {
+                    panel = (AnchorPane) loader1.load();
+                    gamePlayAnchorPane.getChildren().add(panel);
+                } catch (IOException error) {
+                    error.printStackTrace();
+                }
                 Timeline tim2 = new Timeline();
                 KeyFrame changeSceneSize = new KeyFrame(Duration.millis(20), e -> {
                     if (myStage.getWidth() < 1280) myStage.setWidth(myStage.getWidth() + 10);
@@ -403,6 +412,7 @@ public class FlappySwitch implements Initializable {
             tmp = o.onCollide((GameObjects) currentBall);
             if (tmp && (o instanceof Star || o instanceof ColorChanger)) {
                 gameObjects.remove(i);
+                if(o instanceof Star)gamePlayAnchorPane.getChildren().remove(((Star) o).getImageView());
                 i--;
                 tmp=false;
             }
@@ -448,6 +458,7 @@ public class FlappySwitch implements Initializable {
                 boolean test = detectCollision();
 
                 if (test) {
+
                     //gravity.pause();
                     Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Die.mp3").toURI().toString());
                     MediaPlayer diesound = new MediaPlayer(sound);
