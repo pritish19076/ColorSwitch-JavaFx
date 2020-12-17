@@ -416,10 +416,7 @@ public class GamePlayController implements Initializable {
     }
 
     public void letsgetitstarted() {
-        currentBall = new Ball(263, 707, 15, 4, 3, 1);
-        currentBall.setObjectType("Ball");
-        currentBall.getGameBall().setCenterY(707);
-        currentBall.getGameBall().setCenterX(263);
+        currentBall = BallSingleton.getInstance().getBall();
         currentBall.display(gamePlayAnchorPane);
         gameObstacles = new ArrayList<>();
         gameObjects = new ArrayList<>();
