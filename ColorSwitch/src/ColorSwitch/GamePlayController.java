@@ -417,7 +417,9 @@ public class GamePlayController implements Initializable {
     }
 
     public void letsgetitstarted() {
-        currentBall = BallSingleton.getInstance().getBall();
+        currentBall = new Ball(263, 707, 15, 4, 3, 1);
+        currentBall.getGameBall().setCenterX(263);
+        currentBall.getGameBall().setCenterY(707);
         currentBall.display(gamePlayAnchorPane);
         gameObstacles = new ArrayList<>();
         gameObjects = new ArrayList<>();
@@ -514,6 +516,7 @@ public class GamePlayController implements Initializable {
                     temp = loader.getController();
                     new ThemeDecorator((AnchorPane) p_root,chosenTheme);
                     GameMain.currentSceneController=temp;
+                    temp.gamePlayAnchorPane=(AnchorPane) p_root;
                     temp.letsgetitstarted();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
 
@@ -522,13 +525,14 @@ public class GamePlayController implements Initializable {
                     ioException.printStackTrace();
                 }
                 Scene gameplayscene = new Scene(p_root, 525, 810);
-
+                BallSingleton.getInstance();
                 myStage.setScene(gameplayscene);
-                gravity.play();
+
                 temp.gamePlayAnchorPane = (AnchorPane) p_root;
                 currentPlayer.setRestartCount(currentPlayer.getRestartCount()+1);
 //                currentPlayer.se
                 temp.setupScene(gameplayscene, myStage,currentPlayer,chosenTheme);
+                if(gravity!=null)gravity.play();
             }
         };
         backtoMainMenu = new EventHandler<MouseEvent>() {
