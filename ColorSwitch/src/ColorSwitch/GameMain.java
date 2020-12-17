@@ -147,6 +147,9 @@ public class GameMain extends Application implements Initializable, Serializable
     @FXML
     private ImageView soundIcon;
 
+    @FXML
+    private ImageView selectTheme;
+
     private static boolean soundon=true;
 
     @FXML
@@ -166,28 +169,72 @@ public class GameMain extends Application implements Initializable, Serializable
     private ArrayList<String> savedGameList;
     private LeaderBoard finalStandings;
 
+    private Boolean [] themeArr = new Boolean[4];
+    private int finalTheme = -1;
+
+    void animationScaling(ImageView i,double scalingParameter) {
+        ScaleTransition st = new ScaleTransition(Duration.millis(100),i);
+        st.setByX(scalingParameter);
+        st.setByY(scalingParameter);
+        st.play();
+    }
+
+    private void changeTheme(int pos) {
+        if(themeArr[0]) {
+            System.out.println("Inside if");
+            themeArr[0] = false;
+            animationScaling(choice1,-0.4);
+        }
+        if(themeArr[1]) {
+            themeArr[1] = false;
+            animationScaling(choice2,-0.4);
+        }
+        if(themeArr[2]) {
+            themeArr[2] = false;
+            animationScaling(choice3,-0.4);
+        }
+        if(themeArr[3]) {
+            themeArr[3] = false;
+            animationScaling(choice4,-0.4);
+        }
+        themeArr[pos] = true;
+        if(pos == 0) {
+            animationScaling(choice1,0.4);
+        }
+        if(pos == 1) {
+            animationScaling(choice2,0.4);
+        }
+        if(pos == 2) {
+            animationScaling(choice3,0.4);
+        }
+        if(pos == 3) {
+            animationScaling(choice4,0.4);
+        }
+    }
+
     @FXML
     void changeToTheme1(MouseEvent event) {
-        ScaleTransition st = new ScaleTransition(Duration.millis(100),choice1);
-        st.setByX(0.4f);
-        st.setByY(0.4f);
-        st.play();
+        changeTheme(0);
+        finalTheme = 1;
     }
 
     @FXML
     void changeToTheme2(MouseEvent event) {
-
+        changeTheme(1);
+        finalTheme = 2;
     }
 
     @FXML
     void changeToTheme3(MouseEvent event) {
-
+        changeTheme(2);
+        finalTheme = 3;
     }
 
 
     @FXML
     void changeToTheme4(MouseEvent event) {
-
+        changeTheme(3);
+        finalTheme = 4;
     }
 
     public static void setupScene(Scene p_scene,Stage p_Stage) {
@@ -210,6 +257,12 @@ public class GameMain extends Application implements Initializable, Serializable
             CommonAnimation.loadPanel(false, 1000,-983,MainMenuGroup,ThemeGroup).play();
             onPanel = true;
         }
+        themeArr = new Boolean[4];
+        themeArr[0] = false;
+        themeArr[1] = false;
+        themeArr[2] = false;
+        themeArr[3] = false;
+        finalTheme = -1;
     }
 
     public String getPureString(String s) {
