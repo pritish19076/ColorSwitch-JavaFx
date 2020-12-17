@@ -1,6 +1,6 @@
 package ColorSwitch;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.Comparator;
 
@@ -23,7 +23,7 @@ public class PlayerLeaderBoard implements Comparable<PlayerLeaderBoard> {
     public int getRestartNumber() { return restartNumber;}
 
     @Override
-    public int compareTo(@NotNull PlayerLeaderBoard o) {
+    public int compareTo(PlayerLeaderBoard o) {
         if(maxScore > o.maxScore){
             return -1;
         }

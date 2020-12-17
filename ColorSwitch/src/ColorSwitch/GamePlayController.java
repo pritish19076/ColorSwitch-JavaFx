@@ -475,9 +475,9 @@ public class GamePlayController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
-                    String playerFile = getPlayerFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers");
-                    String fileName = getFileName("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames");
-                    String leaderBoardFile = getPlayerFileNameWithRestartValue("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard");
+                    String playerFile = getPlayerFileName("C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\SavedPlayers");
+                    String fileName = getFileName("C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\SavedGames");
+                    String leaderBoardFile = getPlayerFileNameWithRestartValue("C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\LeaderBoard");
                     System.out.println(leaderBoardFile);
                     SerializePlayer(leaderBoardFile);
                     currentPlayer.setMultiGameScore(currentPlayer.getCurrentscore());
@@ -508,7 +508,7 @@ public class GamePlayController implements Initializable {
         restartGame = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                String fileName = getPlayerFileNameWithRestartValue("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard");
+                String fileName = getPlayerFileNameWithRestartValue("C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\LeaderBoard");
                 try {
                     SerializePlayer(fileName);
                 } catch (IOException e) {
@@ -540,7 +540,7 @@ public class GamePlayController implements Initializable {
         backtoMainMenu = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                String fileName = getPlayerFileNameWithRestartValue("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard");
+                String fileName = getPlayerFileNameWithRestartValue("C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\LeaderBoard");
                 try {
                     SerializePlayer(fileName);
                 } catch (IOException e) {

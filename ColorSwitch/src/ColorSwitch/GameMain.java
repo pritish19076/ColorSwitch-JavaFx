@@ -21,7 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -39,8 +39,9 @@ public class GameMain extends Application implements Initializable, Serializable
     public static Parent p_root;
     private static Player currentPlayer;
     private static GamePlayController currentSceneController;
+    private static FlappySwitch currentSceneController2;
     private LoadGames loadableFiles = new LoadGames();
-
+    private static int mode=1;
 
     @FXML
     private AnchorPane mainAnchorPane;
@@ -136,7 +137,8 @@ public class GameMain extends Application implements Initializable, Serializable
     }
     public static void increaseScore(int scoreIncrease){
         currentPlayer.setCurrentScore(currentPlayer.getCurrentscore()+scoreIncrease);
-        currentSceneController.updateScore(currentPlayer.getCurrentscore());
+        if(mode==1)currentSceneController.updateScore(currentPlayer.getCurrentscore());
+        else currentSceneController2.updateScore(currentPlayer.getCurrentscore());
     }
 
 
@@ -175,11 +177,11 @@ public class GameMain extends Application implements Initializable, Serializable
         int gameNum = getPlayerGameNumberFromString(pureStr);
         playerName = playerName.concat(".txt");
 
-        String finalFileStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedGames";
+        String finalFileStr = "C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\SavedGames";
         finalFileStr = finalFileStr.concat("\\");
         finalFileStr = finalFileStr.concat(tmp);
         System.out.println(finalFileStr);
-        String finalPlayerStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers\\";
+        String finalPlayerStr = "C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\SavedPlayers\\";
         finalPlayerStr = finalPlayerStr.concat(playerName);
 
         loadFile(finalFileStr,finalPlayerStr,gameNum);
@@ -191,12 +193,13 @@ public class GameMain extends Application implements Initializable, Serializable
         if(onPanel){CommonAnimation.fade(EnterPlayerNameGroup, 0,1000).play();onPanel=false;}
 
         String tmpPlayer = NameTextField.getText();
+        String choice=ModesChoices.getValue();
         tmpPlayer = tmpPlayer.concat(".txt");
         ArrayList<String> loadablePlayerList = loadableFiles.getLoadablePlayersList();
         boolean isPlayerFound = false;
 
         ReGeneratePlayer tmpRegen = new ReGeneratePlayer();
-        String finalFileStr = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\SavedPlayers";
+        String finalFileStr = "C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\SavedPlayers";
         finalFileStr = finalFileStr.concat("\\");
         finalFileStr = finalFileStr.concat(tmpPlayer);
 
@@ -223,40 +226,42 @@ public class GameMain extends Application implements Initializable, Serializable
         }
 
         introTransition(1);
-        Timeline tim2=new Timeline();
-        KeyFrame changeSceneSize=new KeyFrame(Duration.millis(20),e -> {
-            myStage.setWidth(myStage.getWidth()-10);
-            myStage.setHeight(myStage.getHeight()+0.4);
+        if(choice.equals("Normal Color Switch")){
 
-        });
+            Timeline tim2=new Timeline();
+            KeyFrame changeSceneSize=new KeyFrame(Duration.millis(20),e -> {
+                myStage.setWidth(myStage.getWidth()-10);
+                myStage.setHeight(myStage.getHeight()+0.4);
 
-        tim2.getKeyFrames().add(changeSceneSize);
-        tim2.setCycleCount(80);
+            });
 
-        Timeline swtichscenez=new Timeline(new KeyFrame(Duration.millis(1),e-> {
-            //Parent root = null;
-            //GamePlayController ctrl = null;
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                        "GamePlay.fxml"));
+            tim2.getKeyFrames().add(changeSceneSize);
+            tim2.setCycleCount(80);
 
-                p_root = (Parent) loader.load();
-                currentSceneController = loader.getController();
-                currentSceneController.letsgetitstarted();
+            Timeline swtichscenez=new Timeline(new KeyFrame(Duration.millis(1),e-> {
+                //Parent root = null;
+                //GamePlayController ctrl = null;
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                            "GamePlay.fxml"));
+
+                    p_root = (Parent) loader.load();
+                    currentSceneController = loader.getController();
+                    currentSceneController.letsgetitstarted();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
 
 //                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            Scene gameplayscene=new Scene(p_root,525,810);
-            //GamePlayController.setupScense(gameplayscene);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                Scene gameplayscene=new Scene(p_root,525,810);
+                //GamePlayController.setupScense(gameplayscene);
 
-            myStage.setScene(gameplayscene);
-            getCurrentScene=gameplayscene;
-            (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
+                myStage.setScene(gameplayscene);
+                getCurrentScene=gameplayscene;
+                (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
 
-        }));
+            }));
 
 
        /*GamePlayController GamePlayControl=new GamePlayController();
@@ -264,10 +269,35 @@ public class GameMain extends Application implements Initializable, Serializable
             GamePlayControl.setupGame();
 
         }));*/
-        //CommonAnimation.delay should be 1600 setting to 1 for faster testing
-        new SequentialTransition(CommonAnimation.delay(1600),tim2,swtichscenez).play();
+            //CommonAnimation.delay should be 1600 setting to 1 for faster testing
+            new SequentialTransition(CommonAnimation.delay(1600),tim2,swtichscenez).play();
+
+        }
+        else {
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                        "FlappySwitch.fxml"));
+
+                p_root = (Parent) loader.load();
+                currentSceneController2 = loader.getController();
+                mode=2;
+                // currentSceneController2.letsgetitstarted();
+//                ctrl.init(table.getSelectionModel().getSelectedItem());
+
+//                p_root = FXMLLoader.load(getClass().getResource("GamePlay.fxml"));
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            Scene gameplayscene=new Scene(p_root,1280,720);
+            //GamePlayController.setupScense(gameplayscene);
+
+            myStage.setScene(gameplayscene);
+            getCurrentScene=gameplayscene;
+            (currentSceneController2).setupScene(getCurrentScene,myStage,currentPlayer);
 
 
+
+        }
 
 
     }

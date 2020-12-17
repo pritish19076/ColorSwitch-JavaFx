@@ -37,11 +37,11 @@ public class LeaderBoard {
     }
 
     public String getPlayersScore() throws IOException, ClassNotFoundException {
-        File folder = new File("C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard");
+        File folder = new File("C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\LeaderBoard");
         File[] listOfFiles = folder.listFiles();
         ArrayList<String> filesArr = new ArrayList<>();
         for(int i=0;i<listOfFiles.length;i++) {
-            String tmp = "C:\\Users\\Keshav Gambhir\\Desktop\\ColorSwitch-JavaFx\\ColorSwitch\\src\\LeaderBoard\\";
+            String tmp = "C:\\Users\\Pritish\\IdeaProjects\\ColorSwitch-JavaFx6\\ColorSwitch\\src\\LeaderBoard\\";
             tmp = tmp.concat(listOfFiles[i].getName());
             filesArr.add(tmp);
         }

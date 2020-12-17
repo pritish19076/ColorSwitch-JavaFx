@@ -33,9 +33,9 @@
             <Font name="Gill Sans MT" size="43.0" />
          </font>
       </Label>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="174.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="186.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/Sad%20Face.png" />
+            <Image url="@../assets/SadFace.png" />
          </image>
       </ImageView>
    </children>
