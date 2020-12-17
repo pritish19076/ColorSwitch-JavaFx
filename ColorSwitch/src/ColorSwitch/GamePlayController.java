@@ -16,6 +16,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
@@ -650,6 +652,9 @@ public class GamePlayController implements Initializable {
 //                test=false;//OnCollide Disabled
                 if (test) {
                     //gravity.pause();
+                    Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Die.mp3").toURI().toString());
+                    MediaPlayer diesound = new MediaPlayer(sound);
+                    diesound.play();
                     if (gravity != null) gravity.pause();
                     currentBall.getGameBall().setOpacity(0);
                     Timeline death=new Timeline(new KeyFrame(Duration.millis(1),err-> {
@@ -761,7 +766,9 @@ public class GamePlayController implements Initializable {
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.W) {
                     speedY -= 2; //Range From 0.05 to 0.08
-
+                    Media sound = new Media(new File("ColorSwitch\\src\\sounds\\tap.mp3").toURI().toString());
+                    MediaPlayer tapsound = new MediaPlayer(sound);
+                    tapsound.play();
                     if (!gameStarted) {
                         Y_Ball = currentBall.getGameBall().getCenterY();
                         prevY_Ball = currentBall.getGameBall().getCenterY();

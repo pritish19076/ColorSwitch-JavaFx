@@ -18,9 +18,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -446,6 +449,9 @@ public class FlappySwitch implements Initializable {
 
                 if (test) {
                     //gravity.pause();
+                    Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Die.mp3").toURI().toString());
+                    MediaPlayer diesound = new MediaPlayer(sound);
+                    diesound.play();
                     if (gravity != null) gravity.pause();
 
                     /*for (GameObjects gameObj : gameObjects) {
@@ -519,6 +525,9 @@ public class FlappySwitch implements Initializable {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.W) {
+                    Media sound = new Media(new File("ColorSwitch\\src\\sounds\\tap.mp3").toURI().toString());
+                    MediaPlayer tapsound = new MediaPlayer(sound);
+                    tapsound.play();
                     speedY -= 2; //Range From 0.05 to 0.08
 
                     if (!gameStarted) {

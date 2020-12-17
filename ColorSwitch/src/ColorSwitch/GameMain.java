@@ -15,14 +15,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
@@ -124,6 +128,25 @@ public class GameMain extends Application implements Initializable, Serializable
     @FXML
     private ImageView changeTheme;
 
+    @FXML
+    private ImageView soundIcon;
+
+    private boolean soundon=true;
+
+    @FXML
+    void soundSwitch(){
+        if(soundon==true){
+            soundIcon.setImage(new Image("assets/sound-off.png"));
+            backgroundmus.pause();
+            soundon=false;
+        }
+        else {
+            soundIcon.setImage(new Image("assets/sound-on.png"));
+            soundon=true;
+            backgroundmus.play();
+        }
+
+    }
 
     private ArrayList<String> savedPlayerList;
     private ArrayList<String> savedGameList;
@@ -140,7 +163,7 @@ public class GameMain extends Application implements Initializable, Serializable
         if(mode==1)currentSceneController.updateScore(currentPlayer.getCurrentscore());
         else currentSceneController2.updateScore(currentPlayer.getCurrentscore());
     }
-
+    MediaPlayer backgroundmus;
 
     @FXML
     void changeThemeMenu(MouseEvent event) {
@@ -312,9 +335,10 @@ public class GameMain extends Application implements Initializable, Serializable
         runTranslateTransition(rightcross, out * 350, 0, 1500).play();
         runTranslateTransition(rightcircle, out * 350, 0, 1500).play();
         runTranslateTransition(leaderboardbutton, 0, out * 250, 1500).play();
+        runTranslateTransition(soundIcon, 0, out * 220, 1500).play();
         runTranslateTransition(loadGameButton, 0, out * 250, 1500).play();
         runTranslateTransition(Title, 0, out * -300, 1500).play();
-        runTranslateTransition(exitButton, 0, out * 200, 1500).play();
+        runTranslateTransition(exitButton, 0, out * 220, 1500).play();
         runTranslateTransition(changeTheme,0,out* 250,1500).play();
         if (out == 1) {
             CommonAnimation.fade(startButton, 0).play();
@@ -431,6 +455,13 @@ public class GameMain extends Application implements Initializable, Serializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Background.mp3").toURI().toString());
+        backgroundmus = new MediaPlayer(sound);
+        backgroundmus.setStartTime(Duration.seconds(1));
+        backgroundmus.setStartTime(Duration.seconds(100));
+        backgroundmus.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundmus.play();
         Timeline intro = new Timeline(new KeyFrame(Duration.millis(1), e -> {
             introTransition(-1);
         }));

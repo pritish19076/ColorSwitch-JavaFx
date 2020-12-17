@@ -13,7 +13,7 @@
    <children>
       <Group fx:id="MainMenuGroup">
          <children>
-            <ImageView fx:id="exitButton" fitHeight="89.0" fitWidth="89.0" layoutX="23.0" layoutY="808.0" onMouseClicked="#exitTheGame" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="exitButton" fitHeight="89.0" fitWidth="89.0" layoutX="24.0" layoutY="825.0" onMouseClicked="#exitTheGame" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/exit.png" />
                </image>
@@ -61,6 +61,11 @@
             <ImageView fx:id="startButton" fitHeight="150.0" fitWidth="200.0" layoutX="589.0" layoutY="272.0" onMouseClicked="#newGame" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/play.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="soundIcon" fitHeight="88.0" fitWidth="88.0" layoutX="24.0" layoutY="728.0" onMouseClicked="#soundSwitch" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/sound-on.png" />
                </image>
             </ImageView>
          </children>
