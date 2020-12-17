@@ -150,12 +150,14 @@ public class CommonAnimation {
 
     }
 
-    public static void starAnimation(float x, float y, Star s) {
+    public static void starAnimation(double x, double y, Star s,double labelPosX,double labelPosY) {
         TranslateTransition starTranslation = new TranslateTransition();
-        starTranslation.setFromX(x);
-        starTranslation.setFromY(y);
-        starTranslation.setToX(12);
-        starTranslation.setToY(0);
+        starTranslation.setByX(labelPosX-x);
+        starTranslation.setByY(labelPosY-y);
+        //starTranslation.setFromX(x);
+        //starTranslation.setFromY(y);
+        //starTranslation.setToX(12);
+        //starTranslation.setToY(-700);
         starTranslation.setCycleCount(1);
         starTranslation.setDuration(Duration.millis(1000));
         starTranslation.setNode(s.imageView);

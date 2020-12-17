@@ -35,7 +35,7 @@ public class Star extends GameObjects {
             if (((Ball) collidingBall).getGameBall().getBoundsInParent().intersects(imageView.getBoundsInParent())) {
                 System.out.println("star hit");
                 GameMain.increaseScore(1);
-                anch.getChildren().remove(imageView);
+                //anch.getChildren().remove(imageView);
                 return true;
             }
         }

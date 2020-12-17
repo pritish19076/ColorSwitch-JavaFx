@@ -596,7 +596,14 @@ public class GamePlayController implements Initializable {
             if (tmp && (o instanceof Star || o instanceof ColorChanger)) {
                 if (o instanceof Star){
                     totalstarscollected++;
-//                    CommonAnimation.starAnimation(o.getCenterPositionX(),o.getCenterPositionY(),(Star)o);
+                    Timeline death=new Timeline(new KeyFrame(Duration.millis(1),err-> {
+                        //CommonAnimation.runTranslateTransition(((Star) o).imageView,200,200,1000);
+                        CommonAnimation.starAnimation(((Star) o).imageView.getLayoutX(),((Star) o).imageView.getLayoutY(),(Star)o,Score.getLayoutX(),Score.getLayoutY());
+                    }));
+                    new SequentialTransition(death,CommonAnimation.delay(1000)).play();
+
+
+                    //CommonAnimation.starAnimation(o.getCenterPositionX(),o.getCenterPositionY(),(Star)o);
                 }
                 if(totalstarscollected%3==0){
                     for(int j=0;j<gameObjects.size();j++){
@@ -644,22 +651,37 @@ public class GamePlayController implements Initializable {
                 if (test) {
                     //gravity.pause();
                     if (gravity != null) gravity.pause();
-                    currentBall.setOpacity(0);
-//                    CommonAnimation.DeathAnimation(262,405,gamePlayAnchorPane); // death animation
+                    currentBall.getGameBall().setOpacity(0);
+                    Timeline death=new Timeline(new KeyFrame(Duration.millis(1),err-> {
+                        CommonAnimation.DeathAnimation((int)currentBall.getGameBall().getCenterX(),(int)currentBall.getGameBall().getCenterY(),gamePlayAnchorPane);
+                    }));
+
+                    Timeline revivemenu=new Timeline(new KeyFrame(Duration.millis(1),err-> {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("ReviveMenu.fxml"));
+                        try {
+                            panel = (AnchorPane) loader.load();
+                            panel.getChildren().get(0).setOnMouseClicked(reviveGame);
+                            panel.getChildren().get(1).setOnMouseClicked(restartGame);
+                            panel.getChildren().get(2).setOnMouseClicked(backtoMainMenu);
+                            gamePlayAnchorPane.getChildren().add(panel);
+                        } catch (IOException error) {
+                            error.printStackTrace();
+                        }
+                    }));
+
+                    new SequentialTransition(death,CommonAnimation.delay(2000),revivemenu).play();
+
+
+
+
+
+
+                     // death animation
                     /*for (GameObjects gameObj : gameObjects) {
                         if(gameObj instanceof Obstacles)((Obstacles)(gameObj)).stopRotation();
                     }*/
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("ReviveMenu.fxml"));
-                    try {
-                        panel = (AnchorPane) loader.load();
-                        panel.getChildren().get(0).setOnMouseClicked(reviveGame);
-                        panel.getChildren().get(1).setOnMouseClicked(restartGame);
-                        panel.getChildren().get(2).setOnMouseClicked(backtoMainMenu);
-                        gamePlayAnchorPane.getChildren().add(panel);
-                    } catch (IOException err) {
-                        err.printStackTrace();
-                    }
+
 
                     //if(gravity!=null)gravity.pause();
 
