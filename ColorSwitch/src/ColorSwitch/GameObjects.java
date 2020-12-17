@@ -1,8 +1,8 @@
 package ColorSwitch;
 
 import javafx.scene.layout.AnchorPane;
-
 import java.io.Serializable;
+
 
 public abstract class GameObjects implements Serializable {
     private float [] position;
@@ -34,7 +34,6 @@ public abstract class GameObjects implements Serializable {
     public float getCenterPositionY() {return centerPosition[1];}
     public String getObjectType() {return objectType;}
     public int getOpacity() {return opacity;}
-
     public void setPosition(float[] position) {this.position = position;}
     public void setObjectType(String p_type) {this.objectType = p_type;}
     public void setPosition(float x,float y) {

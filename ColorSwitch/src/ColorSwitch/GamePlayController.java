@@ -725,7 +725,7 @@ public class GamePlayController implements Initializable {
     }
 
     public void move(double yDelta) {
-        currentBall.getGameBall().setCenterY(currentBall.getGameBall().getCenterY() + yDelta);
+        currentBall.setY(currentBall.getGameBall().getCenterY()+yDelta);
     }
 
 

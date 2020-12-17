@@ -437,7 +437,7 @@ public class GameMain extends Application implements Initializable, Serializable
         finalStandings = new LeaderBoard();
         savedGameList = loadableFiles.getLoadableGamesList();
         savedPlayerList = loadableFiles.getLoadablePlayersList();
-        ModesChoices.setItems(FXCollections.observableArrayList("Normal Color Switch","Flappy Switch","Bee Mode"));
+        ModesChoices.setItems(FXCollections.observableArrayList("Normal Color Switch","Flappy Switch"));
         ModesChoices.setValue("Normal Color Switch");
 //        gameSelectionChoice = new ChoiceBox<>();
         gameSelectionChoice.setItems(FXCollections.observableList(savedGameList));

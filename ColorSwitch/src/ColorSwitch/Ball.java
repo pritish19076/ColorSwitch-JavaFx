@@ -22,7 +22,11 @@ public class Ball extends GameObjects {
 
     private int ballColor;
     private transient Circle gameBall;
+    public void setY(double val){
+        super.setPosition(super.getPositionX(),(float) val);
+        gameBall.setCenterY(val);
 
+    }
     public Ball(float x,float y,float radius, int color, float p_gravity,float opacity) {
 
         super(x,y);
