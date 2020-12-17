@@ -108,6 +108,22 @@ public class GameMain extends Application implements Initializable, Serializable
     private ChoiceBox<String> ModesChoices;
 
     @FXML
+    private Group ThemeGroup;
+
+
+    @FXML
+    private ImageView choice1;
+
+    @FXML
+    private ImageView choice4;
+
+    @FXML
+    private ImageView choice3;
+
+    @FXML
+    private ImageView choice2;
+    @FXML
+
     private ImageView StartTheGameButton;
 
     @FXML
@@ -145,9 +161,7 @@ public class GameMain extends Application implements Initializable, Serializable
             soundon=true;
             backgroundmus.play();
         }
-
     }
-
     private ArrayList<String> savedPlayerList;
     private ArrayList<String> savedGameList;
     private LeaderBoard finalStandings;
@@ -167,6 +181,15 @@ public class GameMain extends Application implements Initializable, Serializable
 
     @FXML
     void changeThemeMenu(MouseEvent event) {
+        //System.out.println("start");
+        if (!onPanel) {
+            CommonAnimation.fade(ThemeGroup, 1).play();
+            CommonAnimation.loadPanel(false, 1000,-983,MainMenuGroup,ThemeGroup).play();
+            onPanel = true;
+        }
+
+
+
 
     }
 
@@ -455,7 +478,6 @@ public class GameMain extends Application implements Initializable, Serializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         if(backgroundmus==null){
             Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Background.mp3").toURI().toString());
             backgroundmus = new MediaPlayer(sound);

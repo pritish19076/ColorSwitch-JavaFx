@@ -187,5 +187,48 @@
             </ImageView>
          </children>
       </Group>
+      <Group fx:id="ThemeGroup" layoutX="346.0" layoutY="1100.0">
+         <children>
+            <AnchorPane prefHeight="555.0" prefWidth="627.0" style="-fx-background-color: #333333;">
+               <children>
+                  <Label layoutX="152.0" layoutY="50.0" text="Choose a Theme" textFill="WHITE">
+                     <font>
+                        <Font size="44.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="ConfirmThemeSelection" fitHeight="126.0" fitWidth="133.0" layoutX="248.0" layoutY="419.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/playbuttonFinal.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="choice1" fitHeight="89.0" fitWidth="89.0" layoutX="63.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/black.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="choice4" fitHeight="89.0" fitWidth="89.0" layoutX="476.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/gold.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="choice3" fitHeight="89.0" fitWidth="89.0" layoutX="336.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="choice2" fitHeight="89.0" fitWidth="89.0" layoutX="203.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/blue.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <ImageView fx:id="closeLeaderBoardGameButton11" fitHeight="70.0" fitWidth="70.0" layoutX="-35.0" layoutY="-35.0" onMouseClicked="#closePanel" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/cancel.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
    </children>
 </AnchorPane>
