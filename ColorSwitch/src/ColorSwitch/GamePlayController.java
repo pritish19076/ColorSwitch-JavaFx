@@ -1,9 +1,6 @@
 package ColorSwitch;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -597,11 +594,13 @@ public class GamePlayController implements Initializable {
             GameObjects o = gameObjects.get(i);
             tmp = o.onCollide((GameObjects) currentBall);
             if (tmp && (o instanceof Star || o instanceof ColorChanger)) {
-                if (o instanceof Star) totalstarscollected++;
+                if (o instanceof Star){
+                    totalstarscollected++;
+//                    CommonAnimation.starAnimation(o.getCenterPositionX(),o.getCenterPositionY(),(Star)o);
+                }
                 if(totalstarscollected%3==0){
                     for(int j=0;j<gameObjects.size();j++){
                         GameObjects g=gameObjects.get(j);
-                        //
                         if(g instanceof Obstacles)
                         {
                             gamePlayAnchorPane.getChildren().remove(((Obstacles) g).getGroup());
@@ -611,6 +610,7 @@ public class GamePlayController implements Initializable {
                     }
                     i--;
                 }
+
                 gameObjects.remove(i);
                 i--;
                 int randomnum = 0;
@@ -644,10 +644,12 @@ public class GamePlayController implements Initializable {
                 if (test) {
                     //gravity.pause();
                     if (gravity != null) gravity.pause();
-
+                    currentBall.setOpacity(0);
+//                    CommonAnimation.DeathAnimation(262,405,gamePlayAnchorPane); // death animation
                     /*for (GameObjects gameObj : gameObjects) {
                         if(gameObj instanceof Obstacles)((Obstacles)(gameObj)).stopRotation();
                     }*/
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("ReviveMenu.fxml"));
                     try {
                         panel = (AnchorPane) loader.load();
@@ -658,6 +660,7 @@ public class GamePlayController implements Initializable {
                     } catch (IOException err) {
                         err.printStackTrace();
                     }
+
                     //if(gravity!=null)gravity.pause();
 
                     //CC1.getArcGroup().setOpacity(0);
