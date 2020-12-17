@@ -167,6 +167,7 @@ public class GamePlayController implements Initializable {
         obs1.display(gamePlayAnchorPane);
         gameObjects.add(obs1);
         gameObstacles.add(obs1);
+        if(c<=5&&shake)obs1.shake();
         if(c==1){
 
             Star s = new Star(obs1.getPositionX()-16,obs1.getPositionY()-12);
@@ -652,7 +653,7 @@ public class GamePlayController implements Initializable {
                     }
                 }
                 boolean test = detectCollision();
-//               test=false;//OnCollide Disabled
+               test=false;//OnCollide Disabled
                 if (test) {
                     //gravity.pause();
                     Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Die.mp3").toURI().toString());

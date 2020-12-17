@@ -48,12 +48,13 @@ public class ObstacleFactory {
 
         if (obsno == 8) {
             obs1 = new TripleConcentricCircles(4000, 3000, x, y);
-
+            obs1.setObjectType("TripleConcentricCircles");
 
         }
 
         if (obsno == 9) {
             obs1 = new TripleStackCircle(3000, x, y);
+            obs1.setObjectType("TripleStackCircle");
         }
         return obs1;
 

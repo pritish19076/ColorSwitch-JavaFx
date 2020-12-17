@@ -26,10 +26,10 @@ public abstract class Obstacles extends GameObjects implements Serializable {
     public abstract Group getGroup();
     public void shake(){
         Group g=getGroup();
-        TranslateTransition t1 = CommonAnimation.runTranslateTransition(g,0,40,1500);
-        TranslateTransition t2 = CommonAnimation.runTranslateTransition(g,0,-40,1500);
-        TranslateTransition t3 = CommonAnimation.runTranslateTransition(g,0,-40,1500);
-        TranslateTransition t4 = CommonAnimation.runTranslateTransition(g,0,40,1500);
+        TranslateTransition t1 = CommonAnimation.runTranslateTransition(g,0,20,1500);
+        TranslateTransition t2 = CommonAnimation.runTranslateTransition(g,0,-20,1500);
+        TranslateTransition t3 = CommonAnimation.runTranslateTransition(g,0,-20,1500);
+        TranslateTransition t4 = CommonAnimation.runTranslateTransition(g,0,20,1500);
         t1.setInterpolator(Interpolator.LINEAR);
         t2.setInterpolator(Interpolator.LINEAR);
         t3.setInterpolator(Interpolator.LINEAR);
