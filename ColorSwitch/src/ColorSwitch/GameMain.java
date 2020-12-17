@@ -131,7 +131,7 @@ public class GameMain extends Application implements Initializable, Serializable
     @FXML
     private ImageView soundIcon;
 
-    private boolean soundon=true;
+    private static boolean soundon=true;
 
     @FXML
     void soundSwitch(){
@@ -163,7 +163,7 @@ public class GameMain extends Application implements Initializable, Serializable
         if(mode==1)currentSceneController.updateScore(currentPlayer.getCurrentscore());
         else currentSceneController2.updateScore(currentPlayer.getCurrentscore());
     }
-    MediaPlayer backgroundmus;
+    private static MediaPlayer backgroundmus;
 
     @FXML
     void changeThemeMenu(MouseEvent event) {
@@ -456,12 +456,18 @@ public class GameMain extends Application implements Initializable, Serializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Background.mp3").toURI().toString());
-        backgroundmus = new MediaPlayer(sound);
-        backgroundmus.setStartTime(Duration.seconds(1));
-        backgroundmus.setStartTime(Duration.seconds(100));
-        backgroundmus.setCycleCount(MediaPlayer.INDEFINITE);
-        backgroundmus.play();
+        if(backgroundmus==null){
+            Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Background.mp3").toURI().toString());
+            backgroundmus = new MediaPlayer(sound);
+            backgroundmus.setStartTime(Duration.seconds(1));
+            backgroundmus.setStartTime(Duration.seconds(100));
+            backgroundmus.setCycleCount(MediaPlayer.INDEFINITE);
+            backgroundmus.play();
+        }
+        if(!backgroundmus.getStatus().equals(MediaPlayer.Status.PLAYING)){
+            backgroundmus.play();
+        }
+
         Timeline intro = new Timeline(new KeyFrame(Duration.millis(1), e -> {
             introTransition(-1);
         }));
