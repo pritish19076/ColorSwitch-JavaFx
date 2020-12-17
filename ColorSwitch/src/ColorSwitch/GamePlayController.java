@@ -652,7 +652,7 @@ public class GamePlayController implements Initializable {
                     }
                 }
                 boolean test = detectCollision();
-               test=false;//OnCollide Disabled
+//               test=false;//OnCollide Disabled
                 if (test) {
                     //gravity.pause();
                     Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Die.mp3").toURI().toString());

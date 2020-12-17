@@ -4,11 +4,14 @@ import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Arc;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 public class NormalCircle extends Obstacles  {
 
     private float innerRadius;
@@ -88,7 +91,9 @@ public class NormalCircle extends Obstacles  {
     @Override
     public boolean onCollide(GameObjects collidingBall) {
         ArcClass intersectingArc = null;
-        for (ArcClass arcClass : circleArc) {
+        Iterator<ArcClass> iter = circleArc.iterator();
+        while(iter.hasNext()) {
+            ArcClass arcClass = iter.next();
             Shape intersect = Shape.intersect(((Ball) collidingBall).getGameBall(), arcClass.getArcQuadrant());
             boolean isIntersected = false;
             if (intersect.getBoundsInLocal().getWidth() != -1) {
