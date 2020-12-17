@@ -15,7 +15,7 @@ public class ObstacleFactory {
         }
 
         if (obsno == 3) {
-            obs1 = new Cross(3000, true, 150, x, y);
+            obs1 = new Cross(3000, true, 150, x-30, y);
             obs1.setObjectType("Cross");
         }
 

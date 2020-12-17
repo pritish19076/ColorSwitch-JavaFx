@@ -65,7 +65,7 @@ public class GamePlayController implements Initializable {
     private Button MainMenuButton;
     @FXML
     private Button MainMenuButton1;
-
+    private int chosenTheme=-1;
     int totalstarscollected=0;
     private static Stage myStage;
     private EventHandler<MouseEvent> resumeGame;
@@ -454,6 +454,7 @@ public class GamePlayController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customObstacleList=new ArrayList<>();
+        //String image = GamePlayController.class.getClassLoader().getResource("assets/back1.jpg").toExternalForm();
         resumeGame = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -510,6 +511,7 @@ public class GamePlayController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePlay.fxml"));
                     p_root = (Parent) loader.load();
                     temp = loader.getController();
+                    new ThemeDecorator((AnchorPane) p_root,chosenTheme);
                     GameMain.currentSceneController=temp;
                     temp.letsgetitstarted();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
@@ -525,7 +527,7 @@ public class GamePlayController implements Initializable {
                 temp.gamePlayAnchorPane = (AnchorPane) p_root;
                 currentPlayer.setRestartCount(currentPlayer.getRestartCount()+1);
 //                currentPlayer.se
-                temp.setupScene(gameplayscene, myStage,currentPlayer);
+                temp.setupScene(gameplayscene, myStage,currentPlayer,chosenTheme);
             }
         };
         backtoMainMenu = new EventHandler<MouseEvent>() {
@@ -759,8 +761,9 @@ public class GamePlayController implements Initializable {
         prevobstacley = (int) gameObjects.get((gameObjects.size()-1)).getPositionY();
 
     }
-    public void setupScene(Scene p_scene, Stage myStage, Player p_player) {
+    public void setupScene(Scene p_scene, Stage myStage, Player p_player,int theme) {
         gamePlayScene = p_scene;
+        chosenTheme=theme;
         this.myStage = myStage;
         currentPlayer = p_player;
         gamePlayScene.setOnKeyPressed(new EventHandler<KeyEvent>() {

@@ -68,6 +68,11 @@
                   <Image url="@../assets/sound-on.png" />
                </image>
             </ImageView>
+            <Label fx:id="CreditsLable" layoutX="1198.0" layoutY="831.0" onMouseClicked="#openCredits" text="Credits" textFill="WHITE">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
          </children>
       </Group>
       <Group fx:id="LoadGameWindowGroup" layoutX="326.0" layoutY="-600.0">

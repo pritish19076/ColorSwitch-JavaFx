@@ -10,7 +10,11 @@ public class BallSingleton {
         newGameBall.getGameBall().setCenterY(707);
     }
 
-    public Ball getBall() {return newGameBall;}
+    public Ball getBall() {
+        newGameBall.getGameBall().setCenterX(263);
+        newGameBall.getGameBall().setCenterY(707);
+        return newGameBall;
+    }
 
     public synchronized static BallSingleton getInstance() {
         if(ballGameInterface == null) {

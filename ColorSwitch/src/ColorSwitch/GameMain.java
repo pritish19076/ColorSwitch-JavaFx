@@ -264,6 +264,12 @@ public class GameMain extends Application implements Initializable, Serializable
         themeArr[3] = false;
         finalTheme = -1;
     }
+    @FXML
+    private Label CreditsLable;
+    @FXML
+    void openCredits(MouseEvent event) {
+
+    }
 
     public String getPureString(String s) {
         int count = 0;
@@ -364,6 +370,7 @@ public class GameMain extends Application implements Initializable, Serializable
                             "GamePlay.fxml"));
 
                     p_root = (Parent) loader.load();
+                    new ThemeDecorator((AnchorPane) p_root,finalTheme);
                     currentSceneController = loader.getController();
                     currentSceneController.letsgetitstarted();
 //                ctrl.init(table.getSelectionModel().getSelectedItem());
@@ -377,7 +384,7 @@ public class GameMain extends Application implements Initializable, Serializable
 
                 myStage.setScene(gameplayscene);
                 getCurrentScene=gameplayscene;
-                (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
+                (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer,finalTheme);
 
             }));
 
@@ -447,8 +454,9 @@ public class GameMain extends Application implements Initializable, Serializable
     @Override
     public void start(Stage primaryStage) throws Exception {
         myStage=primaryStage;
+        myStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
         Parent root = FXMLLoader.load(getClass().getResource("ColorSwitch.fxml"));
-        primaryStage.setTitle("I Just Wanna Switch!");
+        primaryStage.setTitle("ColorSwitch");
         Scene myScene=new Scene(root, 1280, 720);
         primaryStage.setScene(myScene);
         primaryStage.setResizable(false);
@@ -503,7 +511,7 @@ public class GameMain extends Application implements Initializable, Serializable
         getCurrentScene=gameplayscene;
         currentPlayer=regenPlayer.getPlayer(playerFile);
         currentPlayer.setCurrentScore(currentPlayer.getGameScore(gameNumber-1));
-        (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer);
+        (currentSceneController).setupScene(getCurrentScene,myStage,currentPlayer,finalTheme);
         currentSceneController.loadtheGame(file);
     }
 
