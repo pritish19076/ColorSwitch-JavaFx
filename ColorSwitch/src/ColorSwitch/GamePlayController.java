@@ -30,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 //C:\Users\Keshav Gambhir\Desktop\ColorSwitch-JavaFx\ColorSwitch\src\LeaderBoard
 
 public class GamePlayController implements Initializable {
@@ -599,13 +600,12 @@ public class GamePlayController implements Initializable {
                 if (o instanceof Star){
                     totalstarscollected++;
                     Timeline death=new Timeline(new KeyFrame(Duration.millis(1),err-> {
-                        //CommonAnimation.runTranslateTransition(((Star) o).imageView,200,200,1000);
-                        CommonAnimation.starAnimation(((Star) o).imageView.getLayoutX(),((Star) o).imageView.getLayoutY(),(Star)o,Score.getLayoutX(),Score.getLayoutY());
+                        CommonAnimation.starAnimation2(((Star)o),gamePlayAnchorPane);
                     }));
-                    new SequentialTransition(death,CommonAnimation.delay(1000)).play();
-
-
-                    //CommonAnimation.starAnimation(o.getCenterPositionX(),o.getCenterPositionY(),(Star)o);
+                    Timeline remove = new Timeline(new KeyFrame(Duration.millis(1),err->{
+                        gamePlayAnchorPane.getChildren().remove(((Star)o).imageView);
+                    }));
+                    new SequentialTransition(death,CommonAnimation.delay(200),remove,CommonAnimation.delay(1000)).play();
                 }
                 if(totalstarscollected%3==0){
                     for(int j=0;j<gameObjects.size();j++){
@@ -649,7 +649,7 @@ public class GamePlayController implements Initializable {
             KeyFrame grav = new KeyFrame(Duration.millis(15), e -> {
                 update();
                 boolean test = detectCollision();
-//                test=false;//OnCollide Disabled
+                test=false;//OnCollide Disabled
                 if (test) {
                     //gravity.pause();
                     Media sound = new Media(new File("ColorSwitch\\src\\sounds\\Die.mp3").toURI().toString());

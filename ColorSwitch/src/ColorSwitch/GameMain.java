@@ -166,6 +166,29 @@ public class GameMain extends Application implements Initializable, Serializable
     private ArrayList<String> savedGameList;
     private LeaderBoard finalStandings;
 
+    @FXML
+    void changeToTheme1(MouseEvent event) {
+        ScaleTransition st = new ScaleTransition(Duration.millis(100),choice1);
+        st.setByX(0.4f);
+        st.setByY(0.4f);
+        st.play();
+    }
+
+    @FXML
+    void changeToTheme2(MouseEvent event) {
+
+    }
+
+    @FXML
+    void changeToTheme3(MouseEvent event) {
+
+    }
+
+
+    @FXML
+    void changeToTheme4(MouseEvent event) {
+
+    }
 
     public static void setupScene(Scene p_scene,Stage p_Stage) {
         System.out.println("initial");
